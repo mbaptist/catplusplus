@@ -1,0 +1,17 @@
+AT++ - CAT Array Templates
+Copyright 2005 Manuel Baptista
+
+
+INSTALATION PROCEDURE
+
+
+Uncompress the source tarball and enter the cat directory.
+
+Edit the Makefile to match your system's requirements.
+
+Issue make.
+
+Issue make install.
+
+Enjoy!
+
