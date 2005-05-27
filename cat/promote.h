@@ -32,8 +32,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <complex>
 using namespace std;
 
+
+namespace cat
+{
+
+
 template<class T>
-struct cat_precision_traits 
+struct precision_traits 
 {
   enum
     { 
@@ -44,7 +49,7 @@ struct cat_precision_traits
 
 #define CAT_DECLARE_PRECISION(T,rank)          \
     template<>                                \
-    struct cat_precision_traits< T > {             \
+    struct precision_traits< T > {             \
         enum { precisionRank = rank,          \
            knowPrecisionRank = 1 };           \
     };
@@ -85,20 +90,20 @@ CAT_DECLARE_AUTOPROMOTE(short int, int)
 CAT_DECLARE_AUTOPROMOTE(short unsigned int, unsigned int)
 
 template<class T1, class T2, int promoteToT1>
-struct cat_promote2 
+struct promote2 
 {
   typedef T1 T_promote;
 };
 
 template<class T1, class T2>
-struct cat_promote2<T1,T2,0>
+struct promote2<T1,T2,0>
 {
   typedef T2 T_promote;
 };
 
 
 template<class T1_orig, class T2_orig>
-struct cat_promote_traits {
+struct promote_traits {
     // Handle promotion of small integers to int/unsigned int
     typedef typename autopromote_trait<T1_orig>::T_numtype T1;
     typedef typename autopromote_trait<T2_orig>::T_numtype T2;
@@ -106,21 +111,21 @@ struct cat_promote_traits {
     // True if T1 is higher ranked
     enum {
       T1IsBetter =
-        CAT_ENUM_CAST(cat_precision_traits<T1>::precisionRank) >
-          CAT_ENUM_CAST(cat_precision_traits<T2>::precisionRank),
+        CAT_ENUM_CAST(precision_traits<T1>::precisionRank) >
+          CAT_ENUM_CAST(precision_traits<T2>::precisionRank),
 
     // True if we know ranks for both T1 and T2
       knowBothRanks =
-        CAT_ENUM_CAST(cat_precision_traits<T1>::knowPrecisionRank)
-      && CAT_ENUM_CAST(cat_precision_traits<T2>::knowPrecisionRank),
+        CAT_ENUM_CAST(precision_traits<T1>::knowPrecisionRank)
+      && CAT_ENUM_CAST(precision_traits<T2>::knowPrecisionRank),
 
     // True if we know T1 but not T2
-      knowT1butNotT2 =  CAT_ENUM_CAST(cat_precision_traits<T1>::knowPrecisionRank)
-        && !(CAT_ENUM_CAST(cat_precision_traits<T2>::knowPrecisionRank)),
+      knowT1butNotT2 =  CAT_ENUM_CAST(precision_traits<T1>::knowPrecisionRank)
+        && !(CAT_ENUM_CAST(precision_traits<T2>::knowPrecisionRank)),
 
     // True if we know T2 but not T1
-      knowT2butNotT1 =  CAT_ENUM_CAST(cat_precision_traits<T2>::knowPrecisionRank)
-        && !(CAT_ENUM_CAST(cat_precision_traits<T1>::knowPrecisionRank)),
+      knowT2butNotT1 =  CAT_ENUM_CAST(precision_traits<T2>::knowPrecisionRank)
+        && !(CAT_ENUM_CAST(precision_traits<T1>::knowPrecisionRank)),
 
     // True if T1 is bigger than T2
       T1IsLarger = sizeof(T1) >= sizeof(T2),
@@ -141,10 +146,11 @@ struct cat_promote_traits {
         : CAT_ENUM_CAST(defaultPromotion)) ? 1 : 0
     };
 
-    typedef typename cat_promote2<T1,T2,promoteToT1>::T_promote T_promote;
+    typedef typename promote2<T1,T2,promoteToT1>::T_promote T_promote;
 };
 
 
+}
 
 
 #endif

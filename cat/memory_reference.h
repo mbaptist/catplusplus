@@ -21,19 +21,22 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
 
-//cat_memory_reference.h
+//memory_reference.h
 
 #ifndef CAT_MEMORY_REFERENCE_H
 #define CAT_MEMORY_REFERENCE_H
 
 #include <cassert>
 
-#include "cat_memory_block.h"
+#include "memory_block.h"
 
 
-//declares class cat_memory_reference
+  namespace cat
+{
+
+//declares class memory_reference
 template <class T>
-class cat_memory_reference
+class memory_reference
   {
 
   private:
@@ -41,10 +44,10 @@ class cat_memory_reference
     //Private Members
     
     //Null block for use by the default constructor
-    static cat_null_memory_block<T> nullblock_;
+    static null_memory_block<T> nullblock_;
     
     //Pointer to a memory block (it is allocated by the constructor by size)
-    cat_memory_block<T> * block_;
+    memory_block<T> * block_;
 
   protected:  
         
@@ -64,8 +67,8 @@ class cat_memory_reference
 
     //Accessors to members
     
-    cat_memory_block<T> * block();
-    const cat_memory_block<T> * block() const; 
+    memory_block<T> * block();
+    const memory_block<T> * block() const; 
     
     T * data();
     const T * data() const;
@@ -76,24 +79,24 @@ class cat_memory_reference
     //Constructors
 
     //default
-    cat_memory_reference();
+    memory_reference();
     
     //constructor from reference to a memory block
-    explicit cat_memory_reference(cat_memory_reference & ref);
+    explicit memory_reference(memory_reference & ref);
 
     //allocates a new memory block of size t and creates a reference to it  
-    explicit cat_memory_reference(const size_t & length__);
+    explicit memory_reference(const size_t & length__);
 
     //Create reference to existing data 
-    explicit cat_memory_reference(const size_t & length__, T * data__);
+    explicit memory_reference(const size_t & length__, T * data__);
     
     //Destructor
     
-    ~cat_memory_reference();
+    ~memory_reference();
 
     
     
-    //void cat_memory_block_resize(const size_t & length__);
+    //void memory_block_resize(const size_t & length__);
     
 
     
@@ -105,9 +108,9 @@ class cat_memory_reference
 
   };
 
+}
 
-
-#include "cat_memory_reference.C"
+#include "memory_reference.C"
 
 
 #endif

@@ -21,51 +21,53 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
 
-//cat_array_iterator.h
+//array_iterator.h
 
 
 #ifndef CAT_ARRAY_ITERATOR
 #define CAT_ARRAY_ITERATOR
 
+namespace cat
+{
 
-//Forwarding declaration of class cat_array<T,D>
-template <class T,int D>
-class cat_array;
-
-//Forwarding declaration of class cat_tvector<T,N>
-template <class T,int N>
-class cat_tvector;
+  //Forwarding declaration of class array<T,D>
+  template <class T,int D>
+    class array;
+  
+  //Forwarding declaration of class tvector<T,N>
+  template <class T,int N>
+    class tvector;
 
 
 template <class T,int D> 
-class cat_array_const_iterator
+class array_const_iterator
 {
 protected:
   T * data_;
   int length_;
   int pos_;
-  cat_tvector<int,D> stride_;
+  tvector<int,D> stride_;
   int navstride_;
 public:
   
   T * data(){return data_;};  
   const T * data() const {return data_;};
   
-  //cat_tvector<int,D> & indexes(){return indexes_;};
-  //const cat_tvector<int,D> & indexes() const {return indexes_;};
+  //tvector<int,D> & indexes(){return indexes_;};
+  //const tvector<int,D> & indexes() const {return indexes_;};
   
   int & pos(){return pos_;};  
   const int & pos() const {return pos_;};
 
-  cat_tvector<int,D> & stride(){return stride_;};  
-  const cat_tvector<int,D> & stride() const {return stride_;};
+  tvector<int,D> & stride(){return stride_;};  
+  const tvector<int,D> & stride() const {return stride_;};
 
   int & navstride(){return navstride_;};  
   const int & navstride() const {return navstride_;};
   
   //constructor
   //from array
-  cat_array_const_iterator(const cat_array<T,D> & array__):
+  array_const_iterator(const array<T,D> & array__):
     data_(const_cast<T *>(array__.data())),
     length_(array__.length()),
     stride_(array__.stride()),
@@ -73,7 +75,7 @@ public:
   {
   };
   //from array and position
-  cat_array_const_iterator(const cat_array<T,D> & array__,int pos__):
+  array_const_iterator(const array<T,D> & array__,int pos__):
     data_(0),
     length_(array__.length()),
     pos_(pos__),
@@ -83,7 +85,7 @@ public:
   };
 
   //destructor
-  ~cat_array_const_iterator(){};
+  ~array_const_iterator(){};
   
   const T & operator*() const 
   {
@@ -98,31 +100,31 @@ public:
   };
 
   
-  cat_array_const_iterator & operator++()
+  array_const_iterator & operator++()
   {
     this->pos_+=this->navstride_;
     return (*this);
   }
 
-  cat_array_const_iterator & operator--()
+  array_const_iterator & operator--()
   {
     this->pos_-=this->navstride_;
     return (*this);
   }
 
-  bool operator==(const cat_array_const_iterator & rhs)
+  bool operator==(const array_const_iterator & rhs)
   {
     return bool((this->pos_)==(rhs.pos()));
   };
   
   
-  bool operator!=(const cat_array_const_iterator & rhs)
+  bool operator!=(const array_const_iterator & rhs)
   {
     return bool((this->pos_)!=(rhs.pos()));
   };
     
   
-  cat_array_const_iterator & operator=(const cat_array_const_iterator & rhs)
+  array_const_iterator & operator=(const array_const_iterator & rhs)
   {
     this->pos_=rhs.pos();
     this->stride_=rhs.stride();
@@ -136,24 +138,24 @@ public:
 
 
 template <class T,int D> 
-class cat_array_iterator: public cat_array_const_iterator<T,D>
+class array_iterator: public array_const_iterator<T,D>
 {
 
-  using cat_array_const_iterator<T,D>::data_;
-  using cat_array_const_iterator<T,D>::length_;
-  using cat_array_const_iterator<T,D>::pos_;
+  using array_const_iterator<T,D>::data_;
+  using array_const_iterator<T,D>::length_;
+  using array_const_iterator<T,D>::pos_;
 
 public:
     
   //constructor
   //from array
-  cat_array_iterator(cat_array<T,D> & array_):
-    cat_array_const_iterator<T,D>(array_)
+  array_iterator(array<T,D> & array_):
+    array_const_iterator<T,D>(array_)
   {
   };
 
   //destructor
-  ~cat_array_iterator(){};
+  ~array_iterator(){};
 
   
   T & operator*()
@@ -168,19 +170,19 @@ public:
     return data_[pos_];
   };
 
-  bool operator==(const cat_array_const_iterator<T,D> & rhs)
+  bool operator==(const array_const_iterator<T,D> & rhs)
   {
     return bool((this->pos_)==(rhs.pos()));
   };
   
   
-  bool operator!=(const cat_array_const_iterator<T,D> & rhs)
+  bool operator!=(const array_const_iterator<T,D> & rhs)
   {
     return bool((this->pos_)!=(rhs.pos()));
   };
     
   
-  cat_array_iterator & operator=(const cat_array_const_iterator<T,D> & rhs)
+  array_iterator & operator=(const array_const_iterator<T,D> & rhs)
   {
     this->pos_=rhs.pos();
     this->stride_=rhs.stride();
@@ -191,6 +193,6 @@ public:
 };
 
 
-
+}
 
 #endif

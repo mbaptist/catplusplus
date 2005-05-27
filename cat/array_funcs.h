@@ -27,21 +27,24 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define CAT_ARRAY_FUNCS_H
 
 
-#include "cat_array_macros.h" 
-#include "cat_array_iterator.h"
+#include "array_macros.h" 
+#include "array_iterator.h"
 
 
-//Forward declaration of class cat_array<T,D>
+namespace cat
+{
+
+//Forward declaration of class array<T,D>
 template <class T,int D>
-class cat_array;
+class array;
 
 
 
 //creates a reference to array rhs
 template <class T,int D>
-cat_array<T,D> reference(const cat_array<T,D> & rhs)
+array<T,D> reference(const array<T,D> & rhs)
 {
-  cat_array<T,D> out;
+  array<T,D> out;
   out.reference(rhs);
   return(out);
 };
@@ -50,9 +53,9 @@ cat_array<T,D> reference(const cat_array<T,D> & rhs)
 //Define preprocessor symbols for types
 
 #define s T1
-#define tv cat_tvector<s,N>
+#define tv tvector<s,N>
 #define cs complex<s>
-#define ctv cat_tvector<cs,N>
+#define ctv tvector<cs,N>
 
 
 //Operations on complex
@@ -61,7 +64,7 @@ cat_array<T,D> reference(const cat_array<T,D> & rhs)
 //CAT_DECLARE_FUNCTION(conj)
 
 
-//Operations on cat_tvector
+//Operations on tvector
 
 CAT_DECLARE_FUNCTION_REAL_NUMERIC(real)
 CAT_DECLARE_FUNCTION_REAL_NUMERIC(imag)
@@ -93,10 +96,10 @@ CAT_DECLARE_FUNCTION(sqrt)
 
 //max
 template <class T,int D>
-//T max(const cat_array<T,D> & a)
-T max(cat_array<T,D> a)
+//T max(const array<T,D> & a)
+T max(array<T,D> a)
 {
-  cat_array_iterator<T,D> array_iterator(a);
+  array_iterator<T,D> array_iterator(a);
   array_iterator=a.begin();
   T out(*array_iterator);
   for (array_iterator=a.begin();
@@ -109,16 +112,18 @@ T max(cat_array<T,D> a)
 
 //sum
 template <class T,int D>
-//T sum(const cat_array<T,D> & a)
-T sum(cat_array<T,D> a)
+//T sum(const array<T,D> & a)
+T sum(array<T,D> a)
 {
   T out=0;
-  cat_array_iterator<T,D> array_iterator(a);
+  array_iterator<T,D> array_iterator(a);
   for (array_iterator=a.begin();
         array_iterator!=a.end();
         ++array_iterator)
     out+=*array_iterator;
   return out;
+}
+
 }
 
 

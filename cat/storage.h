@@ -20,73 +20,78 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
-#ifndef CAT_STORAGE_H
-#define CAT_STORAGE_H
+#ifndef STORAGE_H
+#define STORAGE_H
 
-#include "cat_tvector.h"
+#include "tvector.h"
 #include <string>
 
 using namespace std;
 
+namespace cat
+{
+
 template <int D>
-class cat_storage
+class storage
   {
   protected:
 
-    cat_tvector<int,D> ordering_;
+    tvector<int,D> ordering_;
 
-    cat_tvector<int,D> shape_;
+    tvector<int,D> shape_;
     int size_;
-    cat_tvector<int,D> stride_;
+    tvector<int,D> stride_;
 
 
     //Direct accessors to members
   public:
 
     //ordering
-    cat_tvector<int,D> & ordering();
-    const cat_tvector<int,D> & ordering() const;
+    tvector<int,D> & ordering();
+    const tvector<int,D> & ordering() const;
 
     //shape
-    cat_tvector<int,D> & shape();
-    const cat_tvector<int,D> & shape() const;
+    tvector<int,D> & shape();
+    const tvector<int,D> & shape() const;
 
     //size
     int & size();
     const int & size() const;
 
     //stride
-    cat_tvector<int,D> & stride();
-    const cat_tvector<int,D> & stride() const;
+    tvector<int,D> & stride();
+    const tvector<int,D> & stride() const;
 
 
 // Constructors / Destructor
   public:
 
     //Constructors
-    cat_storage(const cat_tvector<int,D> & shape__);//default - initialises storage_order_ with the c order (row major)
-    cat_storage(const cat_tvector<int,D> & shape__,string ordering_string__);//from string - fortran or c orders
-    cat_storage(const cat_tvector<int,D> & shape__,cat_tvector<int,D> ordering__);//from cat_tvector with order
-    cat_storage(const cat_tvector<int,D> & shape__,cat_tvector<int,D> ordering__,cat_tvector<int,D> stride__);
+    storage(const tvector<int,D> & shape__);//default - initialises storage_order_ with the c order (row major)
+    storage(const tvector<int,D> & shape__,string ordering_string__);//from string - fortran or c orders
+    storage(const tvector<int,D> & shape__,tvector<int,D> ordering__);//from tvector with order
+    storage(const tvector<int,D> & shape__,tvector<int,D> ordering__,tvector<int,D> stride__);
     //Destructor
-    virtual ~cat_storage(){};
+    virtual ~storage(){};
     
   
   //Forbidden Methods
   private:
-    cat_storage();//forbids default constructor
-    cat_storage(const cat_storage &);//forbids copy
+    storage();//forbids default constructor
+    storage(const storage &);//forbids copy
 
     
     //Private Methods
   private:
     //Evaluates size
-    int eval_size(const cat_tvector<int,D> & shape__);
-    cat_tvector<int,D> eval_strides(const cat_tvector<int,D> & shape__);
+    int eval_size(const tvector<int,D> & shape__);
+    tvector<int,D> eval_strides(const tvector<int,D> & shape__);
 
     
   };
 
-#include "cat_storage.C"
+}
+
+#include "storage.C"
 
 #endif

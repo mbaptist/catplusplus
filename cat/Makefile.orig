@@ -2,32 +2,33 @@
 # Modify this section to suit your system's needs
 ##########################################################
 
-CXX = g++ -g -O2
+CPP=g++ -Wall -Os -march=pentium-m -msse3
+
+INSTALL_ROOT = $(HOME)/local
+
 
 ###########################################################
 # No modification should be necessary from thin point on
 ###########################################################
 
+
 INSTALL_LIST = cat*.h cat*.C
 
-INSTALL_ROOT = /home/mbaptist/local
 
-all: test
+all: testcat
 
 clean:
-	@rm -fv *~ *.o testcat
-
-test: testcat
+	rm -f *~ *.o testcat
 
 testcat: testcat.o
-	$(CXX) -g -o testcat testcat.o
+	$(CPP) -g -o testcat testcat.o
 
 testcat.o: testcat.C *.h
-	$(CXX) -g -c testcat.C
+	$(CPP) -g -c testcat.C
 
 install:
 	install -c -m 644 $(INSTALL_LIST) $(INSTALL_ROOT)/include
 
 uninstall:
-	cd $(INSTALL_ROOT) && @rm -rfv $(INSTALL_LIST)
+	cd $(INSTALL_ROOT) && rm -rf $(INSTALL_LIST)
 

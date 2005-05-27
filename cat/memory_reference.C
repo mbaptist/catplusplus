@@ -21,19 +21,25 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
 
-//cat_memory_block.C
-//Implements class cat_memory_reference
+
+  namespace cat
+  {
+
+    
+
+//memory_block.C
+//Implements class memory_reference
 
 
-//Definition of static members of cat_memory_reference
+//Definition of static members of memory_reference
 template <class T>
-cat_null_memory_block<T> cat_memory_reference<T>::nullblock_;
+null_memory_block<T> memory_reference<T>::nullblock_;
 
 
 //Private methods
 
 template <class T>
-void cat_memory_reference<T>::block_remove_reference()
+void memory_reference<T>::block_remove_reference()
 {
   //cout << "Removing Reference!" << endl;
   int refcount = block_ -> remove_reference();
@@ -48,35 +54,35 @@ void cat_memory_reference<T>::block_remove_reference()
 //Accessors to members
 
 template <class T>
-cat_memory_block<T> * cat_memory_reference<T>::block()
+memory_block<T> * memory_reference<T>::block()
 {
   return block_;
 }
 template <class T>
-const cat_memory_block<T> * cat_memory_reference<T>::block() const
+const memory_block<T> * memory_reference<T>::block() const
   {
     return block_;
   }
 
 template <class T>
-T * cat_memory_reference<T>::data()
+T * memory_reference<T>::data()
 {
   return data_;
 }
 template <class T>
-const T * cat_memory_reference<T>::data() const
+const T * memory_reference<T>::data() const
   {
     return data_;
   }
 
 
 template <class T>
-size_t & cat_memory_reference<T>::length()
+size_t & memory_reference<T>::length()
 {
   return length_;
 }
 template <class T>
-const size_t & cat_memory_reference<T>::length() const
+const size_t & memory_reference<T>::length() const
 {
   return length_;
 }
@@ -87,7 +93,7 @@ const size_t & cat_memory_reference<T>::length() const
 
 //default
 template <class T>
-cat_memory_reference<T>::cat_memory_reference():
+memory_reference<T>::memory_reference():
     block_(&nullblock_)
 {
   //cout << "Default reference constr" << endl;
@@ -98,7 +104,7 @@ cat_memory_reference<T>::cat_memory_reference():
 
 //constructor from reference to a memory block
 template <class T>
-cat_memory_reference<T>::cat_memory_reference(cat_memory_reference<T> & ref):
+memory_reference<T>::memory_reference(memory_reference<T> & ref):
     block_(ref.block()),
     data_(block_->data()),
     length_(block_->length_)
@@ -107,11 +113,23 @@ cat_memory_reference<T>::cat_memory_reference(cat_memory_reference<T> & ref):
   block_ -> add_reference();
 };
 
+#if 0
+//constructor from reference to a memory block
+template <class T>
+memory_reference<typename multicomponent_traits<T>::T_element>::memory_reference(memory_reference<T> & ref):
+    block_(ref.block()),
+    data_(block_->data()),
+    length_(block_->length_)
+{
+  //cout << "Const ref from ref" << endl;
+  block_ -> add_reference();
+};
+#endif
 
 //allocates a new memory block of size t and creates a reference to it
 template <class T>
-cat_memory_reference<T>::cat_memory_reference(const size_t & length__):
-    block_(new cat_memory_block<T> (length__)),
+memory_reference<T>::memory_reference(const size_t & length__):
+    block_(new memory_block<T> (length__)),
     data_(block_->data()),
     length_(block_->length())
 {
@@ -123,14 +141,15 @@ cat_memory_reference<T>::cat_memory_reference(const size_t & length__):
 
 //Create reference to existing data 
 template <class T>
-cat_memory_reference<T>::cat_memory_reference(const size_t & length__, T * data__):
-  block_(new cat_unowned_memory_block<T> (length__,data__)),
+memory_reference<T>::memory_reference(const size_t & length__, T * data__):
+  block_(new unowned_memory_block<T> (length__,data__)),
   data_(block_->data()),
   length_(block_->length())
 {
   //cout << "reference to unowned block constr" << endl;
   block_ -> add_reference();
 };
+
 
 
 #if 0
@@ -168,7 +187,7 @@ cat_memory_reference<T>::cat_memory_reference(const size_t & length__, T * data_
 
 //Destructor
 template <class T>
-cat_memory_reference<T>::~cat_memory_reference()
+memory_reference<T>::~memory_reference()
 {
   block_remove_reference();
 };
@@ -179,23 +198,24 @@ cat_memory_reference<T>::~cat_memory_reference()
 
 //references
 template <class T>
-int & cat_memory_reference<T>::num_references()
+int & memory_reference<T>::num_references()
 {
-  return this -> block_ -> cat_memory_reference<T>::num_references();
+  return this -> block_ -> memory_reference<T>::num_references();
 }
 template <class T>
-const int & cat_memory_reference<T>::num_references() const
+const int & memory_reference<T>::num_references() const
   {
-    return this -> block_ -> cat_memory_reference<T>::num_references();
+    return this -> block_ -> memory_reference<T>::num_references();
   }
 
   
   
 //   template <class T>
-//   void cat_memory_reference<T>::cat_memory_block_resize(const size_t & length__)
+//   void memory_reference<T>::memory_block_resize(const size_t & length__)
 //    {
 //     block_ -> resize(length__);
 //     length_=length__;   
 //    }
     
 
+}

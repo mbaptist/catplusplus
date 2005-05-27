@@ -24,26 +24,27 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef CAT_MULTI_H
 #define CAT_MULTI_H
 
-
-
-//Forward declaration of class cat_tvector<T,N>
-template <class T,int N>
-class cat_tvector;
-
-//Forward declaration of class cat_array<T,D>
-template <class T,int D>
-class cat_array;
-
 //Complex number support
 #include <complex>
 using namespace std; 
+
+namespace cat
+{
+
+//Forward declaration of class tvector<T,N>
+template <class T,int N>
+class tvector;
+
+//Forward declaration of class array<T,D>
+template <class T,int D>
+class array;
 
 
 //MULTI COMPONENT TRAITS
 
 // By default, produce a harmless component type, and zero components.
 template<class T_component>
-struct cat_multicomponent_traits 
+struct multicomponent_traits 
 {
   typedef T_component T_element;
   enum { numComponents = 0 };
@@ -51,7 +52,7 @@ struct cat_multicomponent_traits
 
 // TinyVector
 template <class T_numtype, int N_rank>
-struct cat_multicomponent_traits<cat_tvector<T_numtype,N_rank> > 
+struct multicomponent_traits<tvector<T_numtype,N_rank> > 
 {
   typedef T_numtype T_element;
   enum { numComponents = N_rank };
@@ -60,12 +61,13 @@ struct cat_multicomponent_traits<cat_tvector<T_numtype,N_rank> >
 
 // complex<T>
 template<class T>
-struct cat_multicomponent_traits<complex<T> >
+struct multicomponent_traits<complex<T> >
 {
   typedef T T_element;
   enum { numComponents = 2 };
 };
 
 
+}
 
 #endif

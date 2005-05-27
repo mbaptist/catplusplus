@@ -21,21 +21,24 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
 
-//cat_memory_block.C
+//memory_block.C
 //Implements a referenced memory block class with reference counting
-//The block is to be used by class cat_memory_reference (cat_memory_reference.h)
+//The block is to be used by class memory_reference (memory_reference.h)
 
+
+namespace cat
+{
 
 //Accessors
 
 //pointer to data
 template <class T>
-T * cat_memory_block<T>::data()
+T * memory_block<T>::data()
 {
   return this -> data_;
 }
 template <class T>
-const T * cat_memory_block<T>::data() const
+const T * memory_block<T>::data() const
   {
     return this -> data_;
   }
@@ -43,24 +46,24 @@ const T * cat_memory_block<T>::data() const
 
 //length
 template <class T>
-size_t & cat_memory_block<T>::length()
+size_t & memory_block<T>::length()
 {
   return this->length_;
 }
 template <class T>
-const size_t & cat_memory_block<T>::length() const
+const size_t & memory_block<T>::length() const
 {
   return this->length_;
 }
 
 //references
 template <class T>
-int & cat_memory_block<T>::num_references()
+int & memory_block<T>::num_references()
 {
   return this -> references_;
 }
 template <class T>
-const int & cat_memory_block<T>::num_references() const
+const int & memory_block<T>::num_references() const
   {
     return this -> references_;
   }
@@ -71,7 +74,7 @@ const int & cat_memory_block<T>::num_references() const
 
 //default
 template <class T>
-cat_memory_block<T>::cat_memory_block():
+memory_block<T>::memory_block():
     data_(0),
     data_address_(0),
     references_(0),
@@ -83,7 +86,7 @@ cat_memory_block<T>::cat_memory_block():
 
 //from length
 template <class T>
-cat_memory_block<T>::cat_memory_block(size_t length__):
+memory_block<T>::memory_block(size_t length__):
     references_(0),
     length_(length__)
 {
@@ -97,7 +100,7 @@ cat_memory_block<T>::cat_memory_block(size_t length__):
 //from length and pointer
 //data is unowned and hence will not be deallocated
 template <class T>
-cat_memory_block<T>::cat_memory_block(size_t length__, T * data__):
+memory_block<T>::memory_block(size_t length__, T * data__):
     data_(data__),
     data_address_(0),
     references_(0),
@@ -107,7 +110,7 @@ cat_memory_block<T>::cat_memory_block(size_t length__, T * data__):
 
 //destructor
 template <class T>
-cat_memory_block<T>::~cat_memory_block()
+memory_block<T>::~memory_block()
 {
   if (data_address_)
     deallocate();
@@ -116,7 +119,7 @@ cat_memory_block<T>::~cat_memory_block()
 
 
 // template <class T>
-// void cat_memory_block<T>::resize(size_t length__)
+// void memory_block<T>::resize(size_t length__)
 // {
 //   deallocate();
 //   length_=length__;
@@ -128,7 +131,7 @@ cat_memory_block<T>::~cat_memory_block()
 
 //allocation
 template <class T>
-void cat_memory_block<T>::allocate(size_t length__)
+void memory_block<T>::allocate(size_t length__)
 {
   data_address_ = new T [length__];
   data_ = data_address_;
@@ -136,21 +139,21 @@ void cat_memory_block<T>::allocate(size_t length__)
 
 //deallocation
 template <class T>
-void cat_memory_block<T>::deallocate()
+void memory_block<T>::deallocate()
 {
   delete [] data_address_;
 }
 
 //add reference
 template <class T>
-void cat_memory_block<T>::add_reference()
+void memory_block<T>::add_reference()
 {
   ++references_;
 }
 
 //remove reference
 template <class T>
-int cat_memory_block<T>::remove_reference()
+int memory_block<T>::remove_reference()
 {
   return int(--references_);
 }
@@ -161,19 +164,20 @@ int cat_memory_block<T>::remove_reference()
 
 
 
-//cat_null_memory_block<T> constructor
+//null_memory_block<T> constructor
 template <class T>
-cat_null_memory_block<T>::cat_null_memory_block()
+null_memory_block<T>::null_memory_block()
 {
-  cat_memory_block<T>::add_reference();
+  memory_block<T>::add_reference();
 }
 
-//cat_null_memory_block<T> destructor
+//null_memory_block<T> destructor
 template <class T>
-cat_null_memory_block<T>::~cat_null_memory_block()
+null_memory_block<T>::~null_memory_block()
 {
   //cout << "Destructing Null Block" << endl;
 }
 
 
 
+}

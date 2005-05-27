@@ -22,41 +22,42 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #ifndef CAT_NUMERIC_H
-#define CAT_NUMERIC_H 
-
-
-//Forward declaration of class cat_tvector<T,N>
-template <class T,int N>
-class cat_tvector;
-
-//Forward declaration of class cat_array<T,D>
-template <class T,int D>
-class cat_array;
-
+#define CAT_NUMERIC_H
+ 
 //Complex number support
 #include <complex>
 using namespace std; 
 
+namespace cat
+{
+
+//Forward declaration of class tvector<T,N>
+template <class T,int N>
+class tvector;
+
+//Forward declaration of class array<T,D>
+template <class T,int D>
+class array;
 
 
 //Numeric Traits
 
 template <class T>
-struct cat_numeric_traits
+struct numeric_traits
 {
 	typedef T T_numeric; 	
 };
 
 template <class T, int N>
-struct cat_numeric_traits<cat_tvector<T,N> >
+struct numeric_traits<tvector<T,N> >
 {
-	typedef typename cat_numeric_traits<T>::T_numeric T_numeric; 	
+	typedef typename numeric_traits<T>::T_numeric T_numeric; 	
 };
 
 template <class T, int D>
-struct cat_numeric_traits<cat_array<T,D> >
+struct numeric_traits<array<T,D> >
 {
-	typedef typename cat_numeric_traits<T>::T_numeric T_numeric; 	
+	typedef typename numeric_traits<T>::T_numeric T_numeric; 	
 };
 
 
@@ -66,29 +67,32 @@ struct cat_numeric_traits<cat_array<T,D> >
 //Real Numeric Traits
 
 template <class T>
-struct cat_real_numeric_traits
+struct real_numeric_traits
 {
 	typedef T T_numeric; 
 };
 
 template <class T>
-struct cat_real_numeric_traits<complex<T> >
+struct real_numeric_traits<complex<T> >
 {
-	typedef typename cat_real_numeric_traits<T>::T_numeric T_numeric; 	
+	typedef typename real_numeric_traits<T>::T_numeric T_numeric; 	
 };
 
 template <class T, int N>
-struct cat_real_numeric_traits<cat_tvector<T,N> >
+struct real_numeric_traits<tvector<T,N> >
 {
-	typedef typename cat_real_numeric_traits<T>::T_numeric T_numeric; 	
+	typedef typename real_numeric_traits<T>::T_numeric T_numeric; 	
 };
 
 template <class T, int D>
-struct cat_real_numeric_traits<cat_array<T,D> >
+struct real_numeric_traits<array<T,D> >
 {
-	typedef typename cat_real_numeric_traits<T>::T_numeric T_numeric; 	
+	typedef typename real_numeric_traits<T>::T_numeric T_numeric; 	
 };
 
+
+
+}
 
 #endif
 
