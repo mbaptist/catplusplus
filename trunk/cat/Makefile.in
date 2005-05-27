@@ -2,7 +2,7 @@
 # Modify this section to suit your system's needs
 ##########################################################
 
-CXX = g++ -g -O2
+CXX = @CXX@ @CFLAGS@
 
 ###########################################################
 # No modification should be necessary from thin point on
@@ -10,9 +10,9 @@ CXX = g++ -g -O2
 
 INSTALL_LIST = cat*.h cat*.C
 
-INSTALL_ROOT = /home/mbaptist/local
+INSTALL_ROOT = @prefix@
 
-all: test
+all:
 
 clean:
 	@rm -fv *~ *.o testcat

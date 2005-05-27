@@ -21,36 +21,40 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
 
-//cat_memory_block.h
+//memory_block.h
 //Declares a referenced memory block class with reference counting
-//The block is to be used by class cat_memory_reference (cat_memory_reference.h)
+//The block is to be used by class memory_reference (memory_reference.h)
 
 #ifndef CAT_MEMORY_BLOCK_H
 #define CAT_MEMORY_BLOCK_H
 
 #include <cassert>
 
-#include "cat_multi.h"
+#include "multi.h"
 
-//Forward decalration of cat_memory_reference
+//Forward decalration of memory_reference
 template <class T>
-class cat_memory_reference;
+class memory_reference;
 
 
-//cat_memblock class
+namespace cat
+{
+
+
+//memblock class
 //Declares a referenced memory block.
 //This class is no intended to be used directly,
-//rather via class cat_memory_reference
+//rather via class memory_reference
 template <class T>
-class cat_memory_block
+class memory_block
   {
 
     //forbid copy and assignement
   private:
 
-    cat_memory_block(const cat_memory_block<T> &);
+    memory_block(const memory_block<T> &);
 
-    void operator=(const cat_memory_block<T> &);
+    void operator=(const memory_block<T> &);
 
   private:
 
@@ -88,17 +92,17 @@ class cat_memory_block
     //Constructors
 
     //default
-    cat_memory_block();
+    memory_block();
 
     //from length
-    cat_memory_block(size_t length__);
+    memory_block(size_t length__);
 
     //from length and pointer
     //data is unowned and hence will not be deallocated
-    cat_memory_block(size_t length__, T * data__);
+    memory_block(size_t length__, T * data__);
 
     //destructor
-    virtual ~cat_memory_block();
+    virtual ~memory_block();
 
     
     //void resize(size_t length__);
@@ -124,14 +128,14 @@ class cat_memory_block
 
 //Unowned Memory Block
 template<class T>
-class cat_unowned_memory_block : public cat_memory_block<T> {
+class unowned_memory_block : public memory_block<T> {
 public:
-    cat_unowned_memory_block(size_t length, T* data)
-        : cat_memory_block<T>(length,data)
+    unowned_memory_block(size_t length, T* data)
+        : memory_block<T>(length,data)
     {
     }
 
-    virtual ~cat_unowned_memory_block()
+    virtual ~unowned_memory_block()
     {
       //cout << "Destructing Unowned Block" << endl;
     }
@@ -139,20 +143,21 @@ public:
 
 
 //Declares a null memory block class
-//to be used by the default constructor of cat_memory_reference<T>
+//to be used by the default constructor of memory_reference<T>
 template <class T>
-class cat_null_memory_block : public cat_memory_block<T>
+class null_memory_block : public memory_block<T>
   {
   public:
     //constructor
-    cat_null_memory_block();
+    null_memory_block();
     //destructor
-    ~cat_null_memory_block();
+    ~null_memory_block();
   };
 
 
-#include "cat_memory_block.C"
+}
 
 
+#include "memory_block.C"
 
 #endif

@@ -21,19 +21,19 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
 
-
-
+namespace cat
+{
 
 //Direct accessors to members
 
 //ordering
 template <int D>
-cat_tvector<int,D> & cat_storage<D>::ordering()
+tvector<int,D> & storage<D>::ordering()
 {
   return ordering_;
 };
 template <int D>
-const cat_tvector<int,D> & cat_storage<D>::ordering() const
+const tvector<int,D> & storage<D>::ordering() const
   {
     return ordering_;
   };
@@ -41,36 +41,36 @@ const cat_tvector<int,D> & cat_storage<D>::ordering() const
 
 //shape
 template <int D>
-cat_tvector<int,D> & cat_storage<D>::shape()
+tvector<int,D> & storage<D>::shape()
 {
   return shape_;
 };
 template <int D>
-const cat_tvector<int,D> & cat_storage<D>::shape() const
+const tvector<int,D> & storage<D>::shape() const
   {
     return shape_;
   };
 
 //size
 template <int D>
-int & cat_storage<D>::size()
+int & storage<D>::size()
 {
   return size_;
 };
 template <int D>
-const int & cat_storage<D>::size() const
+const int & storage<D>::size() const
   {
     return size_;
   };
 
 //stride
 template <int D>
-cat_tvector<int,D> & cat_storage<D>::stride()
+tvector<int,D> & storage<D>::stride()
 {
   return stride_;
 };
 template <int D>
-const cat_tvector<int,D> & cat_storage<D>::stride() const
+const tvector<int,D> & storage<D>::stride() const
   {
     return stride_;
   };
@@ -82,7 +82,7 @@ const cat_tvector<int,D> & cat_storage<D>::stride() const
 
 
 template <int D>
-cat_storage<D>::cat_storage(const cat_tvector<int,D> & shape__):
+storage<D>::storage(const tvector<int,D> & shape__):
     shape_(shape__),
     size_(eval_size(shape_))
 {
@@ -94,7 +94,7 @@ cat_storage<D>::cat_storage(const cat_tvector<int,D> & shape__):
 
 
 template <int D>
-cat_storage<D>::cat_storage(const cat_tvector<int,D> & shape__,string ordering_string__):
+storage<D>::storage(const tvector<int,D> & shape__,string ordering_string__):
     shape_(shape__),
     size_(eval_size(shape_))
 {
@@ -114,7 +114,7 @@ cat_storage<D>::cat_storage(const cat_tvector<int,D> & shape__,string ordering_s
 
 
 template <int D>
-cat_storage<D>::cat_storage(const cat_tvector<int,D> & shape__,cat_tvector<int,D> ordering__):
+storage<D>::storage(const tvector<int,D> & shape__,tvector<int,D> ordering__):
     ordering_(ordering__),
     shape_(shape__),
     size_(eval_size(shape_)),
@@ -122,7 +122,7 @@ cat_storage<D>::cat_storage(const cat_tvector<int,D> & shape__,cat_tvector<int,D
 {}
 
 template <int D>
-cat_storage<D>::cat_storage(const cat_tvector<int,D> & shape__,cat_tvector<int,D> ordering__,cat_tvector<int,D> stride__):
+storage<D>::storage(const tvector<int,D> & shape__,tvector<int,D> ordering__,tvector<int,D> stride__):
     ordering_(ordering__),
     shape_(shape__),
     size_(eval_size(shape_)),
@@ -140,7 +140,7 @@ cat_storage<D>::cat_storage(const cat_tvector<int,D> & shape__,cat_tvector<int,D
 
 //Evaluates size
 template <int D>
-int cat_storage<D>::eval_size(const cat_tvector<int,D> & shape__)
+int storage<D>::eval_size(const tvector<int,D> & shape__)
 {
   int size__=1;
   for(int i=0;i<D;++i)
@@ -150,9 +150,9 @@ int cat_storage<D>::eval_size(const cat_tvector<int,D> & shape__)
 
 
 template <int D>
-cat_tvector<int,D> cat_storage<D>::eval_strides(const cat_tvector<int,D> & shape__)
+tvector<int,D> storage<D>::eval_strides(const tvector<int,D> & shape__)
 {
-  cat_tvector<int,D> out;
+  tvector<int,D> out;
   out[ordering_[0]]=1;
   for(int i=1;i<D;++i)    
     out[ordering_[i]]=shape__[ordering_[i-1]]*out[ordering_[i-1]];
@@ -170,3 +170,5 @@ cat_tvector<int,D> cat_storage<D>::eval_strides(const cat_tvector<int,D> & shape
   
 }
 
+
+}
