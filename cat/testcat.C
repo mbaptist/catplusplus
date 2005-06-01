@@ -1,4 +1,4 @@
-// -\*- C\+\+ -\*-
+// -*- C++ -*-
 /*
 
 Copyright 2005 Manuel Baptista
@@ -135,6 +135,10 @@ void test_array_tvector()
   cout << endl;
    
 #endif
+
+
+  exit(0);
+
 
 //testing copy constructor
  
