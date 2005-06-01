@@ -1,4 +1,4 @@
-// -\*- C\+\+ -\*-
+// -*- C++ -*-
 /*
 
 Copyright 2005 Manuel Baptista

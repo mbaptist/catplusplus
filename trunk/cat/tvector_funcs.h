@@ -1,4 +1,4 @@
-// -\*- C\+\+ -\*-
+// -*- C++ -*-
 /*
 
 Copyright 2005 Manuel Baptista
@@ -33,138 +33,64 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include<complex>
 #include<iostream>
 #include<cmath>
-  using namespace std;
 
 namespace cat
 {
 
+  //IO
+  //overloading <<
+  template <class T,int N>
+  std::ostream & operator<<(std::ostream & output,
+			    const tvector<T,N> & ovector);
+  template <class T,int N>
+  std::ostream & operator<<(std::ostream & output,
+			    tvector<T,N> & ovector);
+  //overloading >>
+  template <class T,int N>
+  std::istream & operator>>(std::istream & input,
+			    tvector<T,N> & ivector);
 
   //Operations on tvectors of complex
   //real part
   template <class T,int N>
-    tvector<T,N> real(const tvector<complex<T>,N> & a)
-    {
-      tvector<T,N> aux;
-      for(int i=0;i<N;++i)
-	aux[i]=a[i].real();
-      return tvector<T,N>(aux);
-    }
+  tvector<T,N> real(const tvector<complex<T>,N> & a);
   //imaginary part
   template <class T,int N>
-    tvector<T,N> imag(const tvector<complex<T>,N> & a)
-    {
-      tvector<T,N> aux;
-      for(int i=0;i<N;++i)
-	aux[i]=a[i].imag();
-      return tvector<T,N>(aux);
-    }
+  tvector<T,N> imag(const tvector<complex<T>,N> & a);
   //conjugate
   template <class T,int N>
-    tvector<complex<T>,N> conj(const tvector<complex<T>,N> & a)
-    {
-      tvector<complex<T>,N> aux;
-      for(int i=0;i<N;++i)
-	aux[i]=conj(a[i]);
-      return tvector<complex<T>,N>(aux);
-    }
-
-
+  tvector<complex<T>,N> conj(const tvector<complex<T>,N> & a);
 
   //Dot product
   template <class T1,class T2,int N>
-    typename numeric_traits<typename promote_traits<T1,T2>::T_promote>::T_numeric dot_product(const tvector<T1,N> & a,const tvector<T2,N> & b)
-    {
-      typename numeric_traits<typename promote_traits<T1,T2>::T_promote>::T_numeric out;
-      out=0;
-      for(int i=0;i<N;++i)
-	out+=a[i]*b[i];
-      return out;
-    }
-
+  typename numeric_traits<typename promote_traits<T1,T2>::T_promote>::
+  T_numeric dot_product(const tvector<T1,N> & a,const tvector<T2,N> & b);
 
   //Square of Norm
   template <class T,int N>
-    typename real_numeric_traits<T>::T_numeric norm_sq(const tvector<T,N> & a)
-    {
-      return typename real_numeric_traits<T>::T_numeric(dot_product(a,a));
-    }
+  typename real_numeric_traits<T>::T_numeric 
+  norm_sq(const tvector<T,N> & a);
 
   //Square of Norm for complex numbers
   template <class T,int N>
-    typename real_numeric_traits<complex<T> >::T_numeric norm_sq(const tvector<complex<T>,N> & a)
-    {
-      return typename real_numeric_traits<complex<T> >::T_numeric((dot_product(a,conj(a))).real());
-    }
-
+  typename real_numeric_traits<complex<T> >::T_numeric 
+  norm_sq(const tvector<complex<T>,N> & a);
 
 
   //Norm
   template <class T,int N>
-    typename real_numeric_traits<T>::T_numeric norm(const tvector<T,N> & a)
-    {
-      return typename real_numeric_traits<T>::T_numeric(sqrt(norm_sq(a)));
-    }
-
-
-
+  typename real_numeric_traits<T>::T_numeric norm(const tvector<T,N> & a);
 
   //Cross product
   template <class T1, class T2>
-    tvector<typename promote_traits<T1,T2>::T_promote,3> cross_product(const tvector<T1,3> & a,const tvector<T2,3> & b)
-    {
-      return tvector<typename promote_traits<T1,T2>::T_promote,3>
-	(
-	 a[1]*b[2]-a[2]*b[1],
-	 a[2]*b[0]-a[0]*b[2],
-	 a[0]*b[1]-a[1]*b[0]
-	 );
-    }
-
-
-
-
-
-#if 0
-
-  //Cross product
-  //real or complex tvectors
-  template <class T>
-    tvector<T,3> cross_product(const tvector<T,3> & a,const tvector<T,3> & b)
-    {
-      return tvector<T,3>
-	(
-	 a[1]*b[2]-a[2]*b[1],
-	 a[2]*b[0]-a[0]*b[2],
-	 a[0]*b[1]-a[1]*b[0]
-	 );
-    }
-
-
-
-  //real,complex tvectors
-  template <class T>
-    tvector<complex<T>,3> cross_product(const tvector<T,3> & a,const tvector<complex<T>,3> & b)
-    {
-      return tvector<complex<T>,3>
-	(
-	 complex<T>(a[1]*b[2].real()-a[2]*b[1].real(),
-		    a[1]*b[2].imag()-a[2]*b[1].imag()),
-	 complex<T>(a[2]*b[0].real()-a[0]*b[2].real(),
-		    a[2]*b[0].imag()-a[0]*b[2].imag()),
-	 complex<T>(a[0]*b[1].real()-a[1]*b[0].real(),
-		    a[0]*b[1].imag()-a[1]*b[0].imag())
-	 );
-    }
-  //complex,real tvectors
-  template <class T>
-    tvector<complex<T>,3> cross_product(const tvector<complex<T>,3> & a,const tvector<T,3> & b)
-    {
-      return -cross_product(b,a);
-    }
-#endif
-
+  tvector<typename promote_traits<T1,T2>::T_promote,3> 
+  cross_product(const tvector<T1,3> & a,const tvector<T2,3> & b);
 
 }
+
+
+#include "tvector_funcs.C"
+
 
 #endif
 

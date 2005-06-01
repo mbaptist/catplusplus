@@ -1,4 +1,5 @@
-// -\*- C\+\+ -\*-
+// -*- C++ -*-
+
 /*
 
 Copyright 2005 Manuel Baptista
@@ -36,119 +37,51 @@ namespace cat
 {
 
   template <class T,int N>
-    class tvector
-    {
+  class tvector
+  {
       
-    private:
-      //Automatic array of size N containing data
-      T vector_data[N];
+  private:
+    //Automatic array of size N containing data
+    T vector_data[N];
+    
+  public:
+    //Constructors
+    
+    //default constructor
+    tvector();
       
-    public:
-      //Constructors
-  
-      //default constructor
-      tvector(){};
-      
-      //copy constructor (really copies to the new vector)
-      tvector(const tvector& rhs)
-	{
-	  if (this==&rhs)
-	    return;
-	  for (int i=0;i<N;++i)
-	    vector_data[i]=rhs[i];
-	};
+    //copy constructor (really copies to the new vector)
+    tvector(const tvector& rhs);
 
-      //constructors from values
-      //assigns 
-      explicit tvector(const T & v1)
-	{
-	  for (int i=0;i<N;++i)
-	    vector_data[i]=v1;
-	}
-      explicit tvector(const T & v1,const T & v2)
-	{
-	  if (N!=2)
-	    {
-	      cout << "Array is not 2D. Aborting programme ..." << endl;
-	      exit(1);
-	    }
-	  vector_data[0]=v1;
-	  vector_data[1]=v2;
-	}
-      explicit tvector(const T & v1,const T & v2,const T & v3)
-	{
-	  if (N!=3)
-	    {
-	      cout << "Array is not 3D. Aborting programme ..." << endl;
-	      exit(1);
-	    }
-	  vector_data[0]=v1;
-	  vector_data[1]=v2;
-	  vector_data[2]=v3;  
-	}
-      
+    //constructors from values
+    //assigns 
+    explicit tvector(const T & v1);
+    explicit tvector(const T & v1,const T & v2);
+    explicit tvector(const T & v1,const T & v2,const T & v3);
 
-      //Destructor
-      ~tvector()
-	{
-	  //cout << "tvector destructor " << endl;  
-	};
+    //Destructor
+    ~tvector();
 
-      //Accessors  
-      T & operator[](const int n) {return vector_data[n];};
-      const T & operator[](const int n) const {return vector_data[n];};
+    //Accessors  
+    T & operator[](const int n);
+    const T & operator[](const int n) const;
       
-      T * data(){return vector_data;};
-      const T * data() const {return vector_data;};
+    T * data();
+    const T * data() const;
 
-      //returns the size of this tvector
-      int get_size() const {return N;};
+    //returns the size of this tvector
+    int size() const;
       
-      //IO
-      //redefiniton of cout
-      friend std::ostream& operator<<(std::ostream& output,
-				      const tvector& ovector)
-	{
-	  for(int i=0;i<N-1;++i)
-	    output << ovector[i] << " "; 
-	  output << ovector[N-1];
-	  return output;
-	};
-      friend std::ostream& operator<<(std::ostream& output,
-				      tvector& ovector)
-	{
-	  for(int i=0;i<N-1;++i)
-	    output << ovector[i] << " "; 
-	  output << ovector[N-1];
-	  return output;
-	};
-      //redefiniton of cin
-      friend std::istream& operator>>(std::istream& input,
-				      tvector& ivector)
-	{
-	  for(int i=0;i<N;++i)
-	    input >> ivector[i];
-	  return input;
-	}; 
  
+    //Assignement operators
+    //to tvector
+    template <class T1>
+    tvector & operator=(const tvector<T1,N> & rhs);
 
-      //Assignement operators
-      //to tvector
-      template <class T1>
-	tvector& operator=(const tvector<T1,N> & rhs)
-	{
-	  for (int i=0;i<N;++i)
-	    vector_data[i]=rhs[i];
-	  return *this;
-	}
-      //to scalar
-      template <class T1>
-	tvector& operator=(const T1 & rhs)
-	{
-	  for (int i=0;i<N;++i)
-	    vector_data[i]=rhs;
-	  return *this;
-	};
+    //to scalar
+    template <class T1>
+    tvector & operator=(const T1 & rhs);
+
 
 
 #define TVECTOR_UPDATE(op) \
@@ -174,12 +107,12 @@ TVECTOR_UPDATE(-=)
 TVECTOR_UPDATE(*=)
 TVECTOR_UPDATE(/=)
 
-
-
-
-     };
+   };
 
 
 }
+
+#include "tvector.C"
+
 
 #endif
