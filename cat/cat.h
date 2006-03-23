@@ -26,14 +26,21 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef CAT_H
 #define CAT_H
 
+#include "globals.h"
+
 //Include field declarations
 #include "tvector.h"
 #include "array.h"
 
 //Include operators and operations
 #include "tvector_funcs.h"
+//#include "tvector_ops.h"
 #include "array_macros.h"
 #include "array_ops.h"
 #include "array_funcs.h"
+
+//Include random number generation
+#include "random.h"
+
 
 #endif

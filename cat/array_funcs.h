@@ -76,7 +76,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
       //max
       template <class T,int D>
     T max(const array<T,D> & a);
-    
+
+	//min   
+	template <class T,int D>
+    T min(const array<T,D> & a);
+
+ 
     //sum
     template <class T,int D>
     T sum(const array<T,D> & a);

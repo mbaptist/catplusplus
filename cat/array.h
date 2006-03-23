@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef CAT_ARRAY_H
 #define CAT_ARRAY_H
 
-
 #include "numeric.h"
 #include "promote.h"
 #include "multi.h"
@@ -71,8 +70,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
       using storage<D>::size_;
       using storage<D>::stride_;
 
+//       using storage<D>::ordering;
+//       using storage<D>::shape;
+//       using storage<D>::size;
+//       using storage<D>::stride;
+
       using memory_reference<T>::data_;
       using memory_reference<T>::length_;
+
+//       using memory_reference<T>::data;
+//       using memory_reference<T>::length;
 
     public:
 
@@ -107,13 +114,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
       //create a new array by copying this array
       //(the new array has its own data)
-      template <class T1>
-      array<T1,D> copy();
+      template <class T1,int D1>
+      array<T1,D1> copy();
 
       //make this array a copy of a given array
       //the data is actually copied
-      template <class T1>
-      void copy(const array<T1,D> & rhs);
+      template <class T1,int D1>
+      void copy(const array<T1,D1> & rhs);
 
 
 
@@ -123,16 +130,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
       //default constructor
       //storage is instantiated by default
       //corresponding to c (row major) storage order
-      explicit array();
+      array();
 
       //copy constructor (really copies the array to the new field)
       array(const array & rhs);
 
+
       //conversion constructor
-      template <class T1>
-      array(const array<T1,D> & rhs);
+      template <class T1,int D1>
+       array(const array<T1,D1> & rhs);
 
       //constructor from shape
+      
       explicit array(tvector<int,D> shape__);
 
       //constructors from size
@@ -146,7 +155,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
       //Constructor from shape and element of type T
       //Every element is initialised to T
-      explicit array(const tvector<int,D> shape__,const T & element);
+      //explicit array(const tvector<int,D> shape__,const T & element);
 
     
     
@@ -176,6 +185,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
       //Other Accessors (indexing, pointers to data,...)
 
 
+
+      // template<class T1>
+      //array<T1,D> extract_component
+      //(T1,int component, int num_components);
+
       //Extract component operator
       array<typename multicomponent_traits<T>::T_element,D> 
       operator[](const int component);
@@ -197,19 +211,27 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
       //3D (constant)
       const T & operator()(const int i1,const int i2,const int i3) const;
 
+      //DD
+      T & operator()(const cat::tvector<int,D> shp);
+      //DD (constant)
+      const T & operator()(const cat::tvector<int,D> shp) const;
 
       //Assignement operators
       //to array
-      array & operator=(const array & rhs);
+      array<T,D> & operator=(const array<T,D> & rhs);
+      
       template <class T1>
-      array & operator=(const array<T1,D> & rhs);
+      array<T,D> & operator=(const array<T1,D> & rhs);
 
-
-      //to scalar
+      
+      //to element
+      array<T,D> & operator=(const T & rhs);
       template <class T1>
-      array& operator=(const T1 & rhs);
+      array<T,D> & operator=(const T1 & rhs);
 
 
+      //For safety an unidirectional promotion should be implemented
+      //in the code that follows
 
 #define CAT_ARRAY_UPDATE(op) \
   template <class T1> \
@@ -217,21 +239,21 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   { \
     array_iterator<T,D> array_iterator(*this); \
     array_const_iterator<T1,D> rhs_iterator(rhs); \
-    for (array_iterator=(*this).begin(), \
+    for (array_iterator=this->begin(), \
 	   rhs_iterator=rhs.begin(); \
-	 array_iterator!=(*this).end(), \
+	 array_iterator!=this->end(), \
 	   rhs_iterator!=rhs.end(); \
 	 ++array_iterator, \
 	   ++rhs_iterator) \
       (*array_iterator) op (*rhs_iterator); \
     return *this; \
   } \
-  template <class T1> \
+  template <class T1>		  \
   array<T,D> & operator op(const T1 & rhs) \
   { \
     array_iterator<T,D> array_iterator(*this); \
-    for (array_iterator=(*this).begin(); \
-	 array_iterator!=(*this).end(); \
+    for (array_iterator=this->begin(); \
+	 array_iterator!=this->end(); \
 	 ++array_iterator) \
       (*array_iterator) op rhs; \
     return *this; \
@@ -254,6 +276,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
 #include "array.C"
+
 
 
 #endif

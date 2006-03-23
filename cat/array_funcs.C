@@ -48,7 +48,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     template <class T,int D>
     T max(const array<T,D> & a)
     {
-      array_iterator<T,D> array_iterator(a);
+      array_const_iterator<T,D> array_iterator(a);
       array_iterator=a.begin();
       T out(*array_iterator);
       for (array_iterator=a.begin();
@@ -58,13 +58,30 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	  out=*array_iterator;
       return out;
     }
-    
+   
+	//min
+    template <class T,int D>
+    T min(const array<T,D> & a)
+    {
+      array_const_iterator<T,D> array_iterator(a);
+      array_iterator=a.begin();
+      T out(*array_iterator);
+      for (array_iterator=a.begin();
+           array_iterator!=a.end();
+           ++array_iterator)
+        if(*array_iterator<out)
+          out=*array_iterator;
+      return out;
+    }
+
+
+ 
     //sum
     template <class T,int D>
     T sum(const array<T,D> & a)
     {
       T out=0;
-      array_iterator<T,D> array_iterator(a);
+      array_const_iterator<T,D> array_iterator(a);
       for (array_iterator=a.begin();
 	   array_iterator!=a.end();
 	   ++array_iterator)

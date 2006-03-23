@@ -24,6 +24,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //array.C
 //Implementation of class array
 
+#include "globals.h"
+
+
 #include "storage.h"
 #include "memory_reference.h"
 
@@ -93,6 +96,9 @@ namespace cat
   template <class T,int D>
   array<T,D> array<T,D>::copy()
   {
+#if PRT_DBG_MSG
+    cout << "Return a copy of *this" << endl;
+#endif
     array<T,D> out(this->shape());
     array_iterator<T,D> out_iterator(out);
     array_const_iterator<T,D> array_iterator(*this);
@@ -110,63 +116,111 @@ namespace cat
   //the data is actually copied
   template <class T,int D>
   void array<T,D>::copy(const array<T,D> & rhs)
-  {      
+  {
+#if PRT_DBG_MSG
+    cout << "Copying rhs to *this" << endl;
+#endif 
     if (this==&rhs)
-      return;
-    assert(this->size()==rhs.size());
+      return; 
 
-    //cout << "InC" << endl; 
-    array_iterator<T,D> array_iterator(*this);
-    array_const_iterator<T,D> rhs_iterator(rhs);
-    for (array_iterator=(*this).begin(),
-           rhs_iterator=rhs.begin();
-	 array_iterator!=(*this).end(),
-           rhs_iterator!=rhs.end();
-	 ++array_iterator,
-           ++rhs_iterator)
-      *array_iterator=*rhs_iterator;
-    //cout << "ExC" << endl; 
+    if(this->size()==rhs.size())
+      {
+	array_iterator<T,D> a_iterator(*this);
+	array_const_iterator<T,D> rhs_iterator(rhs);
+	for (a_iterator=this->begin(),
+	       rhs_iterator=rhs.begin();
+	     a_iterator!=this->end(),
+	       rhs_iterator!=rhs.end();
+	     ++a_iterator,
+	       ++rhs_iterator)
+	  (*a_iterator)=(*rhs_iterator);
+      }
+    else if (this->size()>rhs.size())
+      {
+	array_iterator<T,D> a_iterator(*this);
+	array_const_iterator<T,D> rhs_iterator(rhs);
+	for (a_iterator=this->begin(),
+	       rhs_iterator=rhs.begin();
+	     //a_iterator!=this->end();
+	       rhs_iterator!=rhs.end();
+	     ++a_iterator,
+	       ++rhs_iterator)
+	  {
+	    while((a_iterator.indices())!=(rhs_iterator.indices()))
+	      {
+		++a_iterator;
+		(*a_iterator)=0;
+	      }
+	    (*a_iterator)=(*rhs_iterator);
+	  }
+      }
+    else
+      {
+	//cout << "HHHHHHHHHH" << endl;
+	array_iterator<T,D> a_iterator(*this);
+	array_const_iterator<T,D> rhs_iterator(rhs);
+	for (a_iterator=this->begin(),
+	       rhs_iterator=rhs.begin();
+	     a_iterator!=this->end();
+	     ++rhs_iterator,
+	       ++a_iterator)
+	  {
+	    //cout << a_iterator.pos() << " " <<  rhs_iterator.pos() << endl;
+	    while(
+		  (a_iterator.indices())!=(rhs_iterator.indices())
+		  )
+	      {
+	       	++rhs_iterator;
+		//cout << a_iterator.pos() << " " <<  rhs_iterator.pos() << endl;
+	      }
+	      (*a_iterator)=(*rhs_iterator);
+	  }
+      }
   }
   
   
   //create a new array by copying this array
-  //(the new array has its own data)
-  template <class T,int D>
-  template <class T1>
-  array<T1,D> array<T,D>::copy()
+   //(the new array has its own data)
+   template <class T,int D>
+   template <class T1,int D1>
+   array<T1,D1> array<T,D>::copy()
   {
-    array<T1,D> out(this->shape());
-    array_iterator<T1,D> out_iterator(out);
-    array_const_iterator<T,D> array_iterator(*this);
-    for (array_iterator=(*this).begin(),
+    array<T1,D1> out(this->shape());
+    array_iterator<T1,D1> out_iterator(out);
+    array_const_iterator<T,D> a_iterator(*this);
+    for (a_iterator=(*this).begin(),
            out_iterator=out.begin();
-	 array_iterator!=(*this).end(),
+	 a_iterator!=(*this).end(),
            out_iterator!=out.end();
-	 ++array_iterator,
+	 ++a_iterator,
            ++out_iterator)
-      *out_iterator=*array_iterator;
-    return array<T1,D>(out);
+      *out_iterator=*a_iterator;
+    return array<T1,D1>(out);
   }
 
   //make this array a copy of a given array
   //the data is actually copied
   template <class T,int D>
-  template <class T1>
-  void array<T,D>::copy(const array<T1,D> & rhs)
+  template <class T1,int D1>
+  void array<T,D>::copy(const array<T1,D1> & rhs)
   { 
     assert(this->size()==rhs.size());
     // cout << "InC" << endl; 
-    array_iterator<T,D> array_iterator(*this);
-    array_const_iterator<T1,D> rhs_iterator(rhs);
-    for (array_iterator=(*this).begin(),
+    array_iterator<T,D> a_iterator(*this);
+    array_const_iterator<T1,D1> rhs_iterator(rhs);
+    for (a_iterator=(*this).begin(),
            rhs_iterator=rhs.begin();
-	 array_iterator!=(*this).end(),
+	 a_iterator!=(*this).end(),
            rhs_iterator!=rhs.end();
-	 ++array_iterator,
+	 ++a_iterator,
            ++rhs_iterator)
-      *array_iterator=*rhs_iterator;
+      *a_iterator=*rhs_iterator;
     //cout << "ExC" << endl; 
   }
+
+
+
+
 
 
   //Constructors of array
@@ -183,9 +237,10 @@ namespace cat
 #endif  
   }
 
+#if 1
   //copy constructor (really copies the array to the new field)
   template <class T,int D>
-  array<T,D>::array(const array & rhs):
+  array<T,D>::array(const array<T,D> & rhs):
     storage<D>(rhs.shape(),rhs.ordering()),
     memory_reference<T>(rhs.size())
   {
@@ -194,16 +249,19 @@ namespace cat
 #endif
     //cout << "InC" << endl;      
     if (this==&rhs)
-      return;
+       return;
     this->copy(rhs);
     //cout << "ExC" << endl;
   }
+#endif
+
+
 
 
   //conversion constructor
   template <class T,int D>
-  template <class T1>
-  array<T,D>::array(const array<T1,D> & rhs):
+  template <class T1,int D1>
+  array<T,D>::array(const array<T1,D1> & rhs):
     storage<D>(rhs.shape(),rhs.ordering()),
     memory_reference<T>(rhs.size())
   {
@@ -217,16 +275,21 @@ namespace cat
     //cout << "ExC" << endl;
   }
 
+
+
   //constructor from shape
   template <class T,int D>
   array<T,D>::array(tvector<int,D> shape__):
     storage<D>(shape__),
     memory_reference<T>(size_)
   {
-#if PRT_DBG_MSG
+    #if PRT_DBG_MSG
     cout << "Constructor from shape" << endl;
-#endif
+    #endif
   }
+
+
+
 
   //constructors from size
   //1D arrays
@@ -264,6 +327,8 @@ namespace cat
   }
 
 
+
+#if 0
   //Constructor from shape and element of type T
   //Every element is initialised to T
   template <class T,int D>
@@ -280,7 +345,7 @@ namespace cat
 	 ++array_iterator)
       *array_iterator=element;
   }
-
+#endif
     
   
   //THESE CONSTRUCTORS ARE FOR EXTRACTION
@@ -296,9 +361,9 @@ namespace cat
     memory_reference<T>(length__,data__)
   {
 #if PRT_DBG_MSG
-    cout << "Constructor from shape and reference" << endl;
+    cout << "Constructor from shape,stride and data pointer " << endl;
 #endif
-  };
+  }
       
   //Constructor from shape,stride and data pointer
   template <class T,int D>
@@ -311,7 +376,7 @@ namespace cat
     memory_reference<T>(length__,const_cast<T*>(data__))
   {
 #if PRT_DBG_MSG
-    cout << "Constructor from shape and reference" << endl;
+    cout << "Constructor from shape,stride and data pointer - constant" << endl;
 #endif
   }
 
@@ -325,42 +390,108 @@ namespace cat
     //Other Accessors (indexing, pointers to data,...)
 
 
-    //Extract component operator
-#if 1
 
+
+#if 0
+  //Function for the extraction of components
+  template<class T, int D>
+  array<typename multicomponent_traits<T>::T_element,D> 
+  extract_component(array<T,D> & a,
+		    int component, 
+		    int num_components)
+  {
+    typename multicomponent_traits<T>::T_element * ptr;
+    ptr=&((*(a.data()))[component]);
+    int nn = int( multicomponent_traits<T>::numComponents );
+    tvector<int,D> new_stride(a.stride()*nn);
+    size_t new_length(nn*a.length());
+    return array<typename multicomponent_traits<T>::T_element,D>
+      (
+       a.shape(),
+       a.ordering(),
+       new_stride,
+       new_length,
+       ptr
+       );
+  }
+  //Function for the extraction of components (constant version)
+  template<class T, int D>
+  array<typename multicomponent_traits<T>::T_element,D> 
+  extract_component(const array<T,D> & a,
+		    int component, 
+		    int num_components)
+  {
+    typename multicomponent_traits<T>::T_element * ptr;
+    ptr=&((*(a.data()))[component]);
+    int nn = int( multicomponent_traits<T>::numComponents );
+    tvector<int,D> new_stride(a.stride()*nn);
+    size_t new_length(nn*a.length());
+    return array<typename multicomponent_traits<T>::T_element,D>
+      (
+       a.shape(),
+       a.ordering(),
+       new_stride,
+       new_length,
+       ptr
+       );
+  }
+  //Extraction operator
   template <class T,int D>
   array<typename multicomponent_traits<T>::T_element,D> 
   array<T,D>::operator[](const int component)
   {
-    typename multicomponent_traits<T>::T_element * ptr;
-    ptr=&((*(this->data()))[component]);
-    int nn = int( multicomponent_traits<T>::numComponents );
-    tvector<int,D> new_stride(this->stride()*nn);
-    size_t new_length(nn*length_);
-    return array<typename multicomponent_traits<T>::T_element,D>
-      (
-       this->shape(),
-       this->ordering(),
-       new_stride,
-       new_length,
-       ptr
-       );
+    typedef typename multicomponent_traits<T>::T_element T_component;
+    return array<T_component,D>
+      (extract_component(*this,
+			 component,
+			 multicomponent_traits<T>::numComponents));
   }
-  
-#endif
-
-#if 1
-
+  //Extraction operator(constant version)
   template <class T,int D>
-  const array<typename multicomponent_traits<T>::T_element,D>
+  array<typename multicomponent_traits<T>::T_element,D>
   array<T,D>::operator[] (const int component) const
   {
-    const typename multicomponent_traits<T>::T_element * ptr;
+    typedef const typename multicomponent_traits<T>::T_element T_component;
+    return array<T_component,D>
+      (extract_component(*this,
+			 component,
+			 multicomponent_traits<T>::numComponents));
+  }
+#endif
+
+
+  //Extraction operator
+  template <class T,int D>
+  array<typename cat::multicomponent_traits<T>::T_element,D> 
+  array<T,D>::operator[](const int component)
+  {
+    typename cat::multicomponent_traits<T>::T_element * ptr;
     ptr=&((*(this->data()))[component]);
-    int nn = int( multicomponent_traits<T>::numComponents );
-    tvector<int,D> new_stride(this->stride()*nn);
+    int nn = int( cat::multicomponent_traits<T>::numComponents );
+    cat::tvector<int,D> new_stride(this->stride()*nn);
     size_t new_length(nn*length_);
-    return array<typename multicomponent_traits<T>::T_element,D>
+
+    return array<typename cat::multicomponent_traits<T>::T_element,D>
+      (
+       this->shape(),
+       this->ordering(),
+       new_stride,
+       new_length,
+       ptr
+       );
+  }
+  //Extraction operator(constant version)
+  template <class T,int D>
+  const array<typename cat::multicomponent_traits<T>::T_element,D>
+  array<T,D>::operator[] (const int component) const
+  {
+    const typename cat::multicomponent_traits<T>::T_element * ptr;
+    ptr=&((*(this->data()))[component]);
+    int nn = int( cat::multicomponent_traits<T>::numComponents );
+    cat::tvector<int,D> new_stride(this->stride()*nn);
+    size_t new_length(nn*length_);
+    
+    return array<typename cat::multicomponent_traits<T>::T_element,D>
       (
        this->shape(),
        this->ordering(),
@@ -370,7 +501,8 @@ namespace cat
        );
   }
 
-#endif
+
+
 
   
   //returns the element specfied by the indexes
@@ -436,7 +568,25 @@ namespace cat
     return this->data()[index];
   }
 
-  
+  //DD
+  template <class T,int D>
+  T & array<T,D>::operator()(const cat::tvector<int,D> shp)
+  {
+    int index=0;
+    for(int i=0;i<D;++i)
+      index+=stride_[i]*shp[i];
+    return this->data()[index];
+  }
+  //DD (constant)
+  template <class T,int D>
+  const T & array<T,D>::operator()(const cat::tvector<int,D> shp) const
+  {
+    int index=0;
+    for(int i=0;i<D;++i)
+      index+=stride_[i]*shp[i];
+    return this->data()[index];
+  }
+ 
 
 
 
@@ -449,16 +599,31 @@ namespace cat
       copy(rhs);
       return *this;
     }
+
   template <class T,int D>
-  template <class T1>
-    array<T,D> & array<T,D>::operator=(const array<T1,D> & rhs)
-    {
-      copy(rhs);
-      return *this;
-    }
+   template <class T1>
+   array<T,D> & array<T,D>::operator=(const array<T1,D> & rhs)
+   {
+     copy(rhs);
+     return *this;
+   }
 
   //to scalar
   template <class T,int D>
+  array<T,D> & array<T,D>::operator=(const T & rhs)
+  {
+    array_iterator<T,D> array_iterator(*this);
+    for (array_iterator=(*this).begin();
+	 array_iterator!=(*this).end();
+	 ++array_iterator)
+      {
+	*array_iterator=rhs;
+      }
+    return *this;
+  }
+
+
+  template <class T,int D> 
   template <class T1>
   array<T,D> & array<T,D>::operator=(const T1 & rhs)
   {
@@ -518,6 +683,11 @@ namespace cat
       input >> *array_iterator;
     return input;
   }
+
+
+
+
+  
 
 
 

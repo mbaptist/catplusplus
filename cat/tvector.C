@@ -42,12 +42,22 @@ namespace cat
       
   //copy constructor (really copies to the new vector)
   template <class T,int N>
-  tvector<T,N>::tvector(const tvector& rhs)
+  tvector<T,N>::tvector(const tvector<T,N> & rhs)
   {
     if (this==&rhs)
       return;
     for (int i=0;i<N;++i)
       vector_data[i]=rhs[i];
+  }
+
+  template <class T,int N>
+  template <class T1>
+  tvector<T,N>::tvector(const tvector<T1,N> & rhs)
+  {
+    //if (this==&rhs)
+    //  return;
+    for (int i=0;i<N;++i)
+      vector_data[i]=static_cast<T>(rhs[i]);
   }
 
   //constructors from values
@@ -81,7 +91,64 @@ namespace cat
     vector_data[1]=v2;
     vector_data[2]=v3;  
   }
-      
+  template <class T,int N>
+  tvector<T,N>::tvector(const T & v1,const T & v2,const T & v3,const T & v4)
+  {
+   if (N!=4)
+      {
+	cout << "Array is not 4D. Aborting programme ..." << endl;
+	exit(1);
+      }
+    vector_data[0]=v1;
+    vector_data[1]=v2;
+    vector_data[2]=v3;
+    vector_data[3]=v4;   
+  }
+  template <class T,int N>
+  tvector<T,N>::tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5)
+  {
+   if (N!=5)
+      {
+	cout << "Array is not 4D. Aborting programme ..." << endl;
+	exit(1);
+      }
+    vector_data[0]=v1;
+    vector_data[1]=v2;
+    vector_data[2]=v3;
+    vector_data[3]=v4;
+    vector_data[4]=v5;
+  }
+  template <class T,int N>
+  tvector<T,N>::tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5,const T & v6)
+  {
+   if (N!=6)
+      {
+	cout << "Array is not 4D. Aborting programme ..." << endl;
+	exit(1);
+      }
+    vector_data[0]=v1;
+    vector_data[1]=v2;
+    vector_data[2]=v3;
+    vector_data[3]=v4;
+    vector_data[4]=v5;
+    vector_data[5]=v6;
+  }
+  template <class T,int N>
+  tvector<T,N>::tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5,const T & v6,const T & v7)
+      {
+   if (N!=6)
+      {
+	cout << "Array is not 4D. Aborting programme ..." << endl;
+	exit(1);
+      }
+    vector_data[0]=v1;
+    vector_data[1]=v2;
+    vector_data[2]=v3;
+    vector_data[3]=v4;
+    vector_data[4]=v5;
+    vector_data[5]=v6;
+    vector_data[7]=v7;
+  }
 
   //Destructor
   template <class T,int N>
@@ -124,6 +191,13 @@ namespace cat
   //Assignement operators
   //to tvector
   template <class T,int N>
+  tvector<T,N> & tvector<T,N>::operator=(const tvector<T,N> & rhs)
+  {
+    for (int i=0;i<N;++i)
+      vector_data[i]=rhs[i];
+    return *this;
+  }
+  template <class T,int N>
   template <class T1>
   tvector<T,N> & tvector<T,N>::operator=(const tvector<T1,N> & rhs)
   {
@@ -131,7 +205,15 @@ namespace cat
       vector_data[i]=rhs[i];
     return *this;
   }
+
   //to scalar  
+  template <class T,int N>
+  tvector<T,N> & tvector<T,N>::operator=(const T & rhs)
+  {
+    for (int i=0;i<N;++i)
+      vector_data[i]=rhs;
+    return *this;
+  }
   template <class T,int N>
   template <class T1>
   tvector<T,N> & tvector<T,N>::operator=(const T1 & rhs)

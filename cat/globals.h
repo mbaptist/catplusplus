@@ -1,7 +1,7 @@
 // -*- C++ -*-
 /*
 
-Copyright 2005 Manuel Baptista
+Copyrighthttp://www.google.co.uk/ 2005 Manuel Baptista
 
 This file is part of cat++
 
@@ -26,10 +26,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef CAT_GLOBALS_H
 #define CAT_GLOBALS_H
 
+
+
+
+
 namespace cat
 {
 
-
+#define PRT_DBG_MSG 0
 
 }
 
