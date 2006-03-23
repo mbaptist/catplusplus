@@ -27,6 +27,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef CAT_ARRAY_ITERATOR
 #define CAT_ARRAY_ITERATOR
 
+#include "tvector.h"
+#include "tvector_ops.h"
+
   namespace cat
   {
 
@@ -66,6 +69,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
       int & navstride();  
       const int & navstride() const;
   
+      //Return the inces of the current position
+      const tvector<int,D> indices() const;
+
       //constructor
       //from array
       array_const_iterator(const array<T,D> & array__);

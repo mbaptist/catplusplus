@@ -84,6 +84,11 @@ class memory_reference
     //constructor from reference to a memory block
     explicit memory_reference(memory_reference & ref);
 
+  private:
+    //     explicit memory_reference(const memory_reference & ref);
+  public:
+
+
     //allocates a new memory block of size t and creates a reference to it  
     explicit memory_reference(const size_t & length__);
 

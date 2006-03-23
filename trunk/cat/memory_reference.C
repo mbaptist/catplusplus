@@ -98,7 +98,7 @@ memory_reference<T>::memory_reference():
 {
   //cout << "Default reference constr" << endl;
   block_ -> add_reference();
-};
+}
   
 
 
@@ -111,7 +111,7 @@ memory_reference<T>::memory_reference(memory_reference<T> & ref):
 {
   //cout << "Const ref from ref" << endl;
   block_ -> add_reference();
-};
+}
 
 #if 0
 //constructor from reference to a memory block
@@ -123,7 +123,7 @@ memory_reference<typename multicomponent_traits<T>::T_element>::memory_reference
 {
   //cout << "Const ref from ref" << endl;
   block_ -> add_reference();
-};
+}
 #endif
 
 //allocates a new memory block of size t and creates a reference to it
@@ -135,7 +135,7 @@ memory_reference<T>::memory_reference(const size_t & length__):
 {
   //cout << "reference from size constr" << endl;
   block_ -> add_reference();
-};
+}
 
 
 
@@ -148,7 +148,7 @@ memory_reference<T>::memory_reference(const size_t & length__, T * data__):
 {
   //cout << "reference to unowned block constr" << endl;
   block_ -> add_reference();
-};
+}
 
 
 
@@ -190,7 +190,7 @@ template <class T>
 memory_reference<T>::~memory_reference()
 {
   block_remove_reference();
-};
+}
 
 
 //Other accessors

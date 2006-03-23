@@ -67,18 +67,18 @@ class storage
   public:
 
     //Constructors
-    storage(const tvector<int,D> & shape__);//default - initialises storage_order_ with the c order (row major)
-    storage(const tvector<int,D> & shape__,string ordering_string__);//from string - fortran or c orders
-    storage(const tvector<int,D> & shape__,tvector<int,D> ordering__);//from tvector with order
-    storage(const tvector<int,D> & shape__,tvector<int,D> ordering__,tvector<int,D> stride__);
+    explicit storage(const tvector<int,D> & shape__);//default - initialises storage_order_ with the c order (row major)
+    explicit storage(const tvector<int,D> & shape__,string ordering_string__);//from string - fortran or c orders
+    explicit storage(const tvector<int,D> & shape__,tvector<int,D> ordering__);//from tvector with order
+    explicit storage(const tvector<int,D> & shape__,tvector<int,D> ordering__,tvector<int,D> stride__);
     //Destructor
-    virtual ~storage(){};
+    ~storage(){};
     
   
   //Forbidden Methods
   private:
     storage();//forbids default constructor
-    storage(const storage &);//forbids copy
+    //storage(const storage &);//forbids copy
 
     
     //Private Methods

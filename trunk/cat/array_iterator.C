@@ -60,7 +60,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     }
   
     template <class T,int D> 
-    tvector<int,D> & array_const_iterator<T,D>::stride(){
+    tvector<int,D> & array_const_iterator<T,D>::stride()
+    {
       return stride_;
     }   
     template <class T,int D>  
@@ -160,7 +161,20 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
       return (*this);
     }
   
-    
+    template <class T,int D> 
+    const tvector<int,D> array_const_iterator<T,D>::indices() const
+    {
+      tvector<int,D> out;
+      out[0]=this->pos()/this->stride()[0];
+      int mod=this->pos()%this->stride()[0];
+      for (int i=1;i<D;++i)
+	{
+	  out[i]=mod/this->stride()[i];
+	  mod=mod%this->stride()[i];
+	}
+      return out;
+  }
+  
 
 
     //// ITERATOR
@@ -217,6 +231,4 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     }  
 
 
-
   }
-

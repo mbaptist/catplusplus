@@ -32,111 +32,196 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "array_macros.h"
 #include "promote.h"
 
-
 #include<complex>
 #include<iostream>
 #include<string>
 using namespace std;
 
-
 namespace cat
 {
 
+  //Unary -
+  
+  template <class T,int N>
+  inline tvector<T,N>
+  operator -(const tvector<T,N>& rhs)
+  {
+    tvector<T,N> out(rhs);
+    for (int i=0;i<N;++i)
+      out[i]*=-1;
+    return out;
+  }
 
-//Unary -
-
-template <class T,int N>
-inline tvector<T,N>
-operator -(const tvector<T,N>& rhs)
-{
-  tvector<T,N> out(rhs);
-  for (int i=0;i<N;++i)
-    out[i]=-rhs[i];
-  return tvector<T,N>(out);
-};
-
-template <class T,int D>
-inline array<T,D>
-operator -(const array<T,D>& rhs)
-{
-  array<T,D> out(rhs);
-  array_iterator<T,D> out_iterator(out);
-  array_const_iterator<T,D> rhs_iterator(rhs);
-  for (out_iterator=out.begin(),
-       rhs_iterator=rhs.begin();
-       out_iterator!=out.end(),
-       rhs_iterator!=rhs.end();
-       ++out_iterator,
-       ++rhs_iterator)
-    (*out_iterator) = -(*rhs_iterator);
-  return array<T,D>(out);
-};
-
-
-
-#define CAT_BINARY_OPERATOR(op) \
-template <class T1,class T2> \
-inline typename promote_traits<T1,T2>::T_promote \
-operator op(const T1 & lhs,const T2 & rhs) \
-{ \
-  return (typename promote_traits<T1,T2>::T_promote(lhs) op##= rhs); \
-}; 
-
-#if 0
-\
-template <class T1,class T2, int D> \
-inline array<typename promote_traits<T1,T2>::T_promote,D> \
-operator op(const array<T1,D> & lhs,const array<T2,D> & rhs) \
-{ \
-  array<typename promote_traits<T1,T2>::T_promote,D> out(lhs.shape()); \
-  array_iterator<typename promote_traits<T1,T2>::T_promote,D> out_iterator(out); \
-  array_const_iterator<T1,D> lhs_iterator(lhs); \
-  array_const_iterator<T2,D> rhs_iterator(rhs); \
-  for (out_iterator=out.begin(), \
-         lhs_iterator=lhs.begin(), \
-         rhs_iterator=rhs.begin(); \
-       out_iterator!=out.end(), \
-	 lhs_iterator!=lhs.end(),\
-	 rhs_iterator!=rhs.end(); \
-       ++out_iterator, \
-	 ++lhs_iterator, \
-	 ++rhs_iterator) \
-    (*out_iterator) = (*lhs_iterator) op (*rhs_iterator); \
-  return out; \
-}; \
-template <class T1,class T2, int D> \
-inline array<typename promote_traits<typename multicomponent_traits<T1>::T_element,T2>::T_promote,D> \
-operator op(const array<T1,D> & lhs,const T2 & rhs) \
-{ \
-  array<typename promote_traits<typename multicomponent_traits<T1>::T_element,T2>::T_promote,D> out(lhs.shape()); \
-  array_iterator<typename promote_traits<typename multicomponent_traits<T1>::T_element,T2>::T_promote,D> out_iterator(out);  \
-  array_const_iterator<T1,D> lhs_iterator(lhs); \
-  for (out_iterator=out.begin(), \
-         lhs_iterator=lhs.begin(); \
-       out_iterator!=out.end(), \
-	 lhs_iterator!=lhs.end(); \
-       ++out_iterator, \
-	 ++lhs_iterator) \
-    (*out_iterator)=(*lhs_iterator) op rhs; \
-  return out; \
-};
-#endif
-
-
-CAT_BINARY_OPERATOR(+)
-CAT_BINARY_OPERATOR(-)
-CAT_BINARY_OPERATOR(*)
-CAT_BINARY_OPERATOR(/)
+  template <class T,int D>
+  inline array<T,D>
+  operator -(const array<T,D>& rhs)
+  {
+    array<T,D> out(rhs.shape());
+    array_iterator<T,D> out_iterator(out);
+    array_const_iterator<T,D> rhs_iterator(rhs);
+    for (out_iterator=out.begin(),
+	   rhs_iterator=rhs.begin();
+	 out_iterator!=out.end(),
+	   rhs_iterator!=rhs.end();
+	 ++out_iterator,
+	   ++rhs_iterator)
+      (*out_iterator) = -(*rhs_iterator);
+    return out;
+  }
 
 
 
+#define CAT_BINARY_OPERATOR(op)				\
+  template <class T1,class T2>				\
+  inline typename promote_traits<T1,T2>::T_promote		\
+  operator op(const T1 & lhs,const T2 & rhs)			\
+  {								       \
+    return (typename promote_traits<T1,T2>::T_promote(lhs) op##= rhs);	\
+  }									\
+    template <class T1,class T2,int D>					\
+  inline cat::array<typename promote_traits<T1,T2>::T_promote,D>	\
+  operator op(const cat::array<T1,D> & lhs,const cat::array<T2,D> & rhs) \
+  {									\
+    cat::array<typename promote_traits<T1,T2>::T_promote,D> out(lhs.shape()); \
+    array_iterator<typename promote_traits<T1,T2>::T_promote,D>	out_iterator(out); \
+    array_const_iterator<T1,D> lhs_iterator(lhs);			\
+    array_const_iterator<T2,D> rhs_iterator(rhs);			\
+    for (out_iterator=out.begin(),					\
+	   lhs_iterator=lhs.begin(),					\
+	   rhs_iterator=rhs.begin();					\
+	 out_iterator!=out.end(),					\
+	   lhs_iterator!=lhs.end(),					\
+	   rhs_iterator!=rhs.end(); 					\
+	 ++out_iterator,						\
+	   ++lhs_iterator,						\
+	   ++rhs_iterator)						\
+      (*out_iterator) = static_cast<typename promote_traits<T1,T2>::T_promote>(*lhs_iterator) op static_cast<typename promote_traits<T1,T2>::T_promote>(*rhs_iterator); \
+    return out;								\
+  }									\
+    template <class T1,class T2,int D>					\
+    inline cat::array<typename promote_traits<T1,T2>::T_promote,D>	\
+    operator op(const cat::array<T1,D> & lhs,const T2 & rhs)		\
+    {									\
+      cat::array<typename promote_traits<T1,T2>::T_promote,D> out(lhs.shape()); \
+      array_iterator<typename promote_traits<T1,T2>::T_promote,D> out_iterator(out); \
+      array_const_iterator<T2,D> lhs_iterator(lhs);			\
+      for (out_iterator=out.begin(),					\
+	     lhs_iterator=rhs.begin();					\
+	   out_iterator!=out.end(),					\
+	     lhs_iterator!=rhs.end();					\
+	   ++out_iterator,						\
+	     ++lhs_iterator)						\
+	(*out_iterator) = typename promote_traits<T1,T2>::T_promote(*lhs_iterator) op typename promote_traits<T1,T2>::T_promote(rhs); \
+      return out;							\
+    }									\
+    template <class T1,class T2,int D>					\
+    inline cat::array<typename promote_traits<T1,T2>::T_promote,D>	\
+    operator op(const T1 & lhs,const cat::array<T2,D> & rhs)		\
+    {									\
+      cat::array<typename promote_traits<T1,T2>::T_promote,D> out(rhs.shape()); \
+      array_iterator<typename promote_traits<T1,T2>::T_promote,D> out_iterator(out); \
+      array_const_iterator<T2,D> rhs_iterator(rhs);			\
+      for (out_iterator=out.begin(),					\
+	     rhs_iterator=rhs.begin();					\
+	   out_iterator!=out.end(),					\
+	     rhs_iterator!=rhs.end();					\
+	   ++out_iterator,						\
+	     ++rhs_iterator)						\
+	(*out_iterator) = typename promote_traits<T1,T2>::T_promote(lhs) op typename promote_traits<T1,T2>::T_promote(*rhs_iterator); \
+      return out;							\
+    }	
 
+// 								\
+//     template <class T1,int D>						\
+//     inline T1								\
+//     operator op(const T1 & lhs,const typename multicomponent_traits<T1>::T_element & rhs) \
+//     {									\
+//       T1 out(lhs);							\
+//       array_iterator<T1,D> out_iterator(out);				\
+//       for (out_iterator=out.begin();					\
+// 	   out_iterator!=out.end();					\
+// 	   ++out_iterator)						\
+// 	(*out_iterator) op##= rhs;					\
+//       return out;							\
+//     }									\
+//     template <class T1,int D>						\
+//     inline T1								\
+//     operator op(const typename multicomponent_traits<T1>::T_element & lhs,const T1 rhs) \
+//     {									\
+//       T1 out(rhs.shape());						\
+//       array_iterator<T1,D> out_iterator(out);				\
+//       array_const_iterator<T1,D> rhs_iterator(rhs);			\
+//       for (out_iterator=out.begin(),					\
+// 	     rhs_iterator=rhs.begin();					\
+// 	   out_iterator!=out.end(),					\
+// 	     rhs_iterator!=rhs.end();					\
+// 	   ++out_iterator,						\
+// 	     ++rhs_iterator)						\
+// 	(*out_iterator) = lhs op (*rhs_iterator);			\
+//       return out;							\
+//     }									\
+//     template <class T1,int D>						\
+//     inline T1								\
+//     operator op(const T1 & lhs,const typename numeric_traits<T1>::T_element & rhs) \
+//     {									\
+//       T1 out(lhs);							\
+//       array_iterator<T1,D> out_iterator(out);				\
+//       for (out_iterator=out.begin();					\
+// 	   out_iterator!=out.end();					\
+// 	   ++out_iterator)						\
+// 	(*out_iterator) op##= rhs;					\
+//       return out;							\
+//     }									\
+//     template <class T1,int D>						\
+//     inline T1								\
+//     operator op(const typename numeric_traits<T1>::T_element & lhs,const T1 rhs) \
+//     {									\
+//       T1 out(rhs.shape());						\
+//       array_iterator<T1,D> out_iterator(out);				\
+//       array_const_iterator<T1,D> rhs_iterator(rhs);			\
+//       for (out_iterator=out.begin(),					\
+// 	     rhs_iterator=rhs.begin();					\
+// 	   out_iterator!=out.end(),					\
+// 	     rhs_iterator!=rhs.end();					\
+// 	   ++out_iterator,						\
+// 	     ++rhs_iterator)						\
+// 	(*out_iterator) = lhs op (*rhs_iterator);			\
+//       return out;							\
+//     }									\
+//     template <class T1,int D>						\
+//     inline T1								\
+//     operator op(const T1 & lhs,const typename real_numeric_traits<T1>::T_element & rhs) \
+//     {									\
+//       T1 out(lhs);							\
+//       array_iterator<T1,D> out_iterator(out);				\
+//       for (out_iterator=out.begin();					\
+// 	   out_iterator!=out.end();					\
+// 	   ++out_iterator)						\
+// 	(*out_iterator) op##= rhs;					\
+//       return out;							\
+//     }									\
+//     template <class T1,int D>						\
+//     inline T1								\
+//     operator op(const typename real_numeric_traits<T1>::T_element & lhs,const T1 rhs) \
+//     {									\
+//       T1 out(rhs.shape());						\
+//       array_iterator<T1,D> out_iterator(out);				\
+//       array_const_iterator<T1,D> rhs_iterator(rhs);			\
+//       for (out_iterator=out.begin(),					\
+// 	     rhs_iterator=rhs.begin();					\
+// 	   out_iterator!=out.end(),					\
+// 	     rhs_iterator!=rhs.end();					\
+// 	   ++out_iterator,						\
+// 	     ++rhs_iterator)						\
+// 	(*out_iterator) = lhs op (*rhs_iterator);			\
+//       return out;							\
+//     }	
+  
+  CAT_BINARY_OPERATOR(+);
+  CAT_BINARY_OPERATOR(-);
+  CAT_BINARY_OPERATOR(*);
+  CAT_BINARY_OPERATOR(/);
 
-
-
-
-     }
-
-
+}
 
 #endif

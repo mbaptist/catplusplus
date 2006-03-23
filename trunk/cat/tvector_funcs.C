@@ -132,7 +132,7 @@ namespace cat
   template <class T,int N>
   typename real_numeric_traits<T>::T_numeric norm(const tvector<T,N> & a)
   {
-    return typename real_numeric_traits<T>::T_numeric(sqrt(norm_sq(a)));
+    return typename real_numeric_traits<T>::T_numeric(std::sqrt(norm_sq(a)));
   }
 
 

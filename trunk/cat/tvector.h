@@ -39,26 +39,36 @@ namespace cat
   template <class T,int N>
   class tvector
   {
-      
+
   private:
     //Automatic array of size N containing data
     T vector_data[N];
     
   public:
+
+    typedef T T_element;
+
     //Constructors
     
     //default constructor
     tvector();
       
     //copy constructor (really copies to the new vector)
-    tvector(const tvector& rhs);
+    tvector<T,N>(const tvector<T,N> & rhs);
+
+    template <class T1>
+    tvector<T,N>(const tvector<T1,N> & rhs);
 
     //constructors from values
     //assigns 
     explicit tvector(const T & v1);
     explicit tvector(const T & v1,const T & v2);
     explicit tvector(const T & v1,const T & v2,const T & v3);
-
+    explicit tvector(const T & v1,const T & v2,const T & v3,const T & v4);
+    explicit tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5);
+    explicit tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5,const T & v6);
+    explicit tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5,const T & v6,const T & v7);
+    
     //Destructor
     ~tvector();
 
@@ -75,13 +85,15 @@ namespace cat
  
     //Assignement operators
     //to tvector
+    tvector & operator=(const tvector<T,N> & rhs);
     template <class T1>
     tvector & operator=(const tvector<T1,N> & rhs);
-
-    //to scalar
+    //to element
+    tvector & operator=(const T & rhs);
     template <class T1>
     tvector & operator=(const T1 & rhs);
 
+    //// One direction promotion needed for the sake of safety
 
 
 #define TVECTOR_UPDATE(op) \
@@ -93,24 +105,25 @@ operator op(const tvector<T1,N> & rhs) \
       (*this)[i] op rhs[i]; \
    return *this; \
 } \
+template <class T1> \
 inline tvector & \
-operator op(const T& rhs) \
+operator op(const T1 & rhs) \
 { \
    for(int i=0;i<N;++i) \
       (*this)[i] op rhs; \
    return *this; \
 }
 
-
 TVECTOR_UPDATE(+=)
 TVECTOR_UPDATE(-=)
 TVECTOR_UPDATE(*=)
 TVECTOR_UPDATE(/=)
 
-   };
-
+  };
 
 }
+
+
 
 #include "tvector.C"
 

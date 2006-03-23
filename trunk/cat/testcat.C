@@ -22,10 +22,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 //test_field.C
 
+#include <iomanip>
 #include "cat.h"
-using cat::tvector;
-using cat::array;
 
+using namespace cat;
+using namespace std;
+
+
+void test_copy();
 void test_tvector();
 void test_array();
 void test_array_tvector();
@@ -34,10 +38,11 @@ void test_cross();
 
 int main()
 {
-   // test_tvector();
-   //test_array();
-   test_array_tvector();
-   //test_cross();
+  test_copy();
+  //test_tvector();
+  //test_array();
+  //test_array_tvector();
+  //test_cross();
   return 0;
 }
 
@@ -55,6 +60,7 @@ void test_tvector()
   cout << norm_sq(d) << endl;
   cout << endl;
 }
+
 
 void test_array()
 {
@@ -96,11 +102,13 @@ void test_array()
 
 }
 
+
 void test_array_tvector()
 {
 
   cout << "Testing array<tvector> ..." << endl;
 
+#if 0
   array<tvector<double,3>,3> tt(2,2,2);
 
   tt=tvector<double,3>(5,6,7);
@@ -114,9 +122,9 @@ void test_array_tvector()
   ttt=tvector<complex<double>,3>(complex<double>(5,1));
 
   cout << norm_sq(ttt) << endl;
-
+#endif
     
-#if 1
+#if 0
 
   cout << "create from extract" << endl;
 
@@ -137,8 +145,6 @@ void test_array_tvector()
 #endif
 
 
-  exit(0);
-
 
 //testing copy constructor
  
@@ -151,8 +157,10 @@ void test_array_tvector()
 
 //testing copy constructor
 #if 1 
-    array<tvector<double,3>,3> ooo(tvector<int,3>(2,2,2),tvector<double,3>(1,2,3));
-    cout << ooo << endl;
+  array<tvector<double,3>,3> ooo(2,2,2);
+ ooo=tvector<double,3>(1.1,2.2,3.3);
+ 
+   cout << ooo << endl;
     array<tvector<double,3>,3> ccc(ooo);
     cout << ccc << endl;
     ccc=tvector<double,3>(4,5,6);
@@ -161,13 +169,13 @@ void test_array_tvector()
 #endif  
 
 //testing copy constructor on extracted value
+    //array<double,3> oooo(ooo.shape());
+    //oooo=ooo[1];
     array<double,3> ooo_comp_copy(ooo[1]);
-    cout << ooo_comp_copy <<endl;
+    cout << setprecision(20) << scientific << ooo_comp_copy <<endl;
     cout << ooo <<endl;
     ooo_comp_copy=3;
     cout << ooo_comp_copy <<endl;
-    cout << ooo <<endl;
-    ooo[2]=4;
     cout << ooo <<endl;
 
 //testing operators
@@ -209,7 +217,7 @@ void test_array_tvector()
 
 
 
-
+#if 0
 
 void test_cross()
 {
@@ -244,5 +252,28 @@ void test_cross()
 
 	cout << "Success!" << endl;
 
+
+}
+
+#endif
+
+
+
+void test_copy()
+{
+  cat::array<double,2> a(9,9);
+  cat::array<double,2> b(5,5);
+  
+  for (int i=0;i<9;++i)
+    for (int j=0;j<9;++j)
+      a(i,j)=i+j;
+
+  b=a;
+
+    cout << a << "\n\n\n" << b << endl;
+
+ //  for (int i=0;i<5;++i)
+//     for (int j=0;j<5;++j)
+//       cout << a(i,j) << " " << b(i,j) << endl;
 
 }
