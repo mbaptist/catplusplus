@@ -1,4 +1,5 @@
 // -*- C++ -*-
+
 /*
 
 Copyright 2005 Manuel Baptista
@@ -21,31 +22,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
 
-//Implements scalar and vector fields
+#ifndef CAT_TINY_H
+#define CAT_TINY_H
 
-#ifndef CAT_H
-#define CAT_H
-
-//Include global definitions
-#include "globals.h"
-
-//Include tiny vector, tiny matrix and related functions
-#include "tiny.h"
-
-//Include array and related functions
-#include "array.h"
-
-//Include random number generation
-#include "random.h"
-
-
-//Future implementation
-
-//Include block and related functions
-//generic block vector
-//#include "block.h"
-
-//Include field aliases
-//#include "aliases.h"
+#include "tvector.h"
+#include "tvector_ops.h"
+#include "tvector_funcs.h"
 
 #endif
+
