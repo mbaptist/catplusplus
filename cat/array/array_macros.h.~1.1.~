@@ -26,7 +26,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define CAT_ARRAY_MACROS_H
 
 
-#include "../traits/traits.h"
+#include "numeric.h"
+#include "multi.h"
+#include "promote.h"
 
 
 namespace cat

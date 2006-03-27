@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef STORAGE_H
 #define STORAGE_H
 
-#include "../tiny/tiny.h"
+#include "tvector.h"
 #include <string>
 
 using namespace std;

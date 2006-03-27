@@ -30,13 +30,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "globals.h"
 
 //Include tiny vector, tiny matrix and related functions
-#include "tiny.h"
+#include "tiny/tiny.h"
 
 //Include array and related functions
-#include "array.h"
+#include "array/array.h"
 
 //Include random number generation
-#include "random.h"
+#include "random/random.h"
 
 
 //Future implementation

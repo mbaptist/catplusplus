@@ -21,5 +21,10 @@ AC_C_INLINE
 
 # Checks for library functions.
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile \
+		random/Makefile \
+		doc/Makefile \
+		testing/Makefile ])
+
 AC_OUTPUT
+

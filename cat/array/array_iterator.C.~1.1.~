@@ -23,13 +23,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
   //array_iterator.C
 
-#include "arrayclass.h"
 
-#include "../tiny/tiny.h"
+#include "tvector.h"
+#include "array.h"
 
-#include <cassert>
-			   
-using namespace std;
 
   namespace cat
   {

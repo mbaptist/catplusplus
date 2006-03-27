@@ -2,46 +2,50 @@
 # Modify this section to suit your system's needs
 ##########################################################
 
-CXX = @CXX@ @CFLAGS@
+CXX = @CXX@ @CXXFLAGS@
 
 ###########################################################
 # No modification should be necessary from thin point on
 ###########################################################
 
-INSTALL_LIST = *.h *.C
-
 INSTALL_ROOT = @prefix@
 
-LIBCAT_OBJS = random.o 
+LIBCAT_OBJS = ./random/random.o 
 
-all: libcat testcat
+all: libcat doc test
 
 clean:
-	@rm -fv *~ *.o testcat
+	@rm -fv *~ *.o *.so *.a
+	$(MAKE) -C ./random clean
+	$(MAKE) -C ./doc clean
+	$(MAKE) -C ./testing clean
 
 libcat: libcat_a libcat_so
 
-libcat_a: $(LIBCAT_OBJS)
+libcat_a: subdirs $(LIBCAT_OBJS)
 	ar rcs libcat.a $(LIBCAT_OBJS)
 
-libcat_so: $(LIBCAT_OBJS)
+libcat_so: subdirs $(LIBCAT_OBJS)
 	$(CXX) -shared -o libcat.so $(LIBCAT_OBJS)
 
-random.o: random.C random.h
-	$(CXX) -c random.C
+subdirs:
+	$(MAKE) -C ./random
 
-test: testcat
+doc:
+	$(MAKE) -C ./doc
 
-testcat: testcat.o
-	$(CXX) -g -o testcat testcat.o
-
-testcat.o: testcat.C *.h *.C
-	$(CXX) -g -c testcat.C
+test: libcat
+	$(MAKE) -C ./testing
 
 install:
-	install -c -m 644 $(INSTALL_LIST) $(INSTALL_ROOT)/include/cat
+	install -c -m 644 *.h $(INSTALL_ROOT)/include/cat
+	install -c -m 644 random/*.h $(INSTALL_ROOT)/include/cat/random
+	install -c -m 644 tiny/*.h tiny/*.C $(INSTALL_ROOT)/include/cat/tiny
+	install -c -m 644 array/*.h array/*.C $(INSTALL_ROOT)/include/cat/array
+	install -c -m 644 traits/*.h traits/*.C $(INSTALL_ROOT)/include/cat/traits
 	install -c -m 644 libcat.a libcat.so $(INSTALL_ROOT)/lib
+	install -c -m 644 doc/* $(INSTALL_ROOT)/share/doc
 uninstall:
 	cd $(INSTALL_ROOT)/include && @rm -rfv cat
-	cd $(INSTALL_ROOT)/include && @rm -rfv libcat*
+	cd $(INSTALL_ROOT)/lib && @rm -rfv libcat*
 

@@ -25,8 +25,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef CAT_TVECTOR_OPS_H
 #define CAT_TVECTOR_OPS_H
 
-#include "promote.h"
 #include "tvector.h"
+#include "../traits/traits.h"
 
 namespace cat
 {
