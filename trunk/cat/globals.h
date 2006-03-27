@@ -21,14 +21,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
  
-
-
 #ifndef CAT_GLOBALS_H
 #define CAT_GLOBALS_H
-
-
-
-
 
 namespace cat
 {
@@ -36,6 +30,5 @@ namespace cat
 #define PRT_DBG_MSG 0
 
 }
-
 
 #endif
