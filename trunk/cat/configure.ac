@@ -23,6 +23,9 @@ AC_C_INLINE
 
 AC_CONFIG_FILES([Makefile \
 		random/Makefile \
+		tiny/Makefile \
+		traits/Makefile \
+		array/Makefile \
 		doc/Makefile \
 		testing/Makefile ])
 

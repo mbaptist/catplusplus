@@ -2983,7 +2983,7 @@ esac
 
 # Checks for library functions.
 
-                                        ac_config_files="$ac_config_files Makefile random/Makefile doc/Makefile testing/Makefile"
+                                                                      ac_config_files="$ac_config_files Makefile random/Makefile tiny/Makefile traits/Makefile array/Makefile doc/Makefile testing/Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -3538,6 +3538,9 @@ do
   # Handling of arguments.
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
   "random/Makefile" ) CONFIG_FILES="$CONFIG_FILES random/Makefile" ;;
+  "tiny/Makefile" ) CONFIG_FILES="$CONFIG_FILES tiny/Makefile" ;;
+  "traits/Makefile" ) CONFIG_FILES="$CONFIG_FILES traits/Makefile" ;;
+  "array/Makefile" ) CONFIG_FILES="$CONFIG_FILES array/Makefile" ;;
   "doc/Makefile" ) CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
   "testing/Makefile" ) CONFIG_FILES="$CONFIG_FILES testing/Makefile" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
