@@ -12,7 +12,7 @@ namespace cat
   public:
     //Constructors
     random_generator();//default (generates seed based on timer)
-    random_generator(int seed);
+    random_generator(const int & seed);
     //Destructor
     ~random_generator();
     //Accessors

@@ -2,7 +2,7 @@
 # Modify this section to suit your system's needs
 ##########################################################
 
-CXX = g++ -g -O2
+CXX = g++ -O3 -funroll-loops -fexpensive-optimizations 
 
 ########################################################################
 

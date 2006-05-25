@@ -85,8 +85,11 @@ namespace cat
   tvector<typename promote_traits<T1,T2>::T_promote,3> 
   cross_product(const tvector<T1,3> & a,const tvector<T2,3> & b);
 
-}
+//pow
+template <class T,int N>
+	tvector<T,N> pow(const tvector<T,N> & a,const typename real_numeric_traits<T>::T_numeric & p);
 
+}
 
 #include "tvector_funcs.C"
 

@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "../traits/traits.h"
 
-#include "array_iterator.h"
+//#include "array_iterator.h"
 
 
 #include <iostream>
@@ -61,6 +61,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
       public memory_reference<T>
     {
 
+    public:
+	    //Subclasses
+	    class iterator;
+	    class const_iterator;
+	    
     private:
 
       using storage<D>::ordering_;
@@ -82,15 +87,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     public:
 
       //Define an alias to element type
-      typedef T T_element;
+	    typedef T T_element;
 
       //Iterator related methods
 
       //begin iterator function
-      array_const_iterator<T,D> begin() const;
+      const_iterator begin() const;
 
       //end iterator function
-      array_const_iterator<T,D> end() const;
+      const_iterator end() const;
 
       //References and Copies
 
@@ -155,7 +160,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
       //Every element is initialised to T
       //explicit array(const tvector<int,D> shape__,const T & element);
 
-    
+	    explicit array( tvector<int,D> shape__,
+	                    T * data__);	                    
     
     
       //THESE CONSTRUCTORS ARE FOR EXTRACTION
@@ -235,8 +241,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   template <class T1> \
   array<T,D> & operator op(const array<T1,D> & rhs) \
   { \
-    array_iterator<T,D> array_iterator(*this); \
-    array_const_iterator<T1,D> rhs_iterator(rhs); \
+		   typename  array<T,D>::iterator array_iterator(*this); \
+		    typename array<T1,D>::const_iterator rhs_iterator(rhs); \
     for (array_iterator=this->begin(), \
 	   rhs_iterator=rhs.begin(); \
 	 array_iterator!=this->end(), \
@@ -249,7 +255,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   template <class T1>		  \
   array<T,D> & operator op(const T1 & rhs) \
   { \
-    array_iterator<T,D> array_iterator(*this); \
+		    typename array<T,D>::iterator array_iterator(*this); \
     for (array_iterator=this->begin(); \
 	 array_iterator!=this->end(); \
 	 ++array_iterator) \
@@ -259,10 +265,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
 
-      CAT_ARRAY_UPDATE(+=)
-	CAT_ARRAY_UPDATE(-=)
-	CAT_ARRAY_UPDATE(*=)
-	CAT_ARRAY_UPDATE(/=)
+	    CAT_ARRAY_UPDATE(+=);
+	    CAT_ARRAY_UPDATE(-=);
+	    CAT_ARRAY_UPDATE(*=);
+	    CAT_ARRAY_UPDATE(/=);
 
 
 
@@ -272,7 +278,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
   }
 
-
+#include "array_iterator.h"
 #include "arrayclass.C"
 
 

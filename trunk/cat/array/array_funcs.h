@@ -29,6 +29,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "array_macros.h" 
 #include "array_iterator.h"
 
+#include <cmath>
+using namespace std;
+
 
   namespace cat
   {
@@ -41,50 +44,41 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     template <class T,int D>
     array<T,D> reference(const array<T,D> & rhs);
 
+  
+    //Operations on tvector - extending for arrays of tvectors
 
+  CAT_DECLARE_FUNCTION_REAL_NUMERIC(real);
+  CAT_DECLARE_FUNCTION_REAL_NUMERIC(imag);
+  CAT_DECLARE_FUNCTION_NUMERIC(conj);
+  
+  CAT_DECLARE_FUNCTION2_NUMERIC(dot_product);  
+  CAT_DECLARE_FUNCTION2_ELEMENT_NUMERIC(dot_product);
+  
+  CAT_DECLARE_FUNCTION_REAL_NUMERIC(norm_sq);
+  
+  CAT_DECLARE_FUNCTION_REAL_NUMERIC(norm);
 
-    //Operations on tvector
+  CAT_DECLARE_FUNCTION2_PROMOTE(cross_product);
+  CAT_DECLARE_FUNCTION2_ELEMENT(cross_product);
 
-    CAT_DECLARE_FUNCTION_REAL_NUMERIC(real)
-      CAT_DECLARE_FUNCTION_REAL_NUMERIC(imag)
-      CAT_DECLARE_FUNCTION_NUMERIC(conj)
-      
-      CAT_DECLARE_FUNCTION2_NUMERIC(dot_product)
+//Extending Math Functions
+  
+  CAT_DECLARE_FUNCTION(sqrt);
+  CAT_DECLARE_FUNCTION2_ELEMENT(pow);
 
-      CAT_DECLARE_FUNCTION2_ELEMENT_NUMERIC(dot_product)
-      
-      CAT_DECLARE_FUNCTION_REAL_NUMERIC(norm_sq)
-
-      CAT_DECLARE_FUNCTION_REAL_NUMERIC(norm)
-
-      CAT_DECLARE_FUNCTION2_PROMOTE(cross_product)
-      
-      CAT_DECLARE_FUNCTION2_ELEMENT(cross_product)
-
-
-      //Extending Math Functions
-
-      CAT_DECLARE_FUNCTION(sqrt)
-
-
-
-      //Reductions
-
-      ////LOOPS MUST BE REPLACED BY ITERATORS
-
-
-      //max
-      template <class T,int D>
-    T max(const array<T,D> & a);
-
-	//min   
-	template <class T,int D>
-    T min(const array<T,D> & a);
-
+//Reductions
  
-    //sum
-    template <class T,int D>
-    T sum(const array<T,D> & a);
+//max
+  template <class T,int D>
+	  T max(const array<T,D> & a);
+  
+//min
+  template <class T,int D>
+	  T min(const array<T,D> & a);
+  
+//sum
+  template <class T,int D>
+	  T sum(const array<T,D> & a);
 
   }
 
