@@ -148,7 +148,16 @@ namespace cat
 	 );
   }
 
-  
+  //pow
+template <class T,int N>
+	tvector<T,N> pow(const tvector<T,N> & a,const typename real_numeric_traits<T>::T_numeric & p)
+{
+	tvector<T,N> out;
+	for(int i=0;i<N;++i)
+		out[i]=pow(a[i],p);
+	return out;
+}
+
 }
 
 

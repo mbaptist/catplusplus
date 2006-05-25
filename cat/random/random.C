@@ -13,7 +13,7 @@ namespace cat
     reinit();
   }
 
-  random_generator::random_generator(int seed)
+  random_generator::random_generator(const int & seed)
   {
     reinit(seed);
   }

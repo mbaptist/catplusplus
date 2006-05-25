@@ -37,13 +37,13 @@ using namespace std;
     //// CONSTANT ITERATOR
   
     template <class T,int D>   
-    T * array_const_iterator<T,D>::data()
+    T * array<T,D>::const_iterator::data()
     {
       return data_;
     }
     
     template <class T,int D> 
-    const T * array_const_iterator<T,D>::data() const 
+    const T * array<T,D>::const_iterator::data() const
     {
       return data_;
     }
@@ -52,34 +52,34 @@ using namespace std;
     //const tvector<int,D> & indexes() const {return indexes_;};
     
     template <class T,int D> 
-    int & array_const_iterator<T,D>::pos()
+    int & array<T,D>::const_iterator::pos()
     {
       return pos_;
     }    
     template <class T,int D> 
-    const int & array_const_iterator<T,D>::pos() const 
+    const int & array<T,D>::const_iterator::pos() const
     {
       return pos_;
     }
   
     template <class T,int D> 
-    tvector<int,D> & array_const_iterator<T,D>::stride()
+    tvector<int,D> & array<T,D>::const_iterator::stride()
     {
       return stride_;
     }   
     template <class T,int D>  
-    const tvector<int,D> & array_const_iterator<T,D>::stride() const 
+    const tvector<int,D> & array<T,D>::const_iterator::stride() const
     {
       return stride_;
     }
   
     template <class T,int D> 
-    int & array_const_iterator<T,D>::navstride()
+    int & array<T,D>::const_iterator::navstride()
     {
       return navstride_;
     }    
     template <class T,int D> 
-    const int & array_const_iterator<T,D>::navstride() const 
+    const int & array<T,D>::const_iterator::navstride() const
     {
       return navstride_;
     }
@@ -87,7 +87,7 @@ using namespace std;
     //constructor
     //from array  
     template <class T,int D> 
-    array_const_iterator<T,D>::array_const_iterator(const array<T,D> & array__):
+    array<T,D>::const_iterator::const_iterator(const array<T,D> & array__):
       data_(const_cast<T *>(array__.data())),
       length_(array__.length()),
       stride_(array__.stride()),
@@ -96,7 +96,7 @@ using namespace std;
     }
     //from array and position  
     template <class T,int D> 
-    array_const_iterator<T,D>::array_const_iterator(const array<T,D> & array__,
+    array<T,D>::const_iterator::const_iterator(const array<T,D> & array__,
 						    int pos__):
       data_(0),
       length_(array__.length()),
@@ -108,19 +108,19 @@ using namespace std;
 
     //destructor  
     template <class T,int D> 
-    array_const_iterator<T,D>::~array_const_iterator()
+    array<T,D>::const_iterator::~const_iterator()
     {
     }
     
     template <class T,int D> 
-    const T & array_const_iterator<T,D>::operator*() const 
+    const T & array<T,D>::const_iterator::operator*() const
     {
       assert((pos_>-1)&&(pos_<length_));
       return data_[pos_];
     }
     
     template <class T,int D> 
-    const T & array_const_iterator<T,D>::operator->() const 
+    const T & array<T,D>::const_iterator::operator->() const
     {
       assert((pos_>-1)&&(pos_<length_));
       return data_[pos_];
@@ -128,35 +128,35 @@ using namespace std;
 
     
     template <class T,int D> 
-    array_const_iterator<T,D> & array_const_iterator<T,D>::operator++()
+    typename array<T,D>::const_iterator & array<T,D>::const_iterator::operator++()
     {
       this->pos_+=this->navstride_;
       return (*this);
     }
   
     template <class T,int D> 
-    array_const_iterator<T,D> & array_const_iterator<T,D>::operator--()
+	  typename array<T,D>::const_iterator & array<T,D>::const_iterator::operator--()
     {
       this->pos_-=this->navstride_;
       return (*this);
     }
   
     template <class T,int D> 
-    bool array_const_iterator<T,D>::operator==(const array_const_iterator & rhs)
+    bool array<T,D>::const_iterator::operator==(const array<T,D>::const_iterator & rhs)
     {
       return bool((this->pos_)==(rhs.pos()));
     }
   
     
     template <class T,int D> 
-    bool array_const_iterator<T,D>::operator!=(const array_const_iterator & rhs)
+    bool array<T,D>::const_iterator::operator!=(const array<T,D>::const_iterator & rhs)
     {
       return bool((this->pos_)!=(rhs.pos()));
     }
     
     
     template <class T,int D> 
-    array_const_iterator<T,D> & array_const_iterator<T,D>::operator=(const array_const_iterator & rhs)
+	  typename array<T,D>::const_iterator & array<T,D>::const_iterator::operator=(const array<T,D>::const_iterator & rhs)
     {
       this->pos_=rhs.pos();
       this->stride_=rhs.stride();
@@ -165,7 +165,7 @@ using namespace std;
     }
   
     template <class T,int D> 
-    const tvector<int,D> array_const_iterator<T,D>::indices() const
+    const tvector<int,D> array<T,D>::const_iterator::indices() const
     {
       tvector<int,D> out;
       out[0]=this->pos()/this->stride()[0];
@@ -184,48 +184,48 @@ using namespace std;
 
 
     template <class T,int D> 
-    array_iterator<T,D>::array_iterator(array<T,D> & array_):
-      array_const_iterator<T,D>(array_)
+    array<T,D>::iterator::iterator(array<T,D> & array_):
+      array<T,D>::const_iterator(array_)
     {
     }
 
     //destructor  
     template <class T,int D> 
-    array_iterator<T,D>::~array_iterator()
+    array<T,D>::iterator::~iterator()
     {
     }
 
     
     template <class T,int D> 
-    T & array_iterator<T,D>::operator*()
+    T & array<T,D>::iterator::operator*()
     {
       assert((pos_>-1)&&(pos_<length_));
       return data_[pos_];
     }
   
     template <class T,int D> 
-    T & array_iterator<T,D>::operator->()
+    T & array<T,D>::iterator::operator->()
     {
       assert((pos_>-1)&&(pos_<length_));
       return data_[pos_];
     }
   
     template <class T,int D> 
-    bool array_iterator<T,D>::operator==(const array_const_iterator<T,D> & rhs)
+    bool array<T,D>::iterator::operator==(const array<T,D>::const_iterator & rhs)
     {
       return bool((this->pos_)==(rhs.pos()));
     }
   
     
     template <class T,int D> 
-    bool array_iterator<T,D>::operator!=(const array_const_iterator<T,D> & rhs)
+    bool array<T,D>::iterator::operator!=(const array<T,D>::const_iterator & rhs)
     {
       return bool((this->pos_)!=(rhs.pos()));
     }
     
     
     template <class T,int D> 
-    array_iterator<T,D> & array_iterator<T,D>::operator=(const array_const_iterator<T,D> & rhs)
+    typename array<T,D>::iterator & array<T,D>::iterator::operator=(const array<T,D>::const_iterator & rhs)
     {
       this->pos_=rhs.pos();
       this->stride_=rhs.stride();

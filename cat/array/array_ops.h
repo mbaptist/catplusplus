@@ -57,8 +57,8 @@ namespace cat
   operator -(const array<T,D>& rhs)
   {
     array<T,D> out(rhs.shape());
-    array_iterator<T,D> out_iterator(out);
-    array_const_iterator<T,D> rhs_iterator(rhs);
+    typename array<T,D>::iterator out_iterator(out);
+    typename array<T,D>::const_iterator rhs_iterator(rhs);
     for (out_iterator=out.begin(),
 	   rhs_iterator=rhs.begin();
 	 out_iterator!=out.end(),
@@ -83,9 +83,9 @@ namespace cat
   operator op(const cat::array<T1,D> & lhs,const cat::array<T2,D> & rhs) \
   {									\
     cat::array<typename promote_traits<T1,T2>::T_promote,D> out(lhs.shape()); \
-    array_iterator<typename promote_traits<T1,T2>::T_promote,D>	out_iterator(out); \
-    array_const_iterator<T1,D> lhs_iterator(lhs);			\
-    array_const_iterator<T2,D> rhs_iterator(rhs);			\
+	typename array<typename promote_traits<T1,T2>::T_promote,D>::iterator out_iterator(out); \
+	typename array<T1,D>::const_iterator lhs_iterator(lhs);			\
+	typename array<T2,D>::const_iterator rhs_iterator(rhs);			\
     for (out_iterator=out.begin(),					\
 	   lhs_iterator=lhs.begin(),					\
 	   rhs_iterator=rhs.begin();					\
@@ -103,8 +103,8 @@ namespace cat
     operator op(const cat::array<T1,D> & lhs,const T2 & rhs)		\
     {									\
       cat::array<typename promote_traits<T1,T2>::T_promote,D> out(lhs.shape()); \
-      array_iterator<typename promote_traits<T1,T2>::T_promote,D> out_iterator(out); \
-      array_const_iterator<T2,D> lhs_iterator(lhs);			\
+	typename array<typename promote_traits<T1,T2>::T_promote,D>::iterator out_iterator(out); \
+	typename array<T2,D>::const_iterator lhs_iterator(lhs);			\
       for (out_iterator=out.begin(),					\
 	     lhs_iterator=rhs.begin();					\
 	   out_iterator!=out.end(),					\
@@ -119,8 +119,8 @@ namespace cat
     operator op(const T1 & lhs,const cat::array<T2,D> & rhs)		\
     {									\
       cat::array<typename promote_traits<T1,T2>::T_promote,D> out(rhs.shape()); \
-      array_iterator<typename promote_traits<T1,T2>::T_promote,D> out_iterator(out); \
-      array_const_iterator<T2,D> rhs_iterator(rhs);			\
+	typename array<typename promote_traits<T1,T2>::T_promote,D>::iterator out_iterator(out); \
+	typename array<T2,D>::const_iterator rhs_iterator(rhs);			\
       for (out_iterator=out.begin(),					\
 	     rhs_iterator=rhs.begin();					\
 	   out_iterator!=out.end(),					\
@@ -137,7 +137,7 @@ namespace cat
 //     operator op(const T1 & lhs,const typename multicomponent_traits<T1>::T_element & rhs) \
 //     {									\
 //       T1 out(lhs);							\
-//       array_iterator<T1,D> out_iterator(out);				\
+//       typename array<T1,D>::iterator out_iterator(out);				\
 //       for (out_iterator=out.begin();					\
 // 	   out_iterator!=out.end();					\
 // 	   ++out_iterator)						\
@@ -149,8 +149,8 @@ namespace cat
 //     operator op(const typename multicomponent_traits<T1>::T_element & lhs,const T1 rhs) \
 //     {									\
 //       T1 out(rhs.shape());						\
-//       array_iterator<T1,D> out_iterator(out);				\
-//       array_const_iterator<T1,D> rhs_iterator(rhs);			\
+//       typename array<T1,D>::iterator out_iterator(out);				\
+//       typename array<T1,D>::const_iterator rhs_iterator(rhs);			\
 //       for (out_iterator=out.begin(),					\
 // 	     rhs_iterator=rhs.begin();					\
 // 	   out_iterator!=out.end(),					\
@@ -165,7 +165,7 @@ namespace cat
 //     operator op(const T1 & lhs,const typename numeric_traits<T1>::T_element & rhs) \
 //     {									\
 //       T1 out(lhs);							\
-//       array_iterator<T1,D> out_iterator(out);				\
+//       typename array<T1,D>::iterator out_iterator(out);				\
 //       for (out_iterator=out.begin();					\
 // 	   out_iterator!=out.end();					\
 // 	   ++out_iterator)						\
@@ -177,8 +177,8 @@ namespace cat
 //     operator op(const typename numeric_traits<T1>::T_element & lhs,const T1 rhs) \
 //     {									\
 //       T1 out(rhs.shape());						\
-//       array_iterator<T1,D> out_iterator(out);				\
-//       array_const_iterator<T1,D> rhs_iterator(rhs);			\
+//       typename array<T1,D>::iterator out_iterator(out);				\
+//       typename array<T1,D>::const_iterator rhs_iterator(rhs);			\
 //       for (out_iterator=out.begin(),					\
 // 	     rhs_iterator=rhs.begin();					\
 // 	   out_iterator!=out.end(),					\
@@ -193,7 +193,7 @@ namespace cat
 //     operator op(const T1 & lhs,const typename real_numeric_traits<T1>::T_element & rhs) \
 //     {									\
 //       T1 out(lhs);							\
-//       array_iterator<T1,D> out_iterator(out);				\
+//       typename array<T1,D>::iterator out_iterator(out);				\
 //       for (out_iterator=out.begin();					\
 // 	   out_iterator!=out.end();					\
 // 	   ++out_iterator)						\
@@ -205,8 +205,8 @@ namespace cat
 //     operator op(const typename real_numeric_traits<T1>::T_element & lhs,const T1 rhs) \
 //     {									\
 //       T1 out(rhs.shape());						\
-//       array_iterator<T1,D> out_iterator(out);				\
-//       array_const_iterator<T1,D> rhs_iterator(rhs);			\
+//       typename array<T1,D>::iterator out_iterator(out);				\
+//       typename array<T1,D>::const_iterator rhs_iterator(rhs);			\
 //       for (out_iterator=out.begin(),					\
 // 	     rhs_iterator=rhs.begin();					\
 // 	   out_iterator!=out.end(),					\

@@ -29,13 +29,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "../tiny/tiny.h"
 
+#include "arrayclass.h"
+
   namespace cat
   {
 
 
     //Forwarding declaration of class array<T,D>
-    template <class T,int D>
-    class array;
+  template <class T,int D>
+	  class array;
   
     //Forwarding declaration of class tvector<T,N>
     template <class T,int N>
@@ -43,7 +45,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
     template <class T,int D> 
-    class array_const_iterator
+	  class array<T,D>::const_iterator
     {
     protected:
       T * data_;
@@ -73,29 +75,29 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
       //constructor
       //from array
-      array_const_iterator(const array<T,D> & array__);
+	    const_iterator(const array<T,D> & array__);
       //from array and position
-      array_const_iterator(const array<T,D> & array__,int pos__);
+	    const_iterator(const array<T,D> & array__,int pos__);
 
       //destructor
-      ~array_const_iterator();
+	    ~const_iterator();
   
       const T & operator*() const;
   
       const T & operator->() const;
 
   
-      array_const_iterator & operator++();
+	    const_iterator & operator++();
 
-      array_const_iterator & operator--();
+	    const_iterator & operator--();
 
-      bool operator==(const array_const_iterator & rhs);
+	    bool operator==(const const_iterator & rhs);
   
   
-      bool operator!=(const array_const_iterator & rhs);
+	    bool operator!=(const const_iterator & rhs);
     
   
-      array_const_iterator & operator=(const array_const_iterator & rhs);
+	    const_iterator & operator=(const const_iterator & rhs);
   
     
     };
@@ -103,34 +105,34 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
     template <class T,int D> 
-    class array_iterator: public array_const_iterator<T,D>
+	  class array<T,D>::iterator: public array<T,D>::const_iterator
     {
 
-      using array_const_iterator<T,D>::data_;
-      using array_const_iterator<T,D>::length_;
-      using array_const_iterator<T,D>::pos_;
+	    using array<T,D>::const_iterator::data_;
+	    using array<T,D>::const_iterator::length_;
+	    using array<T,D>::const_iterator::pos_;
 
     public:
     
       //constructor
       //from array
-      array_iterator(array<T,D> & array_);
+	    iterator(array<T,D> & array_);
 
       //destructor
-      ~array_iterator();
+	    ~iterator();
 
   
       T & operator*();
 
       T & operator->();
 
-      bool operator==(const array_const_iterator<T,D> & rhs);
+	    bool operator==(const const_iterator & rhs);
   
   
-      bool operator!=(const array_const_iterator<T,D> & rhs);
+	    bool operator!=(const const_iterator & rhs);
     
   
-      array_iterator & operator=(const array_const_iterator<T,D> & rhs);  
+	    iterator & operator=(const const_iterator & rhs);
 
     };
 
