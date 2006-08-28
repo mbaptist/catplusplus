@@ -2,7 +2,7 @@
 # Modify this section to suit your system's needs
 ##########################################################
 
-CXX = g++ -O3 -funroll-loops -fexpensive-optimizations 
+CXX = g++ -O3 -funroll-loops -fexpensive-optimizations  
 
 ###########################################################
 # No modification should be necessary from thin point on
