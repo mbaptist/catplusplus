@@ -32,6 +32,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "../tiny/tiny.h"
 #include "../traits/traits.h"
 
+#include "array_expression.h"
+#include "../opstructs.h"
+
 #include<complex>
 #include<iostream>
 #include<string>
@@ -70,6 +73,31 @@ namespace cat
   }
 
 
+
+
+#define CAT_BINARY_OPERATOR(opsname,op)					\
+  template <class T1,class T2,int D>					\
+  inline ArrayExpression<ArrayExpressionBinOp<opsname<T1,T2>,typename array<T1,D>::iterator,typename array<T2,D>::iterator> > \
+  operator op(const cat::array<T1,D> & lhs,const cat::array<T2,D> & rhs) \
+  {									\
+    typedef ArrayExpressionBinOp<opsname<T1,T2>,typename array<T1,D>::iterator,typename array<T2,D>::iterator>  ExpressionT; \
+    return ArrayExpression<ExpressionT>(ExpressionT(lhs.begin(),rhs.begin())); \
+  };									
+
+// \
+//     template <class T1,int D,class ET>					\
+//     inline ArrayExpression<ArrayExpressionBinOp<opsname<T1,typename ET::returnT>,typename array<T1,D>::iterator,ET> > \
+//     operator op(const cat::array<T1,D> & lhs,const ET & rhs)		\
+//     {									\
+//       typedef ArrayExpressionBinOp<opsname<T1,typename ET::returnT>,typename array<T1,D>::iterator,typename ET>  ExpressionT; \
+//       return ArrayExpression<ExpressionT>(ExpressionT(lhs.begin(),rhs));	\
+//     };
+
+
+
+
+
+#if 0
 
 #define CAT_BINARY_OPERATOR(op)				\
   template <class T1,class T2>				\
@@ -130,6 +158,8 @@ namespace cat
 	(*out_iterator) = typename promote_traits<T1,T2>::T_promote(lhs) op typename promote_traits<T1,T2>::T_promote(*rhs_iterator); \
       return out;							\
     }	
+
+#endif
 
 // 								\
 //     template <class T1,int D>						\
@@ -217,10 +247,10 @@ namespace cat
 //       return out;							\
 //     }	
   
-  CAT_BINARY_OPERATOR(+);
-  CAT_BINARY_OPERATOR(-);
-  CAT_BINARY_OPERATOR(*);
-  CAT_BINARY_OPERATOR(/);
+  CAT_BINARY_OPERATOR(Add,+);
+  CAT_BINARY_OPERATOR(Subtract,-);
+  CAT_BINARY_OPERATOR(Multiply,*);
+  CAT_BINARY_OPERATOR(Divide,/);
 
 }
 

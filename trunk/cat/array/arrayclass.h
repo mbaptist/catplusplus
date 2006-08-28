@@ -28,9 +28,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef CAT_ARRAYCLASS_H
 #define CAT_ARRAYCLASS_H
 
+
 #include "../traits/traits.h"
 
 //#include "array_iterator.h"
+
+#include "array_expression.h"
 
 
 #include <iostream>
@@ -232,6 +235,41 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
       array<T,D> & operator=(const T & rhs);
       template <class T1>
       array<T,D> & operator=(const T1 & rhs);
+
+
+
+      template<class Expression>
+      array<T,D> & operator=(ArrayExpression<Expression> & result)
+      {
+	// Get a beginning and end iterator for the vector
+	iterator iter = this->begin(), endIter = this->end();
+	
+	// Store the result in the vector
+	do {
+	  *iter = *result;   // Inlined expression
+	  ++result;
+	} while (++iter != endIter);
+	
+	return *this;
+      };
+
+      template<class Expression>
+      array<T,D> & operator=(const ArrayExpression<Expression> & result)
+      {
+	// Get a beginning and end iterator for the vector
+	const_iterator iter = this->begin(), endIter = this->end();
+	
+	// Store the result in the vector
+	do {
+	  *iter = *result;   // Inlined expression
+	  ++result;
+	} while (++iter != endIter);
+	
+	return *this;
+      };
+
+      
+
 
 
       //For safety an unidirectional promotion should be implemented
