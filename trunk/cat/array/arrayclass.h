@@ -66,6 +66,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
     public:
 	    //Subclasses
+	    //Declared in array_iterator.h and Implemented in array_iterator.C
 	    class iterator;
 	    class const_iterator;
 	    
@@ -91,12 +92,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
       //Define an alias to element type
 	    typedef T T_element;
-
+	    //	    static const int Rank=D;
+	    
       //Iterator related methods
-
+      //begin iterator function
+	    iterator begin();
+      //end iterator function
+	    iterator end();
+	    //constant versions
       //begin iterator function
       const_iterator begin() const;
-
       //end iterator function
       const_iterator end() const;
 
@@ -144,7 +149,27 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
       //conversion constructor
       template <class T1,int D1>
-       array(const array<T1,D1> & rhs);
+		    array(const array<T1,D1> & rhs);
+
+
+	    template<class Expression>
+		    array(ArrayExpression<Expression> rhs):
+		    storage<D>(rhs.shape(),rhs.ordering()),
+		    memory_reference<T>(rhs.size())
+	    {		    
+	// Get a beginning and end iterator for the vector
+		    typename array<T,D>::iterator iter(*this);
+		    typename array<T,D>::const_iterator endIter=this->end();
+		    iter = this->begin();
+		    
+	// Store the result in the vector
+		    do
+		    {
+			    *iter = *rhs;   // Inlined expression
+			    //cout << *iter <<endl;
+			    ++rhs;
+		    } while (++iter != endIter);
+	    };
 
       //constructor from shape
       
@@ -239,34 +264,25 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
       template<class Expression>
-      array<T,D> & operator=(ArrayExpression<Expression> & result)
+      array<T,D> & operator=(ArrayExpression<Expression> result)
       {
 	// Get a beginning and end iterator for the vector
-	iterator iter = this->begin(), endIter = this->end();
-	
+	      typename array<T,D>::iterator iter(*this);
+	      typename array<T,D>::const_iterator endIter=this->end();
+	      iter = this->begin();
+	      
 	// Store the result in the vector
-	do {
-	  *iter = *result;   // Inlined expression
-	  ++result;
-	} while (++iter != endIter);
-	
+	      do
+	      {
+		      *iter = *result;   // Inlined expression
+		//cout << *iter <<endl;
+		      ++result;
+	      } while (++iter != endIter);
+	      
 	return *this;
       };
 
-      template<class Expression>
-      array<T,D> & operator=(const ArrayExpression<Expression> & result)
-      {
-	// Get a beginning and end iterator for the vector
-	const_iterator iter = this->begin(), endIter = this->end();
-	
-	// Store the result in the vector
-	do {
-	  *iter = *result;   // Inlined expression
-	  ++result;
-	} while (++iter != endIter);
-	
-	return *this;
-      };
+
 
       
 

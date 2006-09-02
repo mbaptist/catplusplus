@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 using namespace cat;
 using namespace std;
 
-
+void test_et();
 void test_copy();
 void test_tvector();
 void test_array();
@@ -38,13 +38,27 @@ void test_cross();
 
 int main()
 {
-  test_copy();
+	test_et();
+	//test_copy();
   //test_tvector();
   //test_array();
   //test_array_tvector();
   //test_cross();
   return 0;
 }
+
+void test_et()
+{
+	int n=5000000;
+	cat::array<double,1> a(n);
+	cat::array<double,1> b(n);
+	cat::array<double,1> c(n);
+	cat::array<double,1> d(n);
+	a=1;
+	b=2;
+	c=3;
+	d=a+b; 
+};
 
 
 void test_tvector()

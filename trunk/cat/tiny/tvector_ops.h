@@ -31,31 +31,56 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 namespace cat
 {
 
-#define CAT_TVECTOR_BINARY_OPERATOR(op)					\
-  template <class T1,class T2,int N>					\
-  inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>	\
-  operator op(const cat::tvector<T1,N> & lhs,const cat::tvector<T2,N> & rhs)	\
-  {									\
-    return cat::tvector<typename promote_traits<T1,T2>::T_promote,N>(lhs) op##= rhs; \
-  }									\
-    template <class T1,class T2,int N>					\
-    inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>		\
-    operator op(const cat::tvector<T1,N> & lhs,				\
-		const typename cat::tvector<T2,N>::T_element & rhs)		\
-    {									\
-      return cat::tvector<typename promote_traits<T1,T2>::T_promote,N>(lhs) op##= rhs; \
-    }									\
-    template <class T1,class T2,int N>					\
-    inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>		\
-    operator op(const typename cat::tvector<T1,N>::T_element & lhs,		\
-		const cat::tvector<T2,N> & rhs)				\
-    {									\
-      tvector<typename promote_traits<T1,T2>::T_promote,N> out;		\
-      for (int i=0;i<N;++i)						\
-	out[i]= lhs op rhs[i];						\
-      return out;							\
-    }										
+// #define CAT_TVECTOR_BINARY_OPERATOR(op)					\
+//   template <class T1,class T2,int N>					\
+//   inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>	\
+//   operator op(const cat::tvector<T1,N> & lhs,const cat::tvector<T2,N> & rhs)	\
+//   {									\
+//     return cat::tvector<typename promote_traits<T1,T2>::T_promote,N>(lhs) op##= rhs; \
+//   }									\
+//     template <class T1,class T2,int N>					\
+//     inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>		\
+//     operator op(const cat::tvector<T1,N> & lhs,				\
+// 		const typename cat::tvector<T2,N>::T_element & rhs)		\
+//     {									\
+//       return cat::tvector<typename promote_traits<T1,T2>::T_promote,N>(lhs) op##= rhs; \
+//     }									\
+//     template <class T1,class T2,int N>					\
+//     inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>		\
+//     operator op(const typename cat::tvector<T1,N>::T_element & lhs,		\
+// 		const cat::tvector<T2,N> & rhs)				\
+//     {									\
+//       tvector<typename promote_traits<T1,T2>::T_promote,N> out;		\
+//       for (int i=0;i<N;++i)						\
+// 	out[i]= lhs op rhs[i];						\
+//       return out;							\
+//     }
 
+
+#define CAT_TVECTOR_BINARY_OPERATOR(op)					\
+template <class T1,class T2,int N>					\
+	inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>	\
+	operator op(const cat::tvector<T1,N> & lhs,const cat::tvector<T2,N> & rhs)	\
+	{									\
+	return cat::tvector<typename promote_traits<T1,T2>::T_promote,N>(lhs) op##= rhs; \
+	}									\
+	template <class T1,class T2,int N>					\
+	inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>		\
+	operator op(const cat::tvector<T1,N> & lhs,				\
+	const T2 & rhs)		\
+	{									\
+	return cat::tvector<typename promote_traits<T1,T2>::T_promote,N>(lhs) op##= rhs; \
+	}									\
+	template <class T1,class T2,int N>					\
+	inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>		\
+	operator op(const T1 & lhs,		\
+	const cat::tvector<T2,N> & rhs)				\
+	{									\
+	tvector<typename promote_traits<T1,T2>::T_promote,N> out;		\
+	for (int i=0;i<N;++i)						\
+	out[i]= lhs op rhs[i];						\
+	return out;							\
+	}										
 
   CAT_TVECTOR_BINARY_OPERATOR(+);
   CAT_TVECTOR_BINARY_OPERATOR(-);

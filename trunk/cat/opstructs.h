@@ -37,7 +37,7 @@ namespace cat
   struct opsname						       \
   {							       \
     typedef T returnT;					       \
-    static inline returnT apply(T a)			       \
+    static inline returnT apply(const T & a)			       \
       {							       \
 	return op a;					       \
       }							       \
@@ -56,7 +56,7 @@ namespace cat
   struct opsname						       \
   {								       \
     typedef ret returnT;					       \
-    static inline returnT apply(T a)				       \
+    static inline returnT apply(const T & a)				       \
     {								       \
       return op a;						       \
     }								       \
@@ -74,8 +74,8 @@ namespace cat
     {									\
       typedef typename promote_traits<T1,T2>::T_promote returnT;	\
       static inline returnT						\
-      apply(T1 a, T2 b)							\
-      {									\
+      apply(const T1 & a, const T2 & b)							\
+	{									\
 	return a op b;							\
       }									\
     };
@@ -102,7 +102,7 @@ namespace cat
   {								     \
     typedef ret returnT;					     \
     static inline returnT					     \
-    apply(T1 a, T2 b)						     \
+    apply(const T1 & a, const T2 & b)						     \
     {								     \
       return a op b;						     \
     }								     \

@@ -91,21 +91,41 @@ template <class T,int D>
 	data_(const_cast<T *>(array__.data())),
 	length_(array__.length()),
 	stride_(array__.stride()),
-	navstride_(stride_[array__.ordering()[0]])
+	navstride_(stride_[array__.ordering()[0]]),
+	shape_(array__.shape()),
+	ordering_(array__.ordering()),
+	size_(array__.size())
 {
+	//cout << 	shape_ << ordering_ << size_ << endl;
 }
     //from array and position
 template <class T,int D>
 	array<T,D>::const_iterator::const_iterator(const array<T,D> & array__,
 	                                           int pos__):
-	data_(0),
+	data_(const_cast<T *>(array__.data())),
 	length_(array__.length()),
 	pos_(pos__),
 	stride_(array__.stride()),
-	navstride_(stride_[array__.ordering()[0]])
+	navstride_(stride_[array__.ordering()[0]]),
+	shape_(array__.shape()),
+	ordering_(array__.ordering()),
+	size_(array__.size())
 {
+	//cout << 	shape_ << ordering_ << size_ << endl;
 }
 
+// //copy ctor
+// const_iterator(const const_iterator & rhs):
+// data_(0),
+// 	length_(array__.length()),
+// 	pos_(pos__),
+// 	stride_(array__.stride()),
+// 	navstride_(stride_[array__.ordering()[0]])
+// {
+// }
+
+
+	
     //destructor
 template <class T,int D>
 	array<T,D>::const_iterator::~const_iterator()
@@ -188,6 +208,14 @@ template <class T,int D>
 	array<T,D>::const_iterator(array_)
 {
 }
+ //from array and position
+template <class T,int D>
+	array<T,D>::iterator::iterator(array<T,D> & array__,
+	                                           int pos__):
+	array<T,D>::const_iterator(array__,pos__)
+{
+}
+
 
     //destructor
 template <class T,int D>
@@ -233,5 +261,27 @@ template <class T,int D>
 	return (*this);
 }
 
+template <class T,int D>
+	bool array<T,D>::iterator::operator==(const array<T,D>::iterator & rhs)
+{
+	return bool((this->pos_)==(rhs.pos()));
+}
+
+
+template <class T,int D>
+	bool array<T,D>::iterator::operator!=(const array<T,D>::iterator & rhs)
+{
+	return bool((this->pos_)!=(rhs.pos()));
+}
+
+
+template <class T,int D>
+	typename array<T,D>::iterator & array<T,D>::iterator::operator=(const array<T,D>::iterator & rhs)
+{
+	this->pos_=rhs.pos();
+	this->stride_=rhs.stride();
+	this->navstride_=rhs.navstride();
+	return (*this);
+}
 
 }
