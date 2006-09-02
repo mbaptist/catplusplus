@@ -45,14 +45,26 @@ namespace cat
 {
 
   //Iterator related methods
-
+//beginning iterator function
+template <class T,int D>
+	typename array<T,D>::iterator array<T,D>::begin()
+{
+	return typename array<T,D>::iterator(*this,0);
+}
+  //end iterator function
+template <class T,int D>
+	typename array<T,D>::iterator array<T,D>::end()
+{
+    //Note that the size of the array must be the size of the block of memory
+	return typename array<T,D>::iterator(*this,this->length_);
+}
+//constant version
   //beginning iterator function
 template <class T,int D>
 	typename array<T,D>::const_iterator array<T,D>::begin() const
 {
 	return typename array<T,D>::const_iterator(*this,0);
 }
-
   //end iterator function
 template <class T,int D>
 	typename array<T,D>::const_iterator array<T,D>::end() const
@@ -474,7 +486,7 @@ template <class T,int D>
 	typename cat::multicomponent_traits<T>::T_element * ptr;
 	ptr=&((*(this->data()))[component]);
 	int nn = int( cat::multicomponent_traits<T>::numComponents );
-	cat::tvector<int,D> new_stride(this->stride()*nn);
+	cat::tvector<int,D> new_stride((this->stride())*nn);
 	size_t new_length(nn*length_);
 	
 	return array<typename cat::multicomponent_traits<T>::T_element,D>

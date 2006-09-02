@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef CAT_ARRAY_FUNCS_H
 #define CAT_ARRAY_FUNCS_H
   
-  
 #include "array_macros.h" 
 #include "array_iterator.h"
 

@@ -26,18 +26,29 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define ARRAY_EXPRESSION_H
 
 
-//Wrapper array expression class
+//Array expression wrapper class
 template<class Expression>
 class ArrayExpression 
-{          
+{
+public:
+	typedef typename Expression::elementT elementT;
+	static const int Rank=Expression::Rank;
 private:
   //Members
-  Expression iter_;  
+  Expression iter_;
 public:
   //Accessors
   Expression & iter(){return iter_;};
   const Expression & iter() const {return iter_;};
-  //Ctor from expresion
+	
+	cat::tvector<int,Rank> & shape(){return iter_.shape();};
+	const cat::tvector<int,Rank> & shape() const {return iter_.shape();};
+	cat::tvector<int,Rank> & ordering(){return iter_.ordering();};
+	const cat::tvector<int,Rank> & ordering() const {return iter_.ordering();};
+	int & size(){return iter_.size();};
+	const  int & size() const {return iter_.size();};
+
+//Ctor from expresion
   ArrayExpression(const Expression & expression): 
     iter_(expression)
   { 
@@ -56,7 +67,7 @@ private:
   ArrayExpression();//default ctor
 public:
   //Public Methods
-  double operator*() const
+  elementT operator*() const
   { return *iter_; }
   //Increment expression operator
   //(increments array expression iterator)
@@ -65,13 +76,13 @@ public:
 };
 
 
-
 //Array Expression for binary operators
 template <class Op,class T1,class T2>
 class ArrayExpressionBinOp
 {
-public:
-  typedef typename Op::returnT returnT;
+ public:
+	typedef typename Op::returnT elementT;
+	static const int Rank=(T1::Rank > T2::Rank ? T1::Rank : T2::Rank);
 private:
   //Members
   T1 iter1_;
@@ -82,7 +93,16 @@ public:
   T2 & iter2(){return iter2_;};
   const T1 & iter1() const {return iter1_;};
   const T2 & iter2() const {return iter2_;};
-  //Ctor from iterators
+  
+	cat::tvector<int,Rank> & shape(){return iter1_.shape();};
+	const cat::tvector<int,Rank> & shape() const {return iter1_.shape();};
+	cat::tvector<int,Rank> & ordering(){return iter1_.ordering();};
+	const cat::tvector<int,Rank> & ordering() const {return iter1_.ordering();};
+	int & size(){return iter1_.size();};
+	const  int & size() const {return iter1_.size();};
+
+
+//Ctor from iterators
   ArrayExpressionBinOp(const T1 & iter1__,const T2 & iter2__):
     iter1_(iter1__),
     iter2_(iter2__)
@@ -101,8 +121,9 @@ private:
   ArrayExpressionBinOp();//default ctor
 public:
   //Public Methods
-  double operator*() const
-  { return Op::apply(*iter1_,*iter2_); }
+  elementT operator*() const
+  {
+	  return Op::apply(*iter1_,*iter2_); }
   //Increment expression operator
   //(increments array expression iterator)
   void operator++()
@@ -114,6 +135,56 @@ public:
 
 
 
+//Array Expression for constants
+template <class T>
+class ArrayExpressionConstant
+{
+public:
+	typedef T elementT;
+	static const int Rank=0;
+private:
+  //Members
+	T iter_;
+public:
+  //Accessors
+	T & iter(){return iter_;};
+	const T & iter() const {return iter_;};
+	
+// 	cat::tvector<int,Rank> & shape(){return iter1_.shape();};
+// 	const cat::tvector<int,Rank> & shape() const {return iter1_.shape();};
+// 	cat::tvector<int,Rank> & ordering(){return iter1_.ordering();};
+// 	const cat::tvector<int,Rank> & ordering() const {return iter1_.ordering();};
+// 	int & size(){return iter1_.size();};
+// 	const  int & size() const {return iter1_.size();};
+	
+	
+//Ctor from iterators
+ArrayExpressionConstant(const T & iter__):
+	iter_(iter__)
+	{
+	};
+  //Copy ctor
+ArrayExpressionConstant(const ArrayExpressionConstant & rhs):
+	iter_(rhs.iter())
+	{
+	};
+  //Dtor
+	~ArrayExpressionConstant(){};
+private:
+  //Forbidden ctors
+	ArrayExpressionConstant();//default ctor
+public:
+  //Public Methods
+	elementT operator*() const
+	{
+		return iter_;
+	}
+  //Increment expression operator
+  //(increments array expression iterator)
+	void operator++()
+	{
+	}
+};
 
 
 
