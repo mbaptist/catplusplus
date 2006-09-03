@@ -57,7 +57,7 @@ void test_et()
 	a=1;
 	b=2;
 	c=3;
-	d=a+b; 
+	d=a+b*(c*3);
 };
 
 
