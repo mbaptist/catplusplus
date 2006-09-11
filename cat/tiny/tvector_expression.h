@@ -1,7 +1,8 @@
 // -*- C++ -*-
+
 /*
 
-Copyrighthttp://www.google.co.uk/ 2005 Manuel Baptista
+Copyright 2005 Manuel Baptista
 
 This file is part of cat++
 
@@ -20,18 +21,39 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
- 
-#ifndef CAT_GLOBALS_H
-#define CAT_GLOBALS_H
 
-//#define USE_EXPRESSIONS
-#define USE_TEMPORARIES
+#ifndef TVECTOREXPRESSION_H
+#define TVECTOREXPRESSION_H
 
-namespace cat
+//tvector expression wrapper class
+template <class Expression> 
+class tvectorExpression
 {
+private:
+	Expression iter_;
+public:
+	Expression & iter(){return iter_;};
+	const Expression & iter() const {return iter_;};
+  //typedef Expr iterT;
+	tvectorExprexpression(const Expression & expression)
+		: iter_(expression)
+	{ }
+	
+	tvectorExpression(const tvectorExpression & rhs)
+		: iter_(rhs.iter())
+	{ }
+	
+	double operator*() const
+	{ return *iter_; }
+	
+	void operator++()
+	{ ++iter_; }
+};
 
-#define PRT_DBG_MSG 0
 
-}
+
+
+
+
 
 #endif

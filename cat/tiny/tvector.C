@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <iostream>
 using namespace std;
 
+#include"../traits/traits.h"
 
 namespace cat
 {
@@ -51,13 +52,13 @@ namespace cat
   }
 
   template <class T,int N>
-  template <class T1>
-  tvector<T,N>::tvector(const tvector<T1,N> & rhs)
+  template <class rhsT>
+  tvector<T,N>::tvector(const tvector<rhsT,N> & rhs)
   {
     //if (this==&rhs)
     //  return;
     for (int i=0;i<N;++i)
-      vector_data[i]=static_cast<T>(rhs[i]);
+      vector_data[i]=rhs[i];
   }
 
   //constructors from values
@@ -197,39 +198,37 @@ namespace cat
       vector_data[i]=rhs[i];
     return *this;
   }
-  template <class T,int N>
-  template <class T1>
-  tvector<T,N> & tvector<T,N>::operator=(const tvector<T1,N> & rhs)
-  {
-    for (int i=0;i<N;++i)
-      vector_data[i]=rhs[i];
-    return *this;
-  }
-
-  //to scalar  
-  template <class T,int N>
-  tvector<T,N> & tvector<T,N>::operator=(const T & rhs)
-  {
-    for (int i=0;i<N;++i)
-      vector_data[i]=rhs;
-    return *this;
-  }
-  template <class T,int N>
-  template <class T1>
-  tvector<T,N> & tvector<T,N>::operator=(const T1 & rhs)
-  {
-    for (int i=0;i<N;++i)
-      vector_data[i]=rhs;
-    return *this;
-  }
-
-
-
-
-
-
-
-
-
+ //to scalar
+template <class T,int N>
+	tvector<T,N> & tvector<T,N>::operator=(const T & rhs)
+{
+	for (int i=0;i<N;++i)
+		vector_data[i]=rhs;
+	return *this;
 }
+//to any type
+
+template <class T,int N>
+	template <class rhsT>
+	tvector<T,N> & tvector<T,N>::operator=(const rhsT & rhs)
+{
+	for (int i=0;i<N;++i)
+		vector_data[i]=rhs;
+	return *this;
+}
+//to tvector of any type
+template <class T,int N>
+	template <class rhsT>
+	tvector<T,N> & tvector<T,N>::operator=(const tvector<rhsT,N> & rhs)
+{
+    for (int i=0;i<N;++i)
+	    vector_data[i]=rhs[i];
+	return *this;
+}
+
+
+
+
+
+} //End namespace cat
 
