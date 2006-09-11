@@ -47,17 +47,37 @@ namespace cat
   public:
 
     typedef T T_element;
+	  static const int Size=N;
+	  typedef T * iterator;
+	  typedef const T * const_iterator;
 
+	  //Pointers to begin and end (begin and end iterators)
+	  T * begin(){return vector_data;};
+	  const T * begin() const {return vector_data;};
+	  T * end(){return vector_data+N;};
+	  const T * end() const {return vector_data+N;};
+	  
+	  //Accessors
+	  T & operator[](const int n);
+	  const T & operator[](const int n) const;
+	  
+	  T * data();
+	  const T * data() const;
+	  
+    //returns the size of this tvector
+	  int size() const;
+
+	  
     //Constructors
     
     //default constructor
     tvector();
       
     //copy constructor (really copies to the new vector)
-    tvector<T,N>(const tvector<T,N> & rhs);
+    tvector(const tvector & rhs);
 
-    template <class T1>
-    tvector<T,N>(const tvector<T1,N> & rhs);
+    template <class rhsT>
+    tvector(const tvector<rhsT,N> & rhs);
 
     //constructors from values
     //assigns 
@@ -72,26 +92,19 @@ namespace cat
     //Destructor
     ~tvector();
 
-    //Accessors  
-    T & operator[](const int n);
-    const T & operator[](const int n) const;
-      
-    T * data();
-    const T * data() const;
 
-    //returns the size of this tvector
-    int size() const;
-      
- 
     //Assignement operators
     //to tvector
-    tvector & operator=(const tvector<T,N> & rhs);
-    template <class T1>
-    tvector & operator=(const tvector<T1,N> & rhs);
+	  tvector & operator=(const tvector & rhs);
     //to element
-    tvector & operator=(const T & rhs);
-    template <class T1>
-    tvector & operator=(const T1 & rhs);
+	  tvector & operator=(const T & rhs);
+	  //to any type
+	  template <class rhsT>
+		  tvector & operator=(const rhsT & rhs);
+	  //to tvector of any type 
+	  template <class rhsT>
+		  tvector & operator=(const tvector<rhsT,N> & rhs);
+	
 
     //// One direction promotion needed for the sake of safety
 

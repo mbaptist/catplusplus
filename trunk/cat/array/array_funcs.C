@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
 
+#include "../globals.h"
+
 #include "array.h"
 
 #include "array_macros.h"
@@ -38,7 +40,7 @@ template <class T,int D>
 	return(out);
 }
 
-
+#ifdef USE_TEMPORARIES
 //Reductions
 
 //max
@@ -88,7 +90,7 @@ template <class T,int D>
     out+=(*a_iterator);
   return out;
 }
-
+#endif
 
 }
 

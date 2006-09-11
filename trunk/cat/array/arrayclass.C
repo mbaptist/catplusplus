@@ -279,9 +279,9 @@ template <class T,int D>
 	cout << "Conversion Constructor" << endl;
 #endif
     //cout << "InC" << endl;
-	
+
 	this->copy(rhs);
-	
+
     //cout << "ExC" << endl;
 }
 

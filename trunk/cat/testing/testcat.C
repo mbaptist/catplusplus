@@ -43,7 +43,7 @@ int main()
   //test_tvector();
   //test_array();
   //test_array_tvector();
-  //test_cross();
+  test_cross();
   return 0;
 }
 
@@ -57,7 +57,9 @@ void test_et()
 	a=1;
 	b=2;
 	c=3;
-	d=a+b*(c*3);
+	int t0=clock();
+	d=a+b*(c*3.);
+	cout << (clock()-t0)/1000. << endl;
 };
 
 
@@ -170,7 +172,7 @@ void test_array_tvector()
 
 
 //testing copy constructor
-#if 1 
+#if 0
   array<tvector<double,3>,3> ooo(2,2,2);
  ooo=tvector<double,3>(1.1,2.2,3.3);
  
@@ -181,7 +183,7 @@ void test_array_tvector()
     cout << ccc << endl;
     cout << ooo << endl;
 #endif  
-
+#if 0
 //testing copy constructor on extracted value
     //array<double,3> oooo(ooo.shape());
     //oooo=ooo[1];
@@ -191,7 +193,8 @@ void test_array_tvector()
     ooo_comp_copy=3;
     cout << ooo_comp_copy <<endl;
     cout << ooo <<endl;
-
+#endif
+	
 //testing operators
 
 #if 0
@@ -231,7 +234,7 @@ void test_array_tvector()
 
 
 
-#if 0
+#if 1
 
 void test_cross()
 {
@@ -266,7 +269,7 @@ void test_cross()
 
 	cout << "Success!" << endl;
 
-
+	cross=cross_product(a,b)-cross_product(a,b);
 }
 
 #endif

@@ -26,8 +26,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef CAT_ARRAY_OPS_H
 #define CAT_ARRAY_OPS_H
 
-#define USE_EXPRESSIONS
-//#define USE_TEMPORARIES
+#include "../globals.h"
 
 #include "array.h"
 #include "array_macros.h"
@@ -45,40 +44,37 @@ using namespace std;
 
 namespace cat
 {
+#ifdef USE_EXPRESSIONS
 
-  //Unary -
-  
-  template <class T,int N>
-  inline tvector<T,N>
-  operator -(const tvector<T,N>& rhs)
-  {
-    tvector<T,N> out(rhs);
-    for (int i=0;i<N;++i)
-      out[i]*=-1;
-    return out;
-  }
+//Unary Operators
 
-  template <class T,int D>
-  inline array<T,D>
-  operator -(const array<T,D>& rhs)
-  {
-    array<T,D> out(rhs.shape());
-    typename array<T,D>::iterator out_iterator(out);
-    typename array<T,D>::const_iterator rhs_iterator(rhs);
-    for (out_iterator=out.begin(),
-	   rhs_iterator=rhs.begin();
-	 out_iterator!=out.end(),
-	   rhs_iterator!=rhs.end();
-	 ++out_iterator,
-	   ++rhs_iterator)
-      (*out_iterator) = -(*rhs_iterator);
-    return out;
-  }
+  //OP ARRAY
+#define CAT_UNARY_OPERATOR_ARRAY(opsname,op) \
+template <class T,int D>					 \
+	inline ArrayExpression<ArrayExpressionUnaryOp<opsname<T>,typename array<T,D>::const_iterator> >\
+	operator op(const cat::array<T,D> & rhs) \
+	{									\
+	typedef ArrayExpressionUnaryOp<opsname<T>,typename array<T,D>::const_iterator>  ExpressionT; \
+	return ArrayExpression<ExpressionT>(ExpressionT(rhs.begin())); \
+	};
+	//OP ARRAYEXPRESSION
+#define CAT_UNARY_OPERATOR_ARRAYEXPRESSION(opsname,op) \
+	template <class ET>                                 \
+	inline ArrayExpression<ArrayExpressionUnaryOp<opsname<typename ET::elementT>,ET > > \
+	operator op(const ET & rhs)               \
+	{                                                                   \
+	typedef ArrayExpressionUnaryOp<opsname<typename ET::elementT>, ET >  ExpressionT; \
+	return ArrayExpression<ExpressionT>(ExpressionT(rhs));        \
+	};
+	
+#define CAT_UNARY_OPERATOR(opsname,op)  \
+	CAT_UNARY_OPERATOR_ARRAY(opsname,op) \
+	CAT_UNARY_OPERATOR_ARRAYEXPRESSION(opsname,op)
 
+	CAT_UNARY_OPERATOR(UnaryPlus,+);
+CAT_UNARY_OPERATOR(UnaryMinus,-);
 
 //Binary Operators
-
-#ifdef USE_EXPRESSIONS
 
 //ARRAY OP ARRAY
 #define CAT_BINARY_OPERATOR_ARRAY_ARRAY(opsname,op)					\
@@ -161,6 +157,7 @@ template <class T1,int D1>					\
 	CAT_BINARY_OPERATOR_CONSTANT_ARRAYEXPRESSION_POD(opsname,op,CT)
 	
 #define CAT_BINARY_OPERATOR_CONSTANT_POD_ALL(opsname,op) \
+	CAT_BINARY_OPERATOR_CONSTANT_POD(opsname,op,bool) \
 	CAT_BINARY_OPERATOR_CONSTANT_POD(opsname,op,int) \
 	CAT_BINARY_OPERATOR_CONSTANT_POD(opsname,op,float) \
 	CAT_BINARY_OPERATOR_CONSTANT_POD(opsname,op,double) \
@@ -262,7 +259,7 @@ template <class T1,int D1,class T>					\
 	CAT_BINARY_OPERATOR_ARRAYEXPRESSION_ARRAYEXPRESSION(opsname,op) \
 	CAT_BINARY_OPERATOR_CONSTANT_POD_ALL(opsname,op) \
   CAT_BINARY_OPERATOR_CONSTANT_COMPLEX(opsname,op) \
-  CAT_BINARY_OPERATOR_CONSTANT_TVECTOR(opsname,op)
+	CAT_BINARY_OPERATOR_CONSTANT_TVECTOR(opsname,op)
 
 CAT_BINARY_OPERATOR(Add,+);
 CAT_BINARY_OPERATOR(Subtract,-);
@@ -270,10 +267,29 @@ CAT_BINARY_OPERATOR(Multiply,*);
 CAT_BINARY_OPERATOR(Divide,/);
 
 
-
 #endif
 
 #ifdef USE_TEMPORARIES
+
+//Unary minus
+template <class T,int D>
+	inline array<T,D>
+	operator -(const array<T,D>& rhs)
+{
+	array<T,D> out(rhs.shape());
+	typename array<T,D>::iterator out_iterator(out);
+	typename array<T,D>::const_iterator rhs_iterator(rhs);
+	for (out_iterator=out.begin(),
+	     rhs_iterator=rhs.begin();
+	     out_iterator!=out.end(),
+	     rhs_iterator!=rhs.end();
+	     ++out_iterator,
+	     ++rhs_iterator)
+		(*out_iterator) = -(*rhs_iterator);
+	return out;
+}
+
+//Binary Operators
 
 #define CAT_BINARY_OPERATOR(op)				\
   template <class T1,class T2>				\
@@ -310,9 +326,9 @@ CAT_BINARY_OPERATOR(Divide,/);
 	typename array<typename promote_traits<T1,T2>::T_promote,D>::iterator out_iterator(out); \
 	typename array<T2,D>::const_iterator lhs_iterator(lhs);			\
       for (out_iterator=out.begin(),					\
-	     lhs_iterator=rhs.begin();					\
+	     lhs_iterator=lhs.begin();					\
 	   out_iterator!=out.end(),					\
-	     lhs_iterator!=rhs.end();					\
+	     lhs_iterator!=lhs.end();					\
 	   ++out_iterator,						\
 	     ++lhs_iterator)						\
 	(*out_iterator) = typename promote_traits<T1,T2>::T_promote(*lhs_iterator) op typename promote_traits<T1,T2>::T_promote(rhs); \

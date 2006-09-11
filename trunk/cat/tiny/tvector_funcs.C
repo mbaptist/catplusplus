@@ -140,7 +140,7 @@ namespace cat
   tvector<typename promote_traits<T1,T2>::T_promote,3> 
   cross_product(const tvector<T1,3> & a,const tvector<T2,3> & b)
   {
-    return tvector<typename promote_traits<T1,T2>::T_promote,3>
+	  return tvector<typename promote_traits<T1,T2>::T_promote,3>
 	(
 	 a[1]*b[2]-a[2]*b[1],
 	 a[2]*b[0]-a[0]*b[2],
