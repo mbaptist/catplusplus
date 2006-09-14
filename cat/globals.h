@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef CAT_GLOBALS_H
 #define CAT_GLOBALS_H
 
-//#define USE_EXPRESSIONS
-#define USE_TEMPORARIES
+#define USE_EXPRESSIONS
+//#define USE_TEMPORARIES
 
 namespace cat
 {

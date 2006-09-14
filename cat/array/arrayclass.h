@@ -325,7 +325,25 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	    CAT_ARRAY_UPDATE(/=);
 
 
+#define CAT_ARRAY_UPDATE_EXPRESSION(op) \
+	    template <class Expression> \
+		    array & operator op(ArrayExpression<Expression> rhs) \
+		    { \
+		    typename  array<T,D>::iterator array_iterator(*this); \
+		    for (array_iterator=this->begin(); \
+		    array_iterator!=this->end(); \
+		    ++array_iterator, \
+		    ++rhs) \
+		    (*array_iterator) op (*rhs); \
+		    return *this; \
+    }
 
+#ifdef USE_EXPRESSIONS
+	    CAT_ARRAY_UPDATE_EXPRESSION(+=);
+	    CAT_ARRAY_UPDATE_EXPRESSION(-=);
+	    CAT_ARRAY_UPDATE_EXPRESSION(*=);
+	    CAT_ARRAY_UPDATE_EXPRESSION(/=);
+#endif
 
 	};
 
