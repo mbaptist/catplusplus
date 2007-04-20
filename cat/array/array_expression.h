@@ -61,10 +61,10 @@ public:
   Expression & iter(){return iter_;};
   const Expression & iter() const {return iter_;};
 	
-	cat::tvector<int,Rank> & shape(){return iter_.shape();};
-	const cat::tvector<int,Rank> & shape() const {return iter_.shape();};
-	cat::tvector<int,Rank> & ordering(){return iter_.ordering();};
-	const cat::tvector<int,Rank> & ordering() const {return iter_.ordering();};
+	cat::Tvector<int,Rank> & shape(){return iter_.shape();};
+	const cat::Tvector<int,Rank> & shape() const {return iter_.shape();};
+	cat::Tvector<int,Rank> & ordering(){return iter_.ordering();};
+	const cat::Tvector<int,Rank> & ordering() const {return iter_.ordering();};
 	int & size(){return iter_.size();};
 	const  int & size() const {return iter_.size();};
 
@@ -90,7 +90,7 @@ public:
   elementT operator*() const
   { return *iter_; }
   //Increment expression operator
-  //(increments array expression iterator)
+  //(increments Array expression iterator)
   void operator++()
   { ++iter_; }
 };
@@ -105,8 +105,8 @@ public:
 private:
   //Members
 	T iter_;
-	cat::tvector<int,Rank> shape_;
-	cat::tvector<int,Rank> ordering_;
+	cat::Tvector<int,Rank> shape_;
+	cat::Tvector<int,Rank> ordering_;
 	int size_;
 	
 public:
@@ -114,10 +114,10 @@ public:
 	T & iter(){return iter_;};
 	const T & iter() const {return iter_;};
 	
-	cat::tvector<int,Rank> & shape(){return this->shape_;};
-	const cat::tvector<int,Rank> & shape() const {return this->shape_;};
-	cat::tvector<int,Rank> & ordering(){return this->ordering_;};
-	const cat::tvector<int,Rank> & ordering() const {return this->ordering_;};
+	cat::Tvector<int,Rank> & shape(){return this->shape_;};
+	const cat::Tvector<int,Rank> & shape() const {return this->shape_;};
+	cat::Tvector<int,Rank> & ordering(){return this->ordering_;};
+	const cat::Tvector<int,Rank> & ordering() const {return this->ordering_;};
 	int & size(){return this->size_;};
 	const  int & size() const {return this->size_;};
 	
@@ -149,7 +149,7 @@ public:
 	{
 		return Op::apply(*iter_); }
   //Increment expression operator
-  //(increments array expression iterator)
+  //(increments Array expression iterator)
 	void operator++()
 	{
 		++iter_;
@@ -171,8 +171,8 @@ private:
   //Members
   T1 iter1_;
   T2 iter2_;
-	cat::tvector<int,Rank> shape_;
-	cat::tvector<int,Rank> ordering_;
+	cat::Tvector<int,Rank> shape_;
+	cat::Tvector<int,Rank> ordering_;
 	int size_;
 	
 public:
@@ -184,10 +184,10 @@ public:
 
 
 	
-	cat::tvector<int,Rank> & shape(){return this->shape_;};
-	const cat::tvector<int,Rank> & shape() const {return this->shape_;};
-	cat::tvector<int,Rank> & ordering(){return this->ordering_;};
-	const cat::tvector<int,Rank> & ordering() const {return this->ordering_;};
+	cat::Tvector<int,Rank> & shape(){return this->shape_;};
+	const cat::Tvector<int,Rank> & shape() const {return this->shape_;};
+	cat::Tvector<int,Rank> & ordering(){return this->ordering_;};
+	const cat::Tvector<int,Rank> & ordering() const {return this->ordering_;};
 	int & size(){return this->size_;};
 	const  int & size() const {return this->size_;};
 
@@ -196,8 +196,8 @@ public:
   ArrayExpressionBinOp(const T1 & iter1__,const T2 & iter2__):
     iter1_(iter1__),
     iter2_(iter2__),
-		shape_(cat::tvector<int,Rank>(0)),
-		ordering_(cat::tvector<int,Rank>(0)),
+		shape_(cat::Tvector<int,Rank>(0)),
+		ordering_(cat::Tvector<int,Rank>(0)),
 		size_(0)
   {
 	  typename SelectByRank<T1,T2>::selectedT iter(SelectByRank<T1,T2>::iter(iter1__,iter2__));
@@ -225,7 +225,7 @@ public:
   {
 	  return Op::apply(*iter1_,*iter2_); }
   //Increment expression operator
-  //(increments array expression iterator)
+  //(increments Array expression iterator)
   void operator++()
   { 
     ++iter1_;
@@ -244,8 +244,8 @@ public:
 private:
   //Members
 	T iter_;
-	cat::tvector<int,Rank> shape_;
-	cat::tvector<int,Rank> ordering_;
+	cat::Tvector<int,Rank+1> shape_;
+	cat::Tvector<int,Rank+1> ordering_;
 	int size_;
 	
 public:
@@ -254,10 +254,10 @@ public:
 	const T & iter() const {return iter_;};
 
 	
-	cat::tvector<int,Rank> & shape(){return this->shape_;};
-	const cat::tvector<int,Rank> & shape() const {return this->shape_;};
-	cat::tvector<int,Rank> & ordering(){return this->ordering_;};
-	const cat::tvector<int,Rank> & ordering() const {return this->ordering_;};
+	cat::Tvector<int,Rank+1> & shape(){return this->shape_;};
+	const cat::Tvector<int,Rank+1> & shape() const {return this->shape_;};
+	cat::Tvector<int,Rank+1> & ordering(){return this->ordering_;};
+	const cat::Tvector<int,Rank+1> & ordering() const {return this->ordering_;};
 	int & size(){return this->size_;};
 	const  int & size() const {return this->size_;};
 	
@@ -265,8 +265,8 @@ public:
 //Ctor from iterators
 ArrayExpressionConstant(const T & iter__):
 	iter_(iter__),
-		shape_(cat::tvector<int,Rank>(0)),
-		ordering_(cat::tvector<int,Rank>(0)),
+		shape_(cat::Tvector<int,Rank+1>(0)),
+		ordering_(cat::Tvector<int,Rank+1>(0)),
 		size_(0)
 	{
 	};
@@ -290,7 +290,7 @@ public:
 		return iter_;
 	}
   //Increment expression operator
-  //(increments array expression iterator)
+  //(increments Array expression iterator)
 	void operator++()
 	{
 	}
@@ -301,5 +301,4 @@ public:
 
 
 #endif
-
 

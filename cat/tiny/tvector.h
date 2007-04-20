@@ -37,7 +37,7 @@ namespace cat
 {
 
   template <class T,int N>
-  class tvector
+  class Tvector
   {
 
   private:
@@ -64,46 +64,46 @@ namespace cat
 	  T * data();
 	  const T * data() const;
 	  
-    //returns the size of this tvector
+    //returns the size of this Tvector
 	  int size() const;
 
 	  
     //Constructors
     
     //default constructor
-    tvector();
+    Tvector();
       
     //copy constructor (really copies to the new vector)
-    tvector(const tvector & rhs);
+    Tvector(const Tvector & rhs);
 
     template <class rhsT>
-    tvector(const tvector<rhsT,N> & rhs);
+    Tvector(const Tvector<rhsT,N> & rhs);
 
     //constructors from values
     //assigns 
-    explicit tvector(const T & v1);
-    explicit tvector(const T & v1,const T & v2);
-    explicit tvector(const T & v1,const T & v2,const T & v3);
-    explicit tvector(const T & v1,const T & v2,const T & v3,const T & v4);
-    explicit tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5);
-    explicit tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5,const T & v6);
-    explicit tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5,const T & v6,const T & v7);
+    explicit Tvector(const T & v1);
+    explicit Tvector(const T & v1,const T & v2);
+    explicit Tvector(const T & v1,const T & v2,const T & v3);
+    explicit Tvector(const T & v1,const T & v2,const T & v3,const T & v4);
+    explicit Tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5);
+    explicit Tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5,const T & v6);
+    explicit Tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5,const T & v6,const T & v7);
     
     //Destructor
-    ~tvector();
+    ~Tvector();
 
 
     //Assignement operators
-    //to tvector
-	  tvector & operator=(const tvector & rhs);
+    //to Tvector
+	  Tvector & operator=(const Tvector & rhs);
     //to element
-	  tvector & operator=(const T & rhs);
+	  Tvector & operator=(const T & rhs);
 	  //to any type
 	  template <class rhsT>
-		  tvector & operator=(const rhsT & rhs);
-	  //to tvector of any type 
+		  Tvector & operator=(const rhsT & rhs);
+	  //to Tvector of any type 
 	  template <class rhsT>
-		  tvector & operator=(const tvector<rhsT,N> & rhs);
+		  Tvector & operator=(const Tvector<rhsT,N> & rhs);
 	
 
     //// One direction promotion needed for the sake of safety
@@ -111,15 +111,15 @@ namespace cat
 
 #define TVECTOR_UPDATE(op) \
 template <class T1> \
-inline tvector & \
-operator op(const tvector<T1,N> & rhs) \
+inline Tvector & \
+operator op(const Tvector<T1,N> & rhs) \
 { \
    for(int i=0;i<N;++i) \
       (*this)[i] op rhs[i]; \
    return *this; \
 } \
 template <class T1> \
-inline tvector & \
+inline Tvector & \
 operator op(const T1 & rhs) \
 { \
    for(int i=0;i<N;++i) \

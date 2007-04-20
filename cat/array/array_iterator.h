@@ -29,17 +29,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   namespace cat
   {
   
-    //Forwarding declaration of class array<T,D>
+    //Forwarding declaration of class Array<T,D>
   template <class T,int D>
-	  class array;
-    //Forwarding declaration of class tvector<T,N>
+	  class Array;
+    //Forwarding declaration of class Tvector<T,N>
     template <class T,int N>
-    class tvector;
+    class Tvector;
 
 
 
     template <class T,int D> 
-	  class array<T,D>::const_iterator
+	  class Array<T,D>::const_iterator
   {
   public:
 		  static const int Rank=D;
@@ -47,18 +47,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
       T * data_;
       int length_;
       int pos_;
-      tvector<int,D> stride_;
+      Tvector<int,D> stride_;
       int navstride_;
 	    
-	    cat::tvector<int,Rank> shape_;
-	    cat::tvector<int,Rank> ordering_;
+	    cat::Tvector<int,Rank> shape_;
+	    cat::Tvector<int,Rank> ordering_;
 	    int size_;
 	    
     public:
-	    cat::tvector<int,Rank> & shape(){return shape_;};
-	    const cat::tvector<int,Rank> & shape() const {return shape_;};
-	    cat::tvector<int,Rank> & ordering(){return ordering_;};
-	    const cat::tvector<int,Rank> & ordering() const {return ordering_;};
+	    cat::Tvector<int,Rank> & shape(){return shape_;};
+	    const cat::Tvector<int,Rank> & shape() const {return shape_;};
+	    cat::Tvector<int,Rank> & ordering(){return ordering_;};
+	    const cat::Tvector<int,Rank> & ordering() const {return ordering_;};
 	    int & size(){return size_;};
 	    const  int & size() const {return size_;};
 	    
@@ -66,26 +66,26 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
       T * data();  
       const T * data() const;
   
-      //tvector<int,D> & indexes();
-      //const tvector<int,D> & indexes() const;
+      //Tvector<int,D> & indexes();
+      //const Tvector<int,D> & indexes() const;
   
       int & pos();  
       const int & pos() const;
 
-      tvector<int,D> & stride();  
-      const tvector<int,D> & stride() const;
+      Tvector<int,D> & stride();  
+      const Tvector<int,D> & stride() const;
 
       int & navstride();  
       const int & navstride() const;
   
       //Return the inces of the current position
-      const tvector<int,D> indices() const;
+      const Tvector<int,D> indices() const;
 
       //constructor
-      //from array
-	    const_iterator(const array<T,D> & array__);
-      //from array and position
-	    const_iterator(const array<T,D> & array__,int pos__);/*
+      //from Array
+	    const_iterator(const Array<T,D> & array__);
+      //from Array and position
+	    const_iterator(const Array<T,D> & array__,int pos__);/*
 	    //copy ctor
 	    const_iterator(const const_iterator & rhs);*/
 
@@ -120,34 +120,34 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
     template <class T,int D> 
-	  class array<T,D>::iterator: public array<T,D>::const_iterator
+	  class Array<T,D>::iterator: public Array<T,D>::const_iterator
     {
 
-	    using array<T,D>::const_iterator::data_;
-	    using array<T,D>::const_iterator::length_;
-	    using array<T,D>::const_iterator::pos_;
+	    using Array<T,D>::const_iterator::data_;
+	    using Array<T,D>::const_iterator::length_;
+	    using Array<T,D>::const_iterator::pos_;
 
-	    using array<T,D>::const_iterator::shape_;
-	    using array<T,D>::const_iterator::ordering_;
-	    using array<T,D>::const_iterator::size_;
+	    using Array<T,D>::const_iterator::shape_;
+	    using Array<T,D>::const_iterator::ordering_;
+	    using Array<T,D>::const_iterator::size_;
 	    
     public:
 	    static const int Rank=D;
 	    
-	    cat::tvector<int,Rank> & shape(){return shape_;};
-	    const cat::tvector<int,Rank> & shape() const {return shape_;};
-	    cat::tvector<int,Rank> & ordering(){return ordering_;};
-	    const cat::tvector<int,Rank> & ordering() const {return ordering_;};
+	    cat::Tvector<int,Rank> & shape(){return shape_;};
+	    const cat::Tvector<int,Rank> & shape() const {return shape_;};
+	    cat::Tvector<int,Rank> & ordering(){return ordering_;};
+	    const cat::Tvector<int,Rank> & ordering() const {return ordering_;};
 	    int & size(){return size_;};
 	    const  int & size() const {return size_;};
 	    
 	    
       //constructor
-      //from array
-	    iterator(array<T,D> & array_);
+      //from Array
+	    iterator(Array<T,D> & array_);
 
-	    //from array and position
-	    iterator(array<T,D> & array__,int pos__);
+	    //from Array and position
+	    iterator(Array<T,D> & array__,int pos__);
 	    //copy
 	    //const_iterator(const const_iterator & rhs);
 

@@ -31,9 +31,9 @@ using namespace std;
 namespace cat
 {
 
-//Forward declaration of class tvector<T,N>
+//Forward declaration of class Tvector<T,N>
 template <class T,int N>
-class tvector;
+class Tvector;
 
 //Forward declaration of class array<T,D>
 template <class T,int D>
@@ -49,7 +49,7 @@ struct numeric_traits
 };
 
 template <class T, int N>
-struct numeric_traits<tvector<T,N> >
+struct numeric_traits<Tvector<T,N> >
 {
 	typedef typename numeric_traits<T>::T_numeric T_numeric; 	
 };
@@ -79,7 +79,7 @@ struct real_numeric_traits<complex<T> >
 };
 
 template <class T, int N>
-struct real_numeric_traits<tvector<T,N> >
+struct real_numeric_traits<Tvector<T,N> >
 {
 	typedef typename real_numeric_traits<T>::T_numeric T_numeric; 	
 };

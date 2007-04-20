@@ -40,23 +40,23 @@ using namespace std;
   namespace cat
   {
 
-    //Forward declaration of class array<T,D>
+    //Forward declaration of class Array<T,D>
     template <class T,int D>
-    class array;
+    class Array;
     
-    //creates a reference to array rhs
+    //creates a reference to Array rhs
     template <class T,int D>
-    array<T,D> reference(const array<T,D> & rhs);
+    Array<T,D> reference(const Array<T,D> & rhs);
 
 #ifdef USE_EXPRESSIONS
   
   //FUNC(ARRAY)
 #define CAT_UNARY_FUNCTION_ARRAY(opsname,op) \
   template <class T,int D>					 \
-	  inline ArrayExpression<ArrayExpressionUnaryOp<opsname<T>,typename array<T,D>::const_iterator> >\
-	  op(const cat::array<T,D> & rhs) \
+	  inline ArrayExpression<ArrayExpressionUnaryOp<opsname<T>,typename Array<T,D>::const_iterator> >\
+	  op(const cat::Array<T,D> & rhs) \
 	  {									\
-	  typedef ArrayExpressionUnaryOp<opsname<T>,typename array<T,D>::const_iterator>  ExpressionT; \
+	  typedef ArrayExpressionUnaryOp<opsname<T>,typename Array<T,D>::const_iterator>  ExpressionT; \
 	  return ArrayExpression<ExpressionT>(ExpressionT(rhs.begin())); \
 	  };
 	//FUNC(ARRAYEXPRESSION)
@@ -89,28 +89,28 @@ using namespace std;
 //ARRAY OP ARRAY
 #define CAT_BINARY_FUNCTION_ARRAY_ARRAY(funcsname,func)					\
   template <class T1,int D1,class T2,int D2>					\
-	  inline ArrayExpression<ArrayExpressionBinOp<funcsname<T1,T2>,typename array<T1,D1>::const_iterator,typename array<T2,D2>::const_iterator> > \
-	  func(const cat::array<T1,D1> & lhs,const cat::array<T2,D2> & rhs) \
+	  inline ArrayExpression<ArrayExpressionBinOp<funcsname<T1,T2>,typename Array<T1,D1>::const_iterator,typename Array<T2,D2>::const_iterator> > \
+	  func(const cat::Array<T1,D1> & lhs,const cat::Array<T2,D2> & rhs) \
 	  {									\
-	  typedef ArrayExpressionBinOp<funcsname<T1,T2>,typename array<T1,D1>::const_iterator,typename array<T2,D2>::const_iterator>  ExpressionT; \
+	  typedef ArrayExpressionBinOp<funcsname<T1,T2>,typename Array<T1,D1>::const_iterator,typename Array<T2,D2>::const_iterator>  ExpressionT; \
 	  return ArrayExpression<ExpressionT>(ExpressionT(lhs.begin(),rhs.begin())); \
 	  };
 	//ARRAY OP ARRAYEXPRESSION
 #define CAT_BINARY_FUNCTION_ARRAY_ARRAYEXPRESSION(funcsname,func) \
 	  template <class T1,int D1,class ET>                                 \
-	  inline ArrayExpression<ArrayExpressionBinOp<funcsname<T1,typename ET::elementT>,typename array<T1,D1>::const_iterator,ET > > \
-	  func(const cat::array<T1,D1> & lhs,const ET & rhs)               \
+	  inline ArrayExpression<ArrayExpressionBinOp<funcsname<T1,typename ET::elementT>,typename Array<T1,D1>::const_iterator,ET > > \
+	  func(const cat::Array<T1,D1> & lhs,const ET & rhs)               \
 	  {                                                                   \
-	  typedef ArrayExpressionBinOp<funcsname<T1,typename ET::elementT>,typename array<T1,D1>::const_iterator, ET >  ExpressionT; \
+	  typedef ArrayExpressionBinOp<funcsname<T1,typename ET::elementT>,typename Array<T1,D1>::const_iterator, ET >  ExpressionT; \
 	  return ArrayExpression<ExpressionT>(ExpressionT(lhs.begin(),rhs));        \
 	  };
 	//ARRAYEXPRESSION OP ARRAY
 #define CAT_BINARY_FUNCTION_ARRAYEXPRESSION_ARRAY(funcsname,func) \
 	  template <class ET,class T2,int D2>					\
-	  inline ArrayExpression<ArrayExpressionBinOp<funcsname<typename ET::elementT,T2>,ET,typename array<T2,D2>::const_iterator> > \
-	  func(const ET & lhs,const cat::array<T2,D2> & rhs)		\
+	  inline ArrayExpression<ArrayExpressionBinOp<funcsname<typename ET::elementT,T2>,ET,typename Array<T2,D2>::const_iterator> > \
+	  func(const ET & lhs,const cat::Array<T2,D2> & rhs)		\
 	  {									\
-	  typedef ArrayExpressionBinOp<funcsname<typename ET::elementT,T2>,ET,typename array<T2,D2>::const_iterator>  ExpressionT; \
+	  typedef ArrayExpressionBinOp<funcsname<typename ET::elementT,T2>,ET,typename Array<T2,D2>::const_iterator>  ExpressionT; \
 	  return ArrayExpression<ExpressionT>(ExpressionT(lhs,rhs.begin()));	\
 	  };
 
@@ -130,9 +130,9 @@ using namespace std;
   
 //max
   template <class T,int D>
-	  T max(const array<T,D> & a)
+	  T max(const Array<T,D> & a)
   {
-	  typename array<T,D>::const_iterator array_iterator(a);
+	  typename Array<T,D>::const_iterator array_iterator(a);
 	  array_iterator=a.begin();
 	  
 	  T out(*array_iterator);
@@ -148,7 +148,7 @@ using namespace std;
 //   template <class T>
 // 	  ArrayExpression<T>::elementT max(const ArrayExpression<T> & a)
 //   {
-// 	  typename array<T,D>::const_iterator array_iterator(a);
+// 	  typename Array<T,D>::const_iterator array_iterator(a);
 // 	  array_iterator=a.begin();
 // 	  
 // 	  T out(*array_iterator);
@@ -163,9 +163,9 @@ using namespace std;
 //   }
 	//min
   template <class T,int D>
-	  T min(const array<T,D> & a)
+	  T min(const Array<T,D> & a)
   {
-	  typename array<T,D>::const_iterator array_iterator(a);
+	  typename Array<T,D>::const_iterator array_iterator(a);
 	  array_iterator=a.begin();
 	  T out(*array_iterator);
 	  out=0;
@@ -179,11 +179,11 @@ using namespace std;
   
 //sum
   template <class T,int D>
-	  T sum(const array<T,D> & a)
+	  T sum(const Array<T,D> & a)
   {
 	  T out;
 	  out=0;
-	  typename array<T,D>::const_iterator a_iterator(a);
+	  typename Array<T,D>::const_iterator a_iterator(a);
 	  for (a_iterator=a.begin();
 	       a_iterator!=a.end();
 	       ++a_iterator)
@@ -207,7 +207,7 @@ using namespace std;
 #endif
   
 #ifdef USE_TEMPORARIES
-    //Operations on tvector - extending for arrays of tvectors
+    //Operations on tvector - extending for Arrays of tvectors
 
   CAT_DECLARE_FUNCTION_REAL_NUMERIC(real);
   CAT_DECLARE_FUNCTION_REAL_NUMERIC(imag);
@@ -233,15 +233,15 @@ using namespace std;
  
 //max
   template <class T,int D>
-	  T max(const array<T,D> & a);
+	  T max(const Array<T,D> & a);
   
 //min
   template <class T,int D>
-	  T min(const array<T,D> & a);
+	  T min(const Array<T,D> & a);
   
 //sum
   template <class T,int D>
-	  T sum(const array<T,D> & a);
+	  T sum(const Array<T,D> & a);
 
 #endif
   

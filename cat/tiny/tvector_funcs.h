@@ -40,54 +40,54 @@ namespace cat
   //overloading <<
   template <class T,int N>
   std::ostream & operator<<(std::ostream & output,
-			    const tvector<T,N> & ovector);
+			    const Tvector<T,N> & ovector);
   template <class T,int N>
   std::ostream & operator<<(std::ostream & output,
-			    tvector<T,N> & ovector);
+			    Tvector<T,N> & ovector);
   //overloading >>
   template <class T,int N>
   std::istream & operator>>(std::istream & input,
-			    tvector<T,N> & ivector);
+			    Tvector<T,N> & ivector);
 
   //Operations on tvectors of complex
   //real part
   template <class T,int N>
-  tvector<T,N> real(const tvector<complex<T>,N> & a);
+  Tvector<T,N> real(const Tvector<complex<T>,N> & a);
   //imaginary part
   template <class T,int N>
-  tvector<T,N> imag(const tvector<complex<T>,N> & a);
+  Tvector<T,N> imag(const Tvector<complex<T>,N> & a);
   //conjugate
   template <class T,int N>
-  tvector<complex<T>,N> conj(const tvector<complex<T>,N> & a);
+  Tvector<complex<T>,N> conj(const Tvector<complex<T>,N> & a);
 
   //Dot product
   template <class T1,class T2,int N>
   typename numeric_traits<typename promote_traits<T1,T2>::T_promote>::
-  T_numeric dot_product(const tvector<T1,N> & a,const tvector<T2,N> & b);
+  T_numeric dot_product(const Tvector<T1,N> & a,const Tvector<T2,N> & b);
 
   //Square of Norm
   template <class T,int N>
   typename real_numeric_traits<T>::T_numeric 
-  norm_sq(const tvector<T,N> & a);
+  norm_sq(const Tvector<T,N> & a);
 
   //Square of Norm for complex numbers
   template <class T,int N>
   typename real_numeric_traits<complex<T> >::T_numeric 
-  norm_sq(const tvector<complex<T>,N> & a);
+  norm_sq(const Tvector<complex<T>,N> & a);
 
 
   //Norm
   template <class T,int N>
-  typename real_numeric_traits<T>::T_numeric norm(const tvector<T,N> & a);
+  typename real_numeric_traits<T>::T_numeric norm(const Tvector<T,N> & a);
 
   //Cross product
   template <class T1, class T2>
-  tvector<typename promote_traits<T1,T2>::T_promote,3> 
-  cross_product(const tvector<T1,3> & a,const tvector<T2,3> & b);
+  Tvector<typename promote_traits<T1,T2>::T_promote,3> 
+  cross_product(const Tvector<T1,3> & a,const Tvector<T2,3> & b);
 
 //pow
 template <class T,int N>
-	tvector<T,N> pow(const tvector<T,N> & a,const typename real_numeric_traits<T>::T_numeric & p);
+	Tvector<T,N> pow(const Tvector<T,N> & a,const typename real_numeric_traits<T>::T_numeric & p);
 
 }
 

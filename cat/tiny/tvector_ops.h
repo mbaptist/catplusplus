@@ -36,10 +36,10 @@ namespace cat
   //Unary -
 
 template <class T,int N>
-	inline tvector<T,N>
-	operator -(const tvector<T,N>& rhs)
+	inline Tvector<T,N>
+	operator -(const Tvector<T,N>& rhs)
 {
-	tvector<T,N> out(rhs);
+	Tvector<T,N> out(rhs);
 	for (int i=0;i<N;++i)
 		out[i]*=-1;
 	return out;
@@ -52,24 +52,24 @@ template <class T,int N>
 
 #define CAT_TVECTOR_BINARY_OPERATOR(op)					\
 template <class T1,class T2,int N>					\
-	inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>	\
-	operator op(const cat::tvector<T1,N> & lhs,const cat::tvector<T2,N> & rhs)	\
+	inline cat::Tvector<typename promote_traits<T1,T2>::T_promote,N>	\
+	operator op(const cat::Tvector<T1,N> & lhs,const cat::Tvector<T2,N> & rhs)	\
 	{									\
-	return cat::tvector<typename promote_traits<T1,T2>::T_promote,N>(lhs) op##= rhs; \
+	return cat::Tvector<typename promote_traits<T1,T2>::T_promote,N>(lhs) op##= rhs; \
 	}									\
 	template <class T1,class T2,int N>					\
-	inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>		\
-	operator op(const cat::tvector<T1,N> & lhs,				\
+	inline cat::Tvector<typename promote_traits<T1,T2>::T_promote,N>		\
+	operator op(const cat::Tvector<T1,N> & lhs,				\
 	const T2 & rhs)		\
 	{									\
-	return cat::tvector<typename promote_traits<T1,T2>::T_promote,N>(lhs) op##= rhs; \
+	return cat::Tvector<typename promote_traits<T1,T2>::T_promote,N>(lhs) op##= rhs; \
 	}									\
 	template <class T1,class T2,int N>					\
-	inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>		\
+	inline cat::Tvector<typename promote_traits<T1,T2>::T_promote,N>		\
 	operator op(const T1  & lhs,		\
-	const cat::tvector<T2,N> & rhs)				\
+	const cat::Tvector<T2,N> & rhs)				\
 	{									\
-	tvector<typename promote_traits<T1,T2>::T_promote,N> out;		\
+	Tvector<typename promote_traits<T1,T2>::T_promote,N> out;		\
 	for (int i=0;i<N;++i)						\
 	out[i]= lhs op rhs[i];						\
 	return out;							\
@@ -82,7 +82,7 @@ template <class T1,class T2,int N>					\
 
   
   template <class T1,class T2,int N>
-  bool operator==(const tvector<T1,N> & lhs,const tvector<T2,N> & rhs)
+  bool operator==(const Tvector<T1,N> & lhs,const Tvector<T2,N> & rhs)
   {
     bool out=1;
     for (int i=0;i<N;++i)
@@ -91,7 +91,7 @@ template <class T1,class T2,int N>					\
   };
 
   template <class T1,class T2,int N>
-  bool operator!=(const tvector<T1,N> & lhs,const tvector<T2,N> & rhs)
+  bool operator!=(const Tvector<T1,N> & lhs,const Tvector<T2,N> & rhs)
   {
     return !(lhs==rhs);
   };
@@ -101,24 +101,24 @@ template <class T1,class T2,int N>					\
 
 #define CAT_TVECTOR_BINARY_OPERATOR(op)					\
   template <class T1,class T2,int N>					\
-  inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>	\
-  operator op(const cat::tvector<T1,N> & lhs,const cat::tvector<T2,N> & rhs)	\
+  inline cat::Tvector<typename promote_traits<T1,T2>::T_promote,N>	\
+  operator op(const cat::Tvector<T1,N> & lhs,const cat::Tvector<T2,N> & rhs)	\
   {									\
-    return cat::tvector<typename promote_traits<T1,T2>::T_promote,N>(lhs) op##= rhs; \
+    return cat::Tvector<typename promote_traits<T1,T2>::T_promote,N>(lhs) op##= rhs; \
   }									\
     template <class T1,class T2,int N>					\
-    inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>		\
-    operator op(const cat::tvector<T1,N> & lhs,				\
-		const typename cat::tvector<T2,N>::T_element & rhs)		\
+    inline cat::Tvector<typename promote_traits<T1,T2>::T_promote,N>		\
+    operator op(const cat::Tvector<T1,N> & lhs,				\
+		const typename cat::Tvector<T2,N>::T_element & rhs)		\
     {									\
-      return cat::tvector<typename promote_traits<T1,T2>::T_promote,N>(lhs) op##= rhs; \
+      return cat::Tvector<typename promote_traits<T1,T2>::T_promote,N>(lhs) op##= rhs; \
     }									\
     template <class T1,class T2,int N>					\
-    inline cat::tvector<typename promote_traits<T1,T2>::T_promote,N>		\
-    operator op(const typename cat::tvector<T1,N>::T_element & lhs,		\
-		const cat::tvector<T2,N> & rhs)				\
+    inline cat::Tvector<typename promote_traits<T1,T2>::T_promote,N>		\
+    operator op(const typename cat::Tvector<T1,N>::T_element & lhs,		\
+		const cat::Tvector<T2,N> & rhs)				\
     {									\
-      tvector<typename promote_traits<T1,T2>::T_promote,N> out;		\
+      Tvector<typename promote_traits<T1,T2>::T_promote,N> out;		\
       for (int i=0;i<N;++i)						\
 	out[i]= lhs op rhs[i];						\
       return out;							\
@@ -131,7 +131,7 @@ CAT_TVECTOR_BINARY_OPERATOR(/);
 
 
 template <class T1,class T2,int N>
-	bool operator==(const tvector<T1,N> & lhs,const tvector<T2,N> & rhs)
+	bool operator==(const Tvector<T1,N> & lhs,const Tvector<T2,N> & rhs)
 {
 	bool out=1;
 	for (int i=0;i<N;++i)
@@ -140,7 +140,7 @@ template <class T1,class T2,int N>
 };
 
 template <class T1,class T2,int N>
-	bool operator!=(const tvector<T1,N> & lhs,const tvector<T2,N> & rhs)
+	bool operator!=(const Tvector<T1,N> & lhs,const Tvector<T2,N> & rhs)
 {
 	return !(lhs==rhs);
 };

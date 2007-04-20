@@ -36,41 +36,41 @@ class storage
   {
   protected:
 
-    tvector<int,D> ordering_;
+    Tvector<int,D> ordering_;
 
-    tvector<int,D> shape_;
+    Tvector<int,D> shape_;
     int size_;
-    tvector<int,D> stride_;
+    Tvector<int,D> stride_;
 
 
     //Direct accessors to members
   public:
 
     //ordering
-    tvector<int,D> & ordering();
-    const tvector<int,D> & ordering() const;
+    Tvector<int,D> & ordering();
+    const Tvector<int,D> & ordering() const;
 
     //shape
-    tvector<int,D> & shape();
-    const tvector<int,D> & shape() const;
+    Tvector<int,D> & shape();
+    const Tvector<int,D> & shape() const;
 
     //size
     int & size();
     const int & size() const;
 
     //stride
-    tvector<int,D> & stride();
-    const tvector<int,D> & stride() const;
+    Tvector<int,D> & stride();
+    const Tvector<int,D> & stride() const;
 
 
 // Constructors / Destructor
   public:
 
     //Constructors
-    explicit storage(const tvector<int,D> & shape__);//default - initialises storage_order_ with the c order (row major)
-    explicit storage(const tvector<int,D> & shape__,string ordering_string__);//from string - fortran or c orders
-    explicit storage(const tvector<int,D> & shape__,tvector<int,D> ordering__);//from tvector with order
-    explicit storage(const tvector<int,D> & shape__,tvector<int,D> ordering__,tvector<int,D> stride__);
+    explicit storage(const Tvector<int,D> & shape__);//default - initialises storage_order_ with the c order (row major)
+    explicit storage(const Tvector<int,D> & shape__,string ordering_string__);//from string - fortran or c orders
+    explicit storage(const Tvector<int,D> & shape__,Tvector<int,D> ordering__);//from tvector with order
+    explicit storage(const Tvector<int,D> & shape__,Tvector<int,D> ordering__,Tvector<int,D> stride__);
     //Destructor
     ~storage(){};
     
@@ -84,8 +84,8 @@ class storage
     //Private Methods
   private:
     //Evaluates size
-    int eval_size(const tvector<int,D> & shape__);
-    tvector<int,D> eval_strides(const tvector<int,D> & shape__);
+    int eval_size(const Tvector<int,D> & shape__);
+    Tvector<int,D> eval_strides(const Tvector<int,D> & shape__);
 
     
   };

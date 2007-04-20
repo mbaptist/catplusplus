@@ -51,10 +51,10 @@ namespace cat
   //OP ARRAY
 #define CAT_UNARY_OPERATOR_ARRAY(opsname,op) \
 template <class T,int D>					 \
-	inline ArrayExpression<ArrayExpressionUnaryOp<opsname<T>,typename array<T,D>::const_iterator> >\
-	operator op(const cat::array<T,D> & rhs) \
+	inline ArrayExpression<ArrayExpressionUnaryOp<opsname<T>,typename Array<T,D>::const_iterator> >\
+	operator op(const cat::Array<T,D> & rhs) \
 	{									\
-	typedef ArrayExpressionUnaryOp<opsname<T>,typename array<T,D>::const_iterator>  ExpressionT; \
+	typedef ArrayExpressionUnaryOp<opsname<T>,typename Array<T,D>::const_iterator>  ExpressionT; \
 	return ArrayExpression<ExpressionT>(ExpressionT(rhs.begin())); \
 	};
 	//OP ARRAYEXPRESSION
@@ -79,28 +79,28 @@ CAT_UNARY_OPERATOR(UnaryMinus,-);
 //ARRAY OP ARRAY
 #define CAT_BINARY_OPERATOR_ARRAY_ARRAY(opsname,op)					\
   template <class T1,int D1,class T2,int D2>					\
-  inline ArrayExpression<ArrayExpressionBinOp<opsname<T1,T2>,typename array<T1,D1>::const_iterator,typename array<T2,D2>::const_iterator> > \
-  operator op(const cat::array<T1,D1> & lhs,const cat::array<T2,D2> & rhs) \
+  inline ArrayExpression<ArrayExpressionBinOp<opsname<T1,T2>,typename Array<T1,D1>::const_iterator,typename Array<T2,D2>::const_iterator> > \
+  operator op(const cat::Array<T1,D1> & lhs,const cat::Array<T2,D2> & rhs) \
   {									\
-    typedef ArrayExpressionBinOp<opsname<T1,T2>,typename array<T1,D1>::const_iterator,typename array<T2,D2>::const_iterator>  ExpressionT; \
+    typedef ArrayExpressionBinOp<opsname<T1,T2>,typename Array<T1,D1>::const_iterator,typename Array<T2,D2>::const_iterator>  ExpressionT; \
     return ArrayExpression<ExpressionT>(ExpressionT(lhs.begin(),rhs.begin())); \
 	};
 	//ARRAY OP ARRAYEXPRESSION
 #define CAT_BINARY_OPERATOR_ARRAY_ARRAYEXPRESSION(opsname,op) \
 	template <class T1,int D1,class ET>                                 \
-	inline ArrayExpression<ArrayExpressionBinOp<opsname<T1,typename ET::elementT>,typename array<T1,D1>::const_iterator,ET > > \
-	operator op(const cat::array<T1,D1> & lhs,const ET & rhs)               \
+	inline ArrayExpression<ArrayExpressionBinOp<opsname<T1,typename ET::elementT>,typename Array<T1,D1>::const_iterator,ET > > \
+	operator op(const cat::Array<T1,D1> & lhs,const ET & rhs)               \
 {                                                                   \
-		typedef ArrayExpressionBinOp<opsname<T1,typename ET::elementT>,typename array<T1,D1>::const_iterator, ET >  ExpressionT; \
+		typedef ArrayExpressionBinOp<opsname<T1,typename ET::elementT>,typename Array<T1,D1>::const_iterator, ET >  ExpressionT; \
 		return ArrayExpression<ExpressionT>(ExpressionT(lhs.begin(),rhs));        \
 };
 	//ARRAYEXPRESSION OP ARRAY
 #define CAT_BINARY_OPERATOR_ARRAYEXPRESSION_ARRAY(opsname,op) \
 	template <class ET,class T2,int D2>					\
-	inline ArrayExpression<ArrayExpressionBinOp<opsname<typename ET::elementT,T2>,ET,typename array<T2,D2>::const_iterator> > \
-	 	operator op(const ET & lhs,const cat::array<T2,D2> & rhs)		\
+	inline ArrayExpression<ArrayExpressionBinOp<opsname<typename ET::elementT,T2>,ET,typename Array<T2,D2>::const_iterator> > \
+	 	operator op(const ET & lhs,const cat::Array<T2,D2> & rhs)		\
 	 {									\
-	 	typedef ArrayExpressionBinOp<opsname<typename ET::elementT,T2>,ET,typename array<T2,D2>::const_iterator>  ExpressionT; \
+	 	typedef ArrayExpressionBinOp<opsname<typename ET::elementT,T2>,ET,typename Array<T2,D2>::const_iterator>  ExpressionT; \
 	 		return ArrayExpression<ExpressionT>(ExpressionT(lhs,rhs.begin()));	\
 	 };
 	//ARRAYEXPRESSION OP ARRAYEXPRESSION
@@ -116,19 +116,19 @@ CAT_UNARY_OPERATOR(UnaryMinus,-);
 	//ARRAY OP POD
 #define CAT_BINARY_OPERATOR_ARRAY_CONSTANT_POD(opsname,op,CT)					\
 template <class T1,int D1>					\
-	inline ArrayExpression<ArrayExpressionBinOp<opsname<T1,typename ArrayExpressionConstant<CT>::elementT>,typename array<T1,D1>::const_iterator,ArrayExpressionConstant<CT> > > \
-	operator op(const cat::array<T1,D1> & lhs,const CT & rhs)		\
+	inline ArrayExpression<ArrayExpressionBinOp<opsname<T1,typename ArrayExpressionConstant<CT>::elementT>,typename Array<T1,D1>::const_iterator,ArrayExpressionConstant<CT> > > \
+	operator op(const cat::Array<T1,D1> & lhs,const CT & rhs)		\
 	{									\
-	typedef ArrayExpressionBinOp<opsname<T1,typename ArrayExpressionConstant<CT>::elementT>,typename array<T1,D1>::const_iterator, ArrayExpressionConstant<CT> >  ExpressionT; \
+	typedef ArrayExpressionBinOp<opsname<T1,typename ArrayExpressionConstant<CT>::elementT>,typename Array<T1,D1>::const_iterator, ArrayExpressionConstant<CT> >  ExpressionT; \
 	return ArrayExpression<ExpressionT>(ExpressionT(lhs.begin(),rhs));	\
 	};
 	//POD OP ARRAY
 #define CAT_BINARY_OPERATOR_CONSTANT_ARRAY_POD(opsname,op,CT)					\
 	template <class T2,int D2>					\
-	inline ArrayExpression<ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<CT>::elementT,T2>,ArrayExpressionConstant<CT>,typename array<T2,D2>::const_iterator> > \
-	operator op(const CT & lhs,const cat::array<T2,D2> & rhs)		\
+	inline ArrayExpression<ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<CT>::elementT,T2>,ArrayExpressionConstant<CT>,typename Array<T2,D2>::const_iterator> > \
+	operator op(const CT & lhs,const cat::Array<T2,D2> & rhs)		\
 	{									\
-	typedef ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<CT>::elementT,T2>,ArrayExpressionConstant<CT>,typename array<T2,D2>::const_iterator>  ExpressionT; \
+	typedef ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<CT>::elementT,T2>,ArrayExpressionConstant<CT>,typename Array<T2,D2>::const_iterator>  ExpressionT; \
 	return ArrayExpression<ExpressionT>(ExpressionT(lhs,rhs.begin()));	\
 	};
 	//ARRAYEXPRESSION OP POD
@@ -167,19 +167,19 @@ template <class T1,int D1>					\
 	//ARRAY OP CONSTANT COMPLEX
 #define CAT_BINARY_OPERATOR_ARRAY_CONSTANT_COMPLEX(opsname,op)					\
 template <class T1,int D1,class T>					\
-	inline ArrayExpression<ArrayExpressionBinOp<opsname<T1,typename ArrayExpressionConstant<std::complex<T> >::elementT>,typename array<T1,D1>::const_iterator,ArrayExpressionConstant<std::complex<T> > > > \
-	operator op(const cat::array<T1,D1> & lhs,const std::complex<T> & rhs)		\
+	inline ArrayExpression<ArrayExpressionBinOp<opsname<T1,typename ArrayExpressionConstant<std::complex<T> >::elementT>,typename Array<T1,D1>::const_iterator,ArrayExpressionConstant<std::complex<T> > > > \
+	operator op(const cat::Array<T1,D1> & lhs,const std::complex<T> & rhs)		\
 	{									\
-	typedef ArrayExpressionBinOp<opsname<T1,typename ArrayExpressionConstant<std::complex<T> >::elementT>,typename array<T1,D1>::const_iterator, ArrayExpressionConstant<std::complex<T> > >  ExpressionT; \
+	typedef ArrayExpressionBinOp<opsname<T1,typename ArrayExpressionConstant<std::complex<T> >::elementT>,typename Array<T1,D1>::const_iterator, ArrayExpressionConstant<std::complex<T> > >  ExpressionT; \
 	return ArrayExpression<ExpressionT>(ExpressionT(lhs.begin(),rhs));	\
 	};
 	//CONSTANT COMPLEX OP ARRAY
 #define CAT_BINARY_OPERATOR_CONSTANT_COMPLEX_ARRAY(opsname,op)					\
 	template <class T,class T2,int D2>					\
-	inline ArrayExpression<ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<std::complex<T> >::elementT,T2>,ArrayExpressionConstant<std::complex<T> >,typename array<T2,D2>::const_iterator> > \
-	operator op(const std::complex<T> & lhs,const cat::array<T2,D2> & rhs)		\
+	inline ArrayExpression<ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<std::complex<T> >::elementT,T2>,ArrayExpressionConstant<std::complex<T> >,typename Array<T2,D2>::const_iterator> > \
+	operator op(const std::complex<T> & lhs,const cat::Array<T2,D2> & rhs)		\
 	{									\
-	typedef ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<std::complex<T> >::elementT,T2>,ArrayExpressionConstant<std::complex<T> >,typename array<T2,D2>::const_iterator>  ExpressionT; \
+	typedef ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<std::complex<T> >::elementT,T2>,ArrayExpressionConstant<std::complex<T> >,typename Array<T2,D2>::const_iterator>  ExpressionT; \
 	return ArrayExpression<ExpressionT>(ExpressionT(lhs,rhs.begin()));	\
 	};
 	//ARRAYEXPRESSION OP CONSTANT COMPLEX
@@ -211,37 +211,37 @@ template <class T1,int D1,class T>					\
 		//ARRAY OP CONSTANT TVECTOR
 #define CAT_BINARY_OPERATOR_ARRAY_CONSTANT_TVECTOR(opsname,op)					\
 	template <class T1,int D1,class T,int N>					\
-	inline ArrayExpression<ArrayExpressionBinOp<opsname<T1,typename ArrayExpressionConstant<cat::tvector<T,N> >::elementT>,typename array<T1,D1>::const_iterator,ArrayExpressionConstant<cat::tvector<T,N> > > > \
-	operator op(const cat::array<T1,D1> & lhs,const cat::tvector<T,N> & rhs)		\
+	inline ArrayExpression<ArrayExpressionBinOp<opsname<T1,typename ArrayExpressionConstant<cat::Tvector<T,N> >::elementT>,typename Array<T1,D1>::const_iterator,ArrayExpressionConstant<cat::Tvector<T,N> > > > \
+	operator op(const cat::Array<T1,D1> & lhs,const cat::Tvector<T,N> & rhs)		\
 	{									\
-	typedef ArrayExpressionBinOp<opsname<T1,typename ArrayExpressionConstant<cat::tvector<T,N> >::elementT>,typename array<T1,D1>::const_iterator, ArrayExpressionConstant<cat::tvector<T,N> > >  ExpressionT; \
+	typedef ArrayExpressionBinOp<opsname<T1,typename ArrayExpressionConstant<cat::Tvector<T,N> >::elementT>,typename Array<T1,D1>::const_iterator, ArrayExpressionConstant<cat::Tvector<T,N> > >  ExpressionT; \
 	return ArrayExpression<ExpressionT>(ExpressionT(lhs.begin(),rhs));	\
 	};
 	//CONSTANT TVECTOR OP ARRAY
 #define CAT_BINARY_OPERATOR_CONSTANT_TVECTOR_ARRAY(opsname,op)					\
 	template <class T,int N,class T2,int D2>					\
-	inline ArrayExpression<ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<cat::tvector<T,N> >::elementT,T2>,ArrayExpressionConstant<cat::tvector<T,N> >,typename array<T2,D2>::const_iterator> > \
-	operator op(const cat::tvector<T,N> & lhs,const cat::array<T2,D2> & rhs)		\
+	inline ArrayExpression<ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<cat::Tvector<T,N> >::elementT,T2>,ArrayExpressionConstant<cat::Tvector<T,N> >,typename Array<T2,D2>::const_iterator> > \
+	operator op(const cat::Tvector<T,N> & lhs,const cat::Array<T2,D2> & rhs)		\
 	{									\
-	typedef ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<cat::tvector<T,N> >::elementT,T2>,ArrayExpressionConstant<cat::tvector<T,N> >,typename array<T2,D2>::const_iterator>  ExpressionT; \
+	typedef ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<cat::Tvector<T,N> >::elementT,T2>,ArrayExpressionConstant<cat::Tvector<T,N> >,typename Array<T2,D2>::const_iterator>  ExpressionT; \
 	return ArrayExpression<ExpressionT>(ExpressionT(lhs,rhs.begin()));	\
 	};
 	//ARRAYEXPRESSION OP CONSTANT TVECTOR
 #define CAT_BINARY_OPERATOR_ARRAYEXPRESSION_CONSTANT_TVECTOR(opsname,op)					\
 	template <class ET,class T,int N>					\
-	inline ArrayExpression<ArrayExpressionBinOp<opsname<typename ET::elementT,typename ArrayExpressionConstant<cat::tvector<T,N> >::elementT>,ET,ArrayExpressionConstant<cat::tvector<T,N> > > > \
-	operator op(const ET & lhs,const cat::tvector<T,N> & rhs)		\
+	inline ArrayExpression<ArrayExpressionBinOp<opsname<typename ET::elementT,typename ArrayExpressionConstant<cat::Tvector<T,N> >::elementT>,ET,ArrayExpressionConstant<cat::Tvector<T,N> > > > \
+	operator op(const ET & lhs,const cat::Tvector<T,N> & rhs)		\
 	{									\
-	typedef ArrayExpressionBinOp<opsname<typename ET::elementT,typename ArrayExpressionConstant<cat::tvector<T,N> >::elementT>,ET, ArrayExpressionConstant<cat::tvector<T,N> > >  ExpressionT; \
+	typedef ArrayExpressionBinOp<opsname<typename ET::elementT,typename ArrayExpressionConstant<cat::Tvector<T,N> >::elementT>,ET, ArrayExpressionConstant<cat::Tvector<T,N> > >  ExpressionT; \
 	return ArrayExpression<ExpressionT>(ExpressionT(lhs,rhs));	\
 	};
 	//CONSTANT TVECTOR OP ARRAYEXPRESSION
 #define CAT_BINARY_OPERATOR_CONSTANT_TVECTOR_ARRAYEXPRESSION(opsname,op)					\
 	template <class T,int N,class ET>					\
-	inline ArrayExpression<ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<cat::tvector<T,N> >::elementT,typename ET::elementT>,ArrayExpressionConstant<cat::tvector<T,N> >,ET> > \
-	operator op(const cat::tvector<T,N> & lhs,const ET & rhs)		\
+	inline ArrayExpression<ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<cat::Tvector<T,N> >::elementT,typename ET::elementT>,ArrayExpressionConstant<cat::Tvector<T,N> >,ET> > \
+	operator op(const cat::Tvector<T,N> & lhs,const ET & rhs)		\
 	{									\
-	typedef ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<cat::tvector<T,N> >::elementT,typename ET::elementT>,ArrayExpressionConstant<cat::tvector<T,N> >,ET>  ExpressionT; \
+	typedef ArrayExpressionBinOp<opsname<typename ArrayExpressionConstant<cat::Tvector<T,N> >::elementT,typename ET::elementT>,ArrayExpressionConstant<cat::Tvector<T,N> >,ET>  ExpressionT; \
 	return ArrayExpression<ExpressionT>(ExpressionT(lhs,rhs));	\
 	};
 	
@@ -273,12 +273,12 @@ CAT_BINARY_OPERATOR(Divide,/);
 
 //Unary minus
 template <class T,int D>
-	inline array<T,D>
-	operator -(const array<T,D>& rhs)
+	inline Array<T,D>
+	operator -(const Array<T,D>& rhs)
 {
-	array<T,D> out(rhs.shape());
-	typename array<T,D>::iterator out_iterator(out);
-	typename array<T,D>::const_iterator rhs_iterator(rhs);
+	Array<T,D> out(rhs.shape());
+	typename Array<T,D>::iterator out_iterator(out);
+	typename Array<T,D>::const_iterator rhs_iterator(rhs);
 	for (out_iterator=out.begin(),
 	     rhs_iterator=rhs.begin();
 	     out_iterator!=out.end(),
@@ -299,13 +299,13 @@ template <class T,int D>
     return (typename promote_traits<T1,T2>::T_promote(lhs) op##= rhs);	\
   }									\
     template <class T1,class T2,int D>					\
-  inline cat::array<typename promote_traits<T1,T2>::T_promote,D>	\
-  operator op(const cat::array<T1,D> & lhs,const cat::array<T2,D> & rhs) \
+  inline cat::Array<typename promote_traits<T1,T2>::T_promote,D>	\
+  operator op(const cat::Array<T1,D> & lhs,const cat::Array<T2,D> & rhs) \
   {									\
-    cat::array<typename promote_traits<T1,T2>::T_promote,D> out(lhs.shape()); \
-	typename array<typename promote_traits<T1,T2>::T_promote,D>::iterator out_iterator(out); \
-	typename array<T1,D>::const_iterator lhs_iterator(lhs);			\
-	typename array<T2,D>::const_iterator rhs_iterator(rhs);			\
+    cat::Array<typename promote_traits<T1,T2>::T_promote,D> out(lhs.shape()); \
+	typename Array<typename promote_traits<T1,T2>::T_promote,D>::iterator out_iterator(out); \
+	typename Array<T1,D>::const_iterator lhs_iterator(lhs);			\
+	typename Array<T2,D>::const_iterator rhs_iterator(rhs);			\
     for (out_iterator=out.begin(),					\
 	   lhs_iterator=lhs.begin(),					\
 	   rhs_iterator=rhs.begin();					\
@@ -319,12 +319,12 @@ template <class T,int D>
     return out;								\
   }									\
     template <class T1,class T2,int D>					\
-    inline cat::array<typename promote_traits<T1,T2>::T_promote,D>	\
-    operator op(const cat::array<T1,D> & lhs,const T2 & rhs)		\
+    inline cat::Array<typename promote_traits<T1,T2>::T_promote,D>	\
+    operator op(const cat::Array<T1,D> & lhs,const T2 & rhs)		\
     {									\
-      cat::array<typename promote_traits<T1,T2>::T_promote,D> out(lhs.shape()); \
-	typename array<typename promote_traits<T1,T2>::T_promote,D>::iterator out_iterator(out); \
-	typename array<T2,D>::const_iterator lhs_iterator(lhs);			\
+      cat::Array<typename promote_traits<T1,T2>::T_promote,D> out(lhs.shape()); \
+	typename Array<typename promote_traits<T1,T2>::T_promote,D>::iterator out_iterator(out); \
+	typename Array<T2,D>::const_iterator lhs_iterator(lhs);			\
       for (out_iterator=out.begin(),					\
 	     lhs_iterator=lhs.begin();					\
 	   out_iterator!=out.end(),					\
@@ -335,12 +335,12 @@ template <class T,int D>
       return out;							\
     }									\
     template <class T1,class T2,int D>					\
-    inline cat::array<typename promote_traits<T1,T2>::T_promote,D>	\
-    operator op(const T1 & lhs,const cat::array<T2,D> & rhs)		\
+    inline cat::Array<typename promote_traits<T1,T2>::T_promote,D>	\
+    operator op(const T1 & lhs,const cat::Array<T2,D> & rhs)		\
     {									\
-      cat::array<typename promote_traits<T1,T2>::T_promote,D> out(rhs.shape()); \
-	typename array<typename promote_traits<T1,T2>::T_promote,D>::iterator out_iterator(out); \
-	typename array<T2,D>::const_iterator rhs_iterator(rhs);			\
+      cat::Array<typename promote_traits<T1,T2>::T_promote,D> out(rhs.shape()); \
+	typename Array<typename promote_traits<T1,T2>::T_promote,D>::iterator out_iterator(out); \
+	typename Array<T2,D>::const_iterator rhs_iterator(rhs);			\
       for (out_iterator=out.begin(),					\
 	     rhs_iterator=rhs.begin();					\
 	   out_iterator!=out.end(),					\

@@ -22,8 +22,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
 
-  //array.h
-  //Declaration of class array
+  //Array.h
+  //Declaration of class Array
 
 #ifndef CAT_ARRAYCLASS_H
 #define CAT_ARRAYCLASS_H
@@ -46,7 +46,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     //Forwarding declarations
     //tiny vectors
     template <class T,int N>
-    class tvector;
+    class Tvector;
     //storage
     template <int D>
     class storage;
@@ -56,10 +56,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
 
-    //Declaration of class array
+    //Declaration of class Array
 
     template <class T,int D>
-    class array :
+    class Array :
       public storage<D>,
       public memory_reference<T>
     {
@@ -107,59 +107,59 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
       //References and Copies
 
-      //create a reference to this array
-      //returns a new array that shares the data with the current array
-      array<T,D> reference();
+      //create a reference to this Array
+      //returns a new Array that shares the data with the current Array
+      Array<T,D> reference();
 
-      //make this array a reference to a given array
-      //the data pointer points to the data of the given array
-      void reference(array<T,D> & rhs);
+      //make this Array a reference to a given Array
+      //the data pointer points to the data of the given Array
+      void reference(Array<T,D> & rhs);
 
-      //create a new array by copying this array
-      //(the new array has its own data)
-      array<T,D> copy();
+      //create a new Array by copying this Array
+      //(the new Array has its own data)
+      Array<T,D> copy();
 
-      //make this array a copy of a given array
+      //make this Array a copy of a given Array
       //the data is actually copied
-      void copy(const array<T,D> & rhs);
+      void copy(const Array<T,D> & rhs);
 
-      //create a new array by copying this array
-      //(the new array has its own data)
+      //create a new Array by copying this Array
+      //(the new Array has its own data)
       template <class T1,int D1>
-      array<T1,D1> copy();
+      Array<T1,D1> copy();
 
-      //make this array a copy of a given array
+      //make this Array a copy of a given Array
       //the data is actually copied
       template <class T1,int D1>
-      void copy(const array<T1,D1> & rhs);
+      void copy(const Array<T1,D1> & rhs);
 
 
 
-      //Constructors of array
+      //Constructors of Array
 
 
       //default constructor
       //storage is instantiated by default
       //corresponding to c (row major) storage order
-      array();
+      Array();
 
-      //copy constructor (really copies the array to the new field)
-      array(const array & rhs);
+      //copy constructor (really copies the Array to the new field)
+      Array(const Array & rhs);
 
 
       //conversion constructor
       template <class T1,int D1>
-		    array(const array<T1,D1> & rhs);
+		    Array(const Array<T1,D1> & rhs);
 
 
 	    template<class Expression>
-		    array(ArrayExpression<Expression> rhs):
+		    Array(ArrayExpression<Expression> rhs):
 		    storage<D>(rhs.shape(),rhs.ordering()),
 		    memory_reference<T>(rhs.size())
 	    {		    
 	// Get a beginning and end iterator for the vector
-		    typename array<T,D>::iterator iter(*this);
-		    typename array<T,D>::const_iterator endIter=this->end();
+		    typename Array<T,D>::iterator iter(*this);
+		    typename Array<T,D>::const_iterator endIter=this->end();
 		    iter = this->begin();
 		    
 	// Store the result in the vector
@@ -173,43 +173,43 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
       //constructor from shape
       
-      explicit array(tvector<int,D> shape__);
+      explicit Array(Tvector<int,D> shape__);
 
       //constructors from size
-      //1D arrays
-      explicit array(int s1__);
-      //2D arrays
-      explicit array(int s1__,int s2__);
-      //3D arrays
-      explicit array(int s1__,int s2__,int s3__);
+      //1D Arrays
+      explicit Array(int s1__);
+      //2D Arrays
+      explicit Array(int s1__,int s2__);
+      //3D Arrays
+      explicit Array(int s1__,int s2__,int s3__);
 
 
       //Constructor from shape and element of type T
       //Every element is initialised to T
-      //explicit array(const tvector<int,D> shape__,const T & element);
+      //explicit Array(const Tvector<int,D> shape__,const T & element);
 
-	    explicit array( tvector<int,D> shape__,
+	    explicit Array( Tvector<int,D> shape__,
 	                    T * data__);	                    
     
     
       //THESE CONSTRUCTORS ARE FOR EXTRACTION
 
       //Constructor from shape,stride and data pointer
-      explicit array(tvector<int,D> & shape__,
-		     tvector<int,D> & ordering__,
-		     tvector<int,D> & stride__,
+      explicit Array(Tvector<int,D> & shape__,
+		     Tvector<int,D> & ordering__,
+		     Tvector<int,D> & stride__,
 		     size_t & length__,
 		     T * data__);
     
       //Constructor from shape,stride and data pointer
-      explicit array(const tvector<int,D> & shape__,
-		     const tvector<int,D> & ordering__,
-		     tvector<int,D> & stride__,
+      explicit Array(const Tvector<int,D> & shape__,
+		     const Tvector<int,D> & ordering__,
+		     Tvector<int,D> & stride__,
 		     size_t & length__,
 		     const T * data__);
 
       //Destructor
-      ~array();
+      ~Array();
 
 
 
@@ -219,13 +219,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
       // template<class T1>
-      //array<T1,D> extract_component
+      //Array<T1,D> extract_component
       //(T1,int component, int num_components);
 
       //Extract component operator
-      array<typename multicomponent_traits<T>::T_element,D> 
+      Array<typename multicomponent_traits<T>::T_element,D> 
       operator[](const int component);
-      const array<typename multicomponent_traits<T>::T_element,D>
+      const Array<typename multicomponent_traits<T>::T_element,D>
       operator[] (const int component) const;
 
 
@@ -244,31 +244,31 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
       const T & operator()(const int i1,const int i2,const int i3) const;
 
       //DD
-      T & operator()(const cat::tvector<int,D> shp);
+      T & operator()(const cat::Tvector<int,D> shp);
       //DD (constant)
-      const T & operator()(const cat::tvector<int,D> shp) const;
+      const T & operator()(const cat::Tvector<int,D> shp) const;
 
       //Assignement operators
-      //to array
-      array<T,D> & operator=(const array<T,D> & rhs);
+      //to Array
+      Array<T,D> & operator=(const Array<T,D> & rhs);
       
       template <class T1>
-      array<T,D> & operator=(const array<T1,D> & rhs);
+      Array<T,D> & operator=(const Array<T1,D> & rhs);
 
       
       //to element
-      array<T,D> & operator=(const T & rhs);
+      Array<T,D> & operator=(const T & rhs);
       template <class T1>
-      array<T,D> & operator=(const T1 & rhs);
+      Array<T,D> & operator=(const T1 & rhs);
 
 
 
       template<class Expression>
-      array<T,D> & operator=(ArrayExpression<Expression> result)
+      Array<T,D> & operator=(ArrayExpression<Expression> result)
       {
 	// Get a beginning and end iterator for the vector
-	      typename array<T,D>::iterator iter(*this);
-	      typename array<T,D>::const_iterator endIter=this->end();
+	      typename Array<T,D>::iterator iter(*this);
+	      typename Array<T,D>::const_iterator endIter=this->end();
 	      iter = this->begin();
 	      
 	// Store the result in the vector
@@ -293,10 +293,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #define CAT_ARRAY_UPDATE(op) \
   template <class T1> \
-  array<T,D> & operator op(const array<T1,D> & rhs) \
+  Array<T,D> & operator op(const Array<T1,D> & rhs) \
   { \
-		   typename  array<T,D>::iterator array_iterator(*this); \
-		    typename array<T1,D>::const_iterator rhs_iterator(rhs); \
+		   typename  Array<T,D>::iterator array_iterator(*this); \
+		    typename Array<T1,D>::const_iterator rhs_iterator(rhs); \
     for (array_iterator=this->begin(), \
 	   rhs_iterator=rhs.begin(); \
 	 array_iterator!=this->end(), \
@@ -307,9 +307,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     return *this; \
   } \
   template <class T1>		  \
-  array<T,D> & operator op(const T1 & rhs) \
+  Array<T,D> & operator op(const T1 & rhs) \
   { \
-		    typename array<T,D>::iterator array_iterator(*this); \
+		    typename Array<T,D>::iterator array_iterator(*this); \
     for (array_iterator=this->begin(); \
 	 array_iterator!=this->end(); \
 	 ++array_iterator) \
@@ -327,9 +327,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #define CAT_ARRAY_UPDATE_EXPRESSION(op) \
 	    template <class Expression> \
-		    array & operator op(ArrayExpression<Expression> rhs) \
+		    Array & operator op(ArrayExpression<Expression> rhs) \
 		    { \
-		    typename  array<T,D>::iterator array_iterator(*this); \
+		    typename  Array<T,D>::iterator array_iterator(*this); \
 		    for (array_iterator=this->begin(); \
 		    array_iterator!=this->end(); \
 		    ++array_iterator, \

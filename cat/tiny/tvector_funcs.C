@@ -38,7 +38,7 @@ namespace cat
   //overloading <<
   template <class T,int N>
   std::ostream & operator<<(std::ostream & output,
-			   const tvector<T,N> & ovector)
+			   const Tvector<T,N> & ovector)
   {
     for(int i=0;i<N-1;++i)
       output << ovector[i] << " "; 
@@ -47,7 +47,7 @@ namespace cat
   }
   template <class T,int N>
   std::ostream & operator<<(std::ostream & output,
-			   tvector<T,N> & ovector)
+			   Tvector<T,N> & ovector)
   {
     for(int i=0;i<N-1;++i)
       output << ovector[i] << " "; 
@@ -57,7 +57,7 @@ namespace cat
   //overloading >>
   template <class T,int N>
   std::istream & operator>>(std::istream & input,
-			   tvector<T,N> & ivector)
+			   Tvector<T,N> & ivector)
   {
     for(int i=0;i<N;++i)
       input >> ivector[i];
@@ -68,30 +68,30 @@ namespace cat
   //Operations on tvectors of complex
   //real part
   template <class T,int N>
-  tvector<T,N> real(const tvector<complex<T>,N> & a)
+  Tvector<T,N> real(const Tvector<complex<T>,N> & a)
   {
-    tvector<T,N> aux;
+    Tvector<T,N> aux;
     for(int i=0;i<N;++i)
       aux[i]=a[i].real();
-    return tvector<T,N>(aux);
+    return Tvector<T,N>(aux);
   }
   //imaginary part
   template <class T,int N>
-  tvector<T,N> imag(const tvector<complex<T>,N> & a)
+  Tvector<T,N> imag(const Tvector<complex<T>,N> & a)
   {
-    tvector<T,N> aux;
+    Tvector<T,N> aux;
     for(int i=0;i<N;++i)
       aux[i]=a[i].imag();
-    return tvector<T,N>(aux);
+    return Tvector<T,N>(aux);
   }
   //conjugate
   template <class T,int N>
-  tvector<complex<T>,N> conj(const tvector<complex<T>,N> & a)
+  Tvector<complex<T>,N> conj(const Tvector<complex<T>,N> & a)
   {
-    tvector<complex<T>,N> aux;
+    Tvector<complex<T>,N> aux;
     for(int i=0;i<N;++i)
 	aux[i]=conj(a[i]);
-    return tvector<complex<T>,N>(aux);
+    return Tvector<complex<T>,N>(aux);
   }
 
 
@@ -99,7 +99,7 @@ namespace cat
   //Dot product
   template <class T1,class T2,int N>
   typename numeric_traits<typename promote_traits<T1,T2>::T_promote>::
-  T_numeric dot_product(const tvector<T1,N> & a,const tvector<T2,N> & b)
+  T_numeric dot_product(const Tvector<T1,N> & a,const Tvector<T2,N> & b)
   {
     typename numeric_traits<typename promote_traits<T1,T2>::T_promote>::
       T_numeric out;
@@ -112,7 +112,7 @@ namespace cat
 
   //Square of Norm
   template <class T,int N>
-  typename real_numeric_traits<T>::T_numeric norm_sq(const tvector<T,N> & a)
+  typename real_numeric_traits<T>::T_numeric norm_sq(const Tvector<T,N> & a)
   {
     return typename real_numeric_traits<T>::T_numeric(dot_product(a,a));
   }
@@ -120,7 +120,7 @@ namespace cat
   //Square of Norm for complex numbers
   template <class T,int N>
   typename real_numeric_traits<complex<T> >::T_numeric 
-  norm_sq(const tvector<complex<T>,N> & a)
+  norm_sq(const Tvector<complex<T>,N> & a)
   {
     return typename real_numeric_traits<complex<T> >::
       T_numeric((dot_product(a,conj(a))).real());
@@ -129,7 +129,7 @@ namespace cat
 
   //Norm
   template <class T,int N>
-  typename real_numeric_traits<T>::T_numeric norm(const tvector<T,N> & a)
+  typename real_numeric_traits<T>::T_numeric norm(const Tvector<T,N> & a)
   {
     return typename real_numeric_traits<T>::T_numeric(std::sqrt(norm_sq(a)));
   }
@@ -137,10 +137,10 @@ namespace cat
 
   //Cross product
   template <class T1, class T2>
-  tvector<typename promote_traits<T1,T2>::T_promote,3> 
-  cross_product(const tvector<T1,3> & a,const tvector<T2,3> & b)
+  Tvector<typename promote_traits<T1,T2>::T_promote,3> 
+  cross_product(const Tvector<T1,3> & a,const Tvector<T2,3> & b)
   {
-	  return tvector<typename promote_traits<T1,T2>::T_promote,3>
+	  return Tvector<typename promote_traits<T1,T2>::T_promote,3>
 	(
 	 a[1]*b[2]-a[2]*b[1],
 	 a[2]*b[0]-a[0]*b[2],
@@ -150,9 +150,9 @@ namespace cat
 
   //pow
 template <class T,int N>
-	tvector<T,N> pow(const tvector<T,N> & a,const typename real_numeric_traits<T>::T_numeric & p)
+	Tvector<T,N> pow(const Tvector<T,N> & a,const typename real_numeric_traits<T>::T_numeric & p)
 {
-	tvector<T,N> out;
+	Tvector<T,N> out;
 	for(int i=0;i<N;++i)
 		out[i]=pow(a[i],p);
 	return out;
