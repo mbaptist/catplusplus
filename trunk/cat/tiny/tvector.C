@@ -37,13 +37,13 @@ namespace cat
    
   //default constructor
   template <class T,int N>
-  tvector<T,N>::tvector()
+  Tvector<T,N>::Tvector()
   {
   }
       
   //copy constructor (really copies to the new vector)
   template <class T,int N>
-  tvector<T,N>::tvector(const tvector<T,N> & rhs)
+  Tvector<T,N>::Tvector(const Tvector<T,N> & rhs)
   {
     if (this==&rhs)
       return;
@@ -53,7 +53,7 @@ namespace cat
 
   template <class T,int N>
   template <class rhsT>
-  tvector<T,N>::tvector(const tvector<rhsT,N> & rhs)
+  Tvector<T,N>::Tvector(const Tvector<rhsT,N> & rhs)
   {
     //if (this==&rhs)
     //  return;
@@ -64,13 +64,13 @@ namespace cat
   //constructors from values
   //assigns 
   template <class T,int N>
-  tvector<T,N>::tvector(const T & v1)
+  Tvector<T,N>::Tvector(const T & v1)
   {
     for (int i=0;i<N;++i)
       vector_data[i]=v1;
   }
   template <class T,int N>
-  tvector<T,N>::tvector(const T & v1,const T & v2)
+  Tvector<T,N>::Tvector(const T & v1,const T & v2)
   {
     if (N!=2)
       {
@@ -81,7 +81,7 @@ namespace cat
     vector_data[1]=v2;
   }
   template <class T,int N>
-  tvector<T,N>::tvector(const T & v1,const T & v2,const T & v3)
+  Tvector<T,N>::Tvector(const T & v1,const T & v2,const T & v3)
   {
     if (N!=3)
       {
@@ -93,7 +93,7 @@ namespace cat
     vector_data[2]=v3;  
   }
   template <class T,int N>
-  tvector<T,N>::tvector(const T & v1,const T & v2,const T & v3,const T & v4)
+  Tvector<T,N>::Tvector(const T & v1,const T & v2,const T & v3,const T & v4)
   {
    if (N!=4)
       {
@@ -106,7 +106,7 @@ namespace cat
     vector_data[3]=v4;   
   }
   template <class T,int N>
-  tvector<T,N>::tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5)
+  Tvector<T,N>::Tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5)
   {
    if (N!=5)
       {
@@ -120,7 +120,7 @@ namespace cat
     vector_data[4]=v5;
   }
   template <class T,int N>
-  tvector<T,N>::tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5,const T & v6)
+  Tvector<T,N>::Tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5,const T & v6)
   {
    if (N!=6)
       {
@@ -135,7 +135,7 @@ namespace cat
     vector_data[5]=v6;
   }
   template <class T,int N>
-  tvector<T,N>::tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5,const T & v6,const T & v7)
+  Tvector<T,N>::Tvector(const T & v1,const T & v2,const T & v3,const T & v4,const T & v5,const T & v6,const T & v7)
       {
    if (N!=6)
       {
@@ -153,37 +153,37 @@ namespace cat
 
   //Destructor
   template <class T,int N>
-  tvector<T,N>::~tvector()
+  Tvector<T,N>::~Tvector()
   {
-    //cout << "tvector destructor " << endl;  
+    //cout << "Tvector destructor " << endl;  
   }
 
   //Accessors  
   template <class T,int N>
-  T & tvector<T,N>::operator[](const int n)
+  T & Tvector<T,N>::operator[](const int n)
   {
     return vector_data[n];
   }
   template <class T,int N>
-  const T & tvector<T,N>::operator[](const int n) const
+  const T & Tvector<T,N>::operator[](const int n) const
   {
     return vector_data[n];
   }
       
   template <class T,int N>
-  T * tvector<T,N>::data()
+  T * Tvector<T,N>::data()
   {
     return vector_data;
   }
   template <class T,int N>
-  const T * tvector<T,N>::data() const 
+  const T * Tvector<T,N>::data() const 
   {
     return vector_data;
   }
 
   //returns the size of this tvector
   template <class T,int N>
-  int tvector<T,N>::size() const 
+  int Tvector<T,N>::size() const 
   {
     return N;
   }
@@ -192,7 +192,7 @@ namespace cat
   //Assignement operators
   //to tvector
   template <class T,int N>
-  tvector<T,N> & tvector<T,N>::operator=(const tvector<T,N> & rhs)
+  Tvector<T,N> & Tvector<T,N>::operator=(const Tvector<T,N> & rhs)
   {
     for (int i=0;i<N;++i)
       vector_data[i]=rhs[i];
@@ -200,7 +200,7 @@ namespace cat
   }
  //to scalar
 template <class T,int N>
-	tvector<T,N> & tvector<T,N>::operator=(const T & rhs)
+	Tvector<T,N> & Tvector<T,N>::operator=(const T & rhs)
 {
 	for (int i=0;i<N;++i)
 		vector_data[i]=rhs;
@@ -210,7 +210,7 @@ template <class T,int N>
 
 template <class T,int N>
 	template <class rhsT>
-	tvector<T,N> & tvector<T,N>::operator=(const rhsT & rhs)
+	Tvector<T,N> & Tvector<T,N>::operator=(const rhsT & rhs)
 {
 	for (int i=0;i<N;++i)
 		vector_data[i]=rhs;
@@ -219,7 +219,7 @@ template <class T,int N>
 //to tvector of any type
 template <class T,int N>
 	template <class rhsT>
-	tvector<T,N> & tvector<T,N>::operator=(const tvector<rhsT,N> & rhs)
+	Tvector<T,N> & Tvector<T,N>::operator=(const Tvector<rhsT,N> & rhs)
 {
     for (int i=0;i<N;++i)
 	    vector_data[i]=rhs[i];

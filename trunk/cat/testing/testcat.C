@@ -50,10 +50,10 @@ int main()
 void test_et()
 {
 	int n=5000000;
-	cat::array<double,1> a(n);
-	cat::array<double,1> b(n);
-	cat::array<double,1> c(n);
-	cat::array<double,1> d(n);
+	cat::Array<double,1> a(n);
+	cat::Array<double,1> b(n);
+	cat::Array<double,1> c(n);
+	cat::Array<double,1> d(n);
 	a=1;
 	b=2;
 	c=3;
@@ -66,9 +66,9 @@ void test_et()
 void test_tvector()
 {
   cout << "Testing tvector ..." << endl;
-  tvector<double,1> a(1);
-  tvector<double,3> d(1,2,3);
-  tvector<complex<double>,3> b(1,2,3),c(b);
+  Tvector<double,1> a(1);
+  Tvector<double,3> d(1,2,3);
+  Tvector<complex<double>,3> b(1,2,3),c(b);
   cout << a << endl;
   cout << b << endl;
   cout << c << endl;
@@ -81,12 +81,12 @@ void test_tvector()
 void test_array()
 {
   cout << "Testing array ..." << endl;
-  array<double,3> a(2,2,2);
+  Array<double,3> a(2,2,2);
   a=5;
   cout << a << endl;
   
   cout << endl;
-  array<double,3> & b(a);
+  Array<double,3> & b(a);
   cout << b << endl;
   cout << endl;
 
@@ -97,7 +97,7 @@ void test_array()
   cout << endl;
   
 
-  array<double,3> c(a);
+  Array<double,3> c(a);
   b=2;
   cout << a << endl;
   cout << endl;
@@ -122,20 +122,20 @@ void test_array()
 void test_array_tvector()
 {
 
-  cout << "Testing array<tvector> ..." << endl;
+  cout << "Testing Array<tvector> ..." << endl;
 
 #if 0
-  array<tvector<double,3>,3> tt(2,2,2);
+  Array<Tvector<double,3>,3> tt(2,2,2);
 
-  tt=tvector<double,3>(5,6,7);
+  tt=Tvector<double,3>(5,6,7);
 
   cout << tt << endl;
   cout << endl;
   
   
-  array<tvector<complex<double>,3>,3> ttt(tt.shape());
+  Array<Tvector<complex<double>,3>,3> ttt(tt.shape());
 
-  ttt=tvector<complex<double>,3>(complex<double>(5,1));
+  ttt=Tvector<complex<double>,3>(complex<double>(5,1));
 
   cout << norm_sq(ttt) << endl;
 #endif
@@ -144,7 +144,7 @@ void test_array_tvector()
 
   cout << "create from extract" << endl;
 
-  array<double,3> stt(tt[1]);
+  Array<double,3> stt(tt[1]);
   
   cout << stt << endl;
   
@@ -166,28 +166,28 @@ void test_array_tvector()
  
  
  
- //array<tvector<double,3>,3> ooo(tvector<int,3>(2,2,2),tvector<double,3>(1,2,3));
+ //Array<Tvector<double,3>,3> ooo(Tvector<int,3>(2,2,2),Tvector<double,3>(1,2,3));
  
  
 
 
 //testing copy constructor
 #if 0
-  array<tvector<double,3>,3> ooo(2,2,2);
- ooo=tvector<double,3>(1.1,2.2,3.3);
+  Array<Tvector<double,3>,3> ooo(2,2,2);
+ ooo=Tvector<double,3>(1.1,2.2,3.3);
  
    cout << ooo << endl;
-    array<tvector<double,3>,3> ccc(ooo);
+    Array<Tvector<double,3>,3> ccc(ooo);
     cout << ccc << endl;
-    ccc=tvector<double,3>(4,5,6);
+    ccc=Tvector<double,3>(4,5,6);
     cout << ccc << endl;
     cout << ooo << endl;
 #endif  
 #if 0
 //testing copy constructor on extracted value
-    //array<double,3> oooo(ooo.shape());
+    //Array<double,3> oooo(ooo.shape());
     //oooo=ooo[1];
-    array<double,3> ooo_comp_copy(ooo[1]);
+    Array<double,3> ooo_comp_copy(ooo[1]);
     cout << setprecision(20) << scientific << ooo_comp_copy <<endl;
     cout << ooo <<endl;
     ooo_comp_copy=3;
@@ -204,26 +204,26 @@ void test_array_tvector()
   
   
   
-  cout << "cross r c tv " << cross_product(tvector<double,3>(1,2,3),tvector<complex<double>,3>(1,-2,3)) << endl;
+  cout << "cross r c tv " << cross_product(Tvector<double,3>(1,2,3),Tvector<complex<double>,3>(1,-2,3)) << endl;
   
   
-  array<tvector<double,3>,3> vr(3,3,3);
-  vr=tvector<double,3>(1,2,3);
-  array<tvector<complex<double>,3>,3> vc(3,3,3);
-  vc=tvector<complex<double>,3>(complex<double>(1,1),complex<double>(-2,-2),complex<double>(3,3));
+  Array<Tvector<double,3>,3> vr(3,3,3);
+  vr=Tvector<double,3>(1,2,3);
+  Array<Tvector<complex<double>,3>,3> vc(3,3,3);
+  vc=Tvector<complex<double>,3>(complex<double>(1,1),complex<double>(-2,-2),complex<double>(3,3));
   
   cout << "cross r c a " << cross_product(vr,vc) << endl;
 #endif 
   
   //testing reshape;
   #if 0
-  ttt.reshape(tvector<int,3>(1,1,1));
+  ttt.reshape(Tvector<int,3>(1,1,1));
   
   ttt=1;
   
   cout << ttt << endl;
   
-  ttt.reshape(tvector<int,3>(3,3,2));
+  ttt.reshape(Tvector<int,3>(3,3,2));
   
   ttt=2;
   
@@ -242,14 +242,14 @@ void test_cross()
 	int n2=n1;
 	int n3=n2;
 
-	array<tvector<double,3>,3> a(n1,n2,n3),b(n1,n2,n3),cross(n1,n2,n3),cross_e(n1,n2,n3);
+	Array<Tvector<double,3>,3> a(n1,n2,n3),b(n1,n2,n3),cross(n1,n2,n3),cross_e(n1,n2,n3);
 	for (int i=0;i<n1;++i)
 		for (int j=0;j<n2;++j)
 			for (int k=0;k<n3;++k)
 				{	
-					a(i,j,k)=tvector<int,3>(i+j,i+k,j+k);
-					b(i,j,k)=tvector<int,3>(i-j,k-j,k-i);
-					cross_e(i,j,k)=tvector<int,3>((i+k)*(k-i)-(j+k)*(k-j),
+					a(i,j,k)=Tvector<int,3>(i+j,i+k,j+k);
+					b(i,j,k)=Tvector<int,3>(i-j,k-j,k-i);
+					cross_e(i,j,k)=Tvector<int,3>((i+k)*(k-i)-(j+k)*(k-j),
 										(j+k)*(i-j)-(i+j)*(k-i),
 										(i+j)*(k-j)-(i+k)*(i-j));
 				}
@@ -278,8 +278,8 @@ void test_cross()
 
 void test_copy()
 {
-  cat::array<double,2> a(9,9);
-  cat::array<double,2> b(5,5);
+  cat::Array<double,2> a(9,9);
+  cat::Array<double,2> b(5,5);
   
   for (int i=0;i<9;++i)
     for (int j=0;j<9;++j)

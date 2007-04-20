@@ -31,11 +31,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 namespace cat
 {
 
-//creates a reference to array rhs
+//creates a reference to Array rhs
 template <class T,int D>
-	array<T,D> reference(const array<T,D> & rhs)
+	Array<T,D> reference(const Array<T,D> & rhs)
 {
-	array<T,D> out;
+	Array<T,D> out;
 	out.reference(rhs);
 	return(out);
 }
@@ -45,9 +45,9 @@ template <class T,int D>
 
 //max
 template <class T,int D>
-	T max(const array<T,D> & a)
+	T max(const Array<T,D> & a)
 {
-	typename array<T,D>::const_iterator array_iterator(a);
+	typename Array<T,D>::const_iterator array_iterator(a);
   array_iterator=a.begin();
 	
 	T out(*array_iterator);
@@ -63,9 +63,9 @@ template <class T,int D>
 
 	//min
 template <class T,int D>
-  T min(const array<T,D> & a)
+  T min(const Array<T,D> & a)
 {
-	typename array<T,D>::const_iterator array_iterator(a);
+	typename Array<T,D>::const_iterator array_iterator(a);
   array_iterator=a.begin();
   T out(*array_iterator);
   out=0;
@@ -79,11 +79,11 @@ template <class T,int D>
 
 //sum
 template <class T,int D>
-  T sum(const array<T,D> & a)
+  T sum(const Array<T,D> & a)
 {
   T out;
   out=0;
-	typename array<T,D>::const_iterator a_iterator(a);
+	typename Array<T,D>::const_iterator a_iterator(a);
   for (a_iterator=a.begin();
        a_iterator!=a.end();
        ++a_iterator)

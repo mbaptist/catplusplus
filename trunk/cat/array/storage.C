@@ -28,12 +28,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   
     //ordering
     template <int D>
-    tvector<int,D> & storage<D>::ordering()
+    Tvector<int,D> & storage<D>::ordering()
     {
       return ordering_;
     }
     template <int D>
-    const tvector<int,D> & storage<D>::ordering() const
+    const Tvector<int,D> & storage<D>::ordering() const
     {
       return ordering_;
     }
@@ -41,12 +41,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
     //shape
     template <int D>
-    tvector<int,D> & storage<D>::shape()
+    Tvector<int,D> & storage<D>::shape()
     {
       return shape_;
     }
     template <int D>
-    const tvector<int,D> & storage<D>::shape() const
+    const Tvector<int,D> & storage<D>::shape() const
     {
       return shape_;
     }
@@ -65,12 +65,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
     //stride
     template <int D>
-    tvector<int,D> & storage<D>::stride()
+    Tvector<int,D> & storage<D>::stride()
     {
       return stride_;
     }
     template <int D>
-    const tvector<int,D> & storage<D>::stride() const
+    const Tvector<int,D> & storage<D>::stride() const
     {
       return stride_;
     }
@@ -82,7 +82,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
     template <int D>
-    storage<D>::storage(const tvector<int,D> & shape__):
+    storage<D>::storage(const Tvector<int,D> & shape__):
       shape_(shape__),
       size_(eval_size(shape_))
     {
@@ -94,7 +94,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
     template <int D>
-    storage<D>::storage(const tvector<int,D> & shape__,string ordering_string__):
+    storage<D>::storage(const Tvector<int,D> & shape__,string ordering_string__):
       shape_(shape__),
       size_(eval_size(shape_))
     {
@@ -114,7 +114,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
     template <int D>
-    storage<D>::storage(const tvector<int,D> & shape__,tvector<int,D> ordering__):
+    storage<D>::storage(const Tvector<int,D> & shape__,Tvector<int,D> ordering__):
       ordering_(ordering__),
       shape_(shape__),
       size_(eval_size(shape_)),
@@ -122,7 +122,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     {}
 
     template <int D>
-    storage<D>::storage(const tvector<int,D> & shape__,tvector<int,D> ordering__,tvector<int,D> stride__):
+    storage<D>::storage(const Tvector<int,D> & shape__,Tvector<int,D> ordering__,Tvector<int,D> stride__):
       ordering_(ordering__),
       shape_(shape__),
       size_(eval_size(shape_)),
@@ -140,7 +140,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
     //Evaluates size
     template <int D>
-    int storage<D>::eval_size(const tvector<int,D> & shape__)
+    int storage<D>::eval_size(const Tvector<int,D> & shape__)
     {
       int size__=1;
       for(int i=0;i<D;++i)
@@ -150,9 +150,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
     template <int D>
-    tvector<int,D> storage<D>::eval_strides(const tvector<int,D> & shape__)
+    Tvector<int,D> storage<D>::eval_strides(const Tvector<int,D> & shape__)
     {
-      tvector<int,D> out;
+      Tvector<int,D> out;
       out[ordering_[0]]=1;
       for(int i=1;i<D;++i)    
 	out[ordering_[i]]=shape__[ordering_[i-1]]*out[ordering_[i-1]];

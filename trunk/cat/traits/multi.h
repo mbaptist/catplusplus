@@ -31,9 +31,9 @@ using namespace std;
 namespace cat
 {
 
-//Forward declaration of class tvector<T,N>
+//Forward declaration of class Tvector<T,N>
 template <class T,int N>
-class tvector;
+class Tvector;
 
 //Forward declaration of class array<T,D>
 template <class T,int D>
@@ -52,7 +52,7 @@ struct multicomponent_traits
 
 // TinyVector
 template <class T_numtype, int N_rank>
-struct multicomponent_traits<tvector<T_numtype,N_rank> > 
+struct multicomponent_traits<Tvector<T_numtype,N_rank> > 
 {
   typedef T_numtype T_element;
   enum { numComponents = N_rank };
