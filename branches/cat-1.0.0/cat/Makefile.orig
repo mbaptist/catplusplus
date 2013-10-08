@@ -1,0 +1,34 @@
+##########################################################
+# Modify this section to suit your system's needs
+##########################################################
+
+CPP=g++ -Wall -Os -march=pentium-m -msse3
+
+INSTALL_ROOT = $(HOME)/local
+
+
+###########################################################
+# No modification should be necessary from thin point on
+###########################################################
+
+
+INSTALL_LIST = cat*.h cat*.C
+
+
+all: testcat
+
+clean:
+	rm -f *~ *.o testcat
+
+testcat: testcat.o
+	$(CPP) -g -o testcat testcat.o
+
+testcat.o: testcat.C *.h
+	$(CPP) -g -c testcat.C
+
+install:
+	install -c -m 644 $(INSTALL_LIST) $(INSTALL_ROOT)/include
+
+uninstall:
+	cd $(INSTALL_ROOT) && rm -rf $(INSTALL_LIST)
+
