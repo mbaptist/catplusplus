@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //test_field.C
 
 #include <iomanip>
-#include "../cat.h"
+#include <cat/cat.h>
 
 using namespace cat;
 using namespace std;
