@@ -4,6 +4,5 @@ Copyright 2005 Manuel Baptista
 
 In short, CAT++ is a C++ fully templated library for arrays. The main purpose is to provide support for arrays with a similar interface to that of Fortran90, respecting the copy semantics of C++ but avoiding unnecessary copy of data.
 
-Please see INSTALL for instalation instructions. The CAT++ manual is available under the directory doc. 
-
+Please see INSTALL for quick instalation instructions. Further documentation is available under the directory doc. 
 
