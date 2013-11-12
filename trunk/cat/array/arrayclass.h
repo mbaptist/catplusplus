@@ -107,8 +107,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
       //References and Copies
 
-      //create a reference to this Array
-      //returns a new Array that shares the data with the current Array
+      ///create a reference to this Array
+      ///returns a new Array that shares the data with the current Array
       Array<T,D> reference();
 
       //make this Array a reference to a given Array
