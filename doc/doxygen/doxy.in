@@ -1,3 +1,44 @@
+PROJECT_NAME = "CAT++ Documentation"
 
-INPUT = @CMAKE_CURRENT_SOURCE_DIR@/../cat
+INPUT = @CMAKE_SOURCE_DIR@/cat
+
+FILE_PATTERNS = \
+    *.C \
+    *.h
+
+RECURSIVE              = YES
+
+#STRIP_FROM_PATH        = @CMAKE_SOURCE_DIR@/cat
+
+#STRIP_FROM_INC_PATH    = @CMAKE_SOURCE_DIR@/cat
+
+GENERATE_TREEVIEW      = YES
+SEARCHENGINE           = YES
+
+DOXYFILE_ENCODING      = UTF-8
+INPUT_ENCODING         = UTF-8
+OUTPUT_LANGUAGE        = English
+
+IMAGE_PATH             = ../image
+
+EXTRACT_ALL = YES
+EXTRACT_PRIVATE = YES
+EXTRACT_STATIC = YES
+JAVADOC_AUTOBRIEF      = YES
+ENUM_VALUES_PER_LINE   = 1
+FULL_PATH_NAMES        = YES
+BRIEF_MEMBER_DESC      = YES
+REPEAT_BRIEF           = YES
+
+SOURCE_BROWSER = YES
+
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+HTML_FILE_EXTENSION    = .html
+
+GENERATE_LATEX         = NO
+GENERATE_MAN           = NO
+GENERATE_RTF           = NO
+
+HAVE_DOT               = YES
 
