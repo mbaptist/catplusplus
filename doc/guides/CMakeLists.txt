@@ -7,7 +7,7 @@ set(GUIDES_DIR "${DOC_DIR}/guides")
 #Function for pdf generation
 
 # Generate Guides
-find_package(Lyx)
+#find_package(Lyx)
 #if (LYX_FOUND)
 
 set(LYX_EXECUTABLE "/usr/bin/lyx")  
