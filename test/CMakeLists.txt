@@ -1,5 +1,13 @@
-project(cat)
-cmake_minimum_required(VERSION 2.8)
+set(TESTCAT_TARGET testcat)
+
+enable_testing()
+
+find_package (Cat)
+if (CAT_FOUND)
+  include_directories(${CAT_INCLUDE_DIR})
+  set(LIBS ${LIBS} ${CAT_LIBRARIES})
+endif (CAT_FOUND)
+
 
 set(TESTCAT_DIR "${CMAKE_SOURCE_DIR}/test")
 
@@ -13,6 +21,8 @@ set(TESTCAT_SOURCES
 
 set(TESTCAT_TARGET testcat)
 add_executable(${TESTCAT_TARGET} ${TESTCAT_SOURCES})
+target_link_libraries(${TESTCAT_TARGET} ${LIBS})
+add_dependencies(${TESTCAT_TARGET} cat)
 
-install (TARGETS ${TESTCAT_TARGET} DESTINATION bin)
+add_test(${TESTCAT_TARGET} ${CMAKE_CURRENT_BINARY_DIR}/${TESTCAT_TARGET})
 

@@ -1,5 +1,4 @@
-project(cat)
-cmake_minimum_required(VERSION 2.8)
+set(LIB_TARGET cat)
 
 set(CAT_DIR "${CMAKE_SOURCE_DIR}/cat")
 
@@ -83,7 +82,6 @@ set(TINY_TEMPLATE_IMPLEMENTATIONS
 
 )
 
-set(LIB_TARGET cat)
 add_library(${LIB_TARGET} SHARED ${CAT_SOURCES})
 
 install (TARGETS ${LIB_TARGET} DESTINATION lib)
