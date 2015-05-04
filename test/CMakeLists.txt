@@ -2,13 +2,6 @@ set(TESTCAT_TARGET testcat)
 
 enable_testing()
 
-find_package (Cat)
-if (CAT_FOUND)
-  include_directories(${CAT_INCLUDE_DIR})
-  set(LIBS ${LIBS} ${CAT_LIBRARIES})
-endif (CAT_FOUND)
-
-
 set(TESTCAT_DIR "${CMAKE_SOURCE_DIR}/test")
 
 include_directories("${CMAKE_SOURCE_DIR}")

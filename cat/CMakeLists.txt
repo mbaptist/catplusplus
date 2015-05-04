@@ -83,6 +83,13 @@ set(TINY_TEMPLATE_IMPLEMENTATIONS
 )
 
 add_library(${LIB_TARGET} SHARED ${CAT_SOURCES})
+target_include_directories(${LIB_TARGET}
+  PUBLIC
+    # Headers used from source/build location:
+    "$<BUILD_INTERFACE:${CAT_DIR}>"
+    # Headers used from installed location:
+    "$<INSTALL_INTERFACE:include/cat>"     
+)
 
 install (TARGETS ${LIB_TARGET} DESTINATION lib)
 install (FILES ${CAT_HEADERS} DESTINATION include/${LIB_TARGET})
